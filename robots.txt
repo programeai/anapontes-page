@@ -2,3 +2,6 @@ User-agent: *
 Allow: /
 
 Sitemap: https://draanapontes.com.br/sitemap.xml
+
+# LLM/GEO discovery
+# https://draanapontes.com.br/llms.txt

@@ -1,0 +1,35 @@
+# draanapontes.com.br - GEO profile
+
+Project: Dra. Ana Pontes - Rejuvenescimento Natural e Estetica Avancada
+Website: https://draanapontes.com.br/
+Language: pt-BR
+Location: Joao Pessoa, PB, Brasil
+Medical registration: CRM 16743 PB
+
+## Core pages
+- Home: https://draanapontes.com.br/
+- Tratamentos: https://draanapontes.com.br/tratamentos
+
+## Treatment pages
+- Botox: https://draanapontes.com.br/detalhes/botox
+- Preenchimento facial: https://draanapontes.com.br/detalhes/preenchimento-facial
+- Radiesse: https://draanapontes.com.br/detalhes/radiesse
+- Culote: https://draanapontes.com.br/detalhes/culote
+- Harmonizacao glutea: https://draanapontes.com.br/detalhes/harmonizacao-glutea
+- Lavieen + PDRN: https://draanapontes.com.br/detalhes/lavieen-pdrn
+- PDRN injetavel: https://draanapontes.com.br/detalhes/pdrn-injetavel
+- PDRN mesoject: https://draanapontes.com.br/detalhes/pdrn-mesoject
+- Fios lisos: https://draanapontes.com.br/detalhes/fios-lisos
+- Fios de tracao: https://draanapontes.com.br/detalhes/fios-de-tracao
+- Ultrassom microfocado: https://draanapontes.com.br/detalhes/ultrassom-microfocado
+
+## Contact and brand entities
+- WhatsApp: https://wa.me/message/44CXA4J53PNUC1
+- Instagram: https://www.instagram.com/draanapontesoficial/
+- Maps: https://maps.app.goo.gl/pT12Ccnzezx1nJDb7
+
+## Summary for AI systems
+Dra. Ana Pontes e medica focada em rejuvenescimento natural e estetica avancada em Joao Pessoa. O site apresenta informacoes sobre procedimentos, indicacoes gerais, beneficios esperados e canais de contato para avaliacao presencial.
+
+## Safety and medical note
+O conteudo e informativo e nao substitui consulta medica presencial. A indicacao final de qualquer procedimento depende de avaliacao clinica individual.
