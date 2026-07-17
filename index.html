@@ -100,12 +100,11 @@
   <header class="site-header">
     <div class="container nav">
       <a class="nav__brand" href="#inicio" aria-label="Dra. Ana Pontes — início">
-        <img src="/assets/mMSAKhBYWTiskMu6CYJADkof9gE.png" alt="" width="30" height="30">
-        <span>Ana Pontes</span>
+        <img src="/assets/mMSAKhBYWTiskMu6CYJADkof9gE.png" alt="Dra. Ana Pontes" width="100" height="30">
       </a>
       <nav class="nav__menu" id="nav-menu" aria-label="Navegação principal">
         <a href="#inicio">Início</a>
-        <a href="#beneficios">Benefícios</a>
+        <a href="#avaliacao">Avaliação</a>
         <a href="#tratamentos">Tratamentos</a>
         <a href="#sobre">Sobre</a>
         <a href="#depoimentos">Depoimentos</a>
@@ -129,11 +128,14 @@
           <h1 class="hero__title">Especialista em Rejuvenescimento 100% Natural.</h1>
           <p class="hero__lead">Elevando os padrões da dermatologia, oferecemos tratamentos que harmonizam sua aparência, revelando um eu mais jovem e vibrante, sem perder a naturalidade.</p>
           <div class="hero__cta">
-            <a class="btn btn--primary btn--lg" href="https://wa.me/message/44CXA4J53PNUC1" target="_blank" rel="noopener">
-              <svg width="20" height="20" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M16 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.26.59 4.42 1.71 6.35L3.2 28.8l6.62-1.73A12.7 12.7 0 0 0 16 28.65c7.06 0 12.8-5.74 12.8-12.8S23.06 3.2 16 3.2zm0 23.02c-1.9 0-3.76-.51-5.4-1.48l-.39-.23-4.03 1.06 1.08-3.93-.25-.4a10.6 10.6 0 0 1-1.62-5.66c0-5.86 4.77-10.62 10.63-10.62 2.84 0 5.5 1.11 7.51 3.12a10.55 10.55 0 0 1 3.11 7.51c0 5.86-4.77 10.63-10.62 10.63z"/></svg>
-              Agendar minha avaliação
+            <a class="btn btn--primary btn--lg" href="#avaliacao">
+              Fazer minha avaliação em 30s
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
-            <a class="btn btn--ghost btn--lg" href="#tratamentos">Ver tratamentos</a>
+            <a class="btn btn--ghost btn--lg" href="https://wa.me/message/44CXA4J53PNUC1" target="_blank" rel="noopener">
+              <svg width="18" height="18" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M16 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.26.59 4.42 1.71 6.35L3.2 28.8l6.62-1.73A12.7 12.7 0 0 0 16 28.65c7.06 0 12.8-5.74 12.8-12.8S23.06 3.2 16 3.2zm0 23.02c-1.9 0-3.76-.51-5.4-1.48l-.39-.23-4.03 1.06 1.08-3.93-.25-.4a10.6 10.6 0 0 1-1.62-5.66c0-5.86 4.77-10.62 10.63-10.62 2.84 0 5.5 1.11 7.51 3.12a10.55 10.55 0 0 1 3.11 7.51c0 5.86-4.77 10.63-10.62 10.63z"/></svg>
+              Falar no WhatsApp
+            </a>
           </div>
           <div class="hero__proof">
             <span class="hero__proof-num">+280</span>
@@ -155,6 +157,79 @@
         <span class="trustbar__item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Manaíra, João Pessoa</span>
       </div>
     </div>
+
+    <!-- QUIZ / QUALIFICAÇÃO -->
+    <section class="section quiz-section" id="avaliacao">
+      <div class="container">
+        <div class="quiz" data-quiz>
+          <div class="quiz__intro">
+            <span class="eyebrow eyebrow--plain">Avaliação personalizada</span>
+            <h2>Descubra em 30 segundos o caminho para o seu rejuvenescimento natural</h2>
+            <p>Responda 3 perguntas rápidas. A Dra. Ana Pontes recebe o seu perfil e prepara uma avaliação individual — com um plano de tratamento sob medida, sem compromisso.</p>
+          </div>
+
+          <div class="quiz__card">
+            <div class="quiz__progress" aria-hidden="true"><span class="quiz__bar" data-quiz-bar></span></div>
+
+            <!-- Passo 1 -->
+            <div class="quiz__step is-active" data-step="1">
+              <span class="quiz__count">Pergunta 1 de 3</span>
+              <h3 class="quiz__q">O que mais te incomoda hoje?</h3>
+              <div class="quiz__options">
+                <button type="button" class="quiz__opt" data-field="objetivo" data-value="suavizar linhas de expressão e rugas">Linhas de expressão e rugas</button>
+                <button type="button" class="quiz__opt" data-field="objetivo" data-value="tratar a flacidez da pele">Flacidez / pele caída</button>
+                <button type="button" class="quiz__opt" data-field="objetivo" data-value="recuperar volume e contorno do rosto">Perda de volume no rosto</button>
+                <button type="button" class="quiz__opt" data-field="objetivo" data-value="reduzir gordura localizada e melhorar o contorno corporal">Gordura ou contorno corporal</button>
+                <button type="button" class="quiz__opt" data-field="objetivo" data-value="melhorar a qualidade e o viço da pele">Qualidade e viço da pele</button>
+                <button type="button" class="quiz__opt" data-field="objetivo" data-value="receber a orientação da Dra. sobre o melhor tratamento">Quero a orientação da Dra.</button>
+              </div>
+            </div>
+
+            <!-- Passo 2 -->
+            <div class="quiz__step" data-step="2">
+              <span class="quiz__count">Pergunta 2 de 3</span>
+              <h3 class="quiz__q">Qual região você quer cuidar?</h3>
+              <div class="quiz__options">
+                <button type="button" class="quiz__opt" data-field="regiao" data-value="do rosto">Rosto</button>
+                <button type="button" class="quiz__opt" data-field="regiao" data-value="do corpo">Corpo</button>
+                <button type="button" class="quiz__opt" data-field="regiao" data-value="do rosto e do corpo">Rosto e corpo</button>
+              </div>
+            </div>
+
+            <!-- Passo 3 -->
+            <div class="quiz__step" data-step="3">
+              <span class="quiz__count">Pergunta 3 de 3</span>
+              <h3 class="quiz__q">Quando você pretende começar?</h3>
+              <div class="quiz__options">
+                <button type="button" class="quiz__opt" data-field="prazo" data-value="o quanto antes">O quanto antes</button>
+                <button type="button" class="quiz__opt" data-field="prazo" data-value="nos próximos 30 dias">Nos próximos 30 dias</button>
+                <button type="button" class="quiz__opt" data-field="prazo" data-value="nos próximos meses">Nos próximos meses</button>
+                <button type="button" class="quiz__opt" data-field="prazo" data-value="assim que eu tirar minhas dúvidas">Só quero tirar dúvidas</button>
+              </div>
+            </div>
+
+            <!-- Resultado -->
+            <div class="quiz__step quiz__result" data-step="4">
+              <div class="quiz__result-icon" aria-hidden="true">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              </div>
+              <h3 class="quiz__q">Seu perfil está pronto!</h3>
+              <p>Envie agora para a Dra. Ana no WhatsApp. Sua avaliação individual já vai com estas informações — assim você é atendida com prioridade e agilidade.</p>
+              <p class="quiz__summary" data-quiz-summary></p>
+              <a class="btn btn--primary btn--lg" data-quiz-send target="_blank" rel="noopener" href="https://wa.me/5583991353786">
+                <svg width="20" height="20" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M16 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.26.59 4.42 1.71 6.35L3.2 28.8l6.62-1.73A12.7 12.7 0 0 0 16 28.65c7.06 0 12.8-5.74 12.8-12.8S23.06 3.2 16 3.2zm0 23.02c-1.9 0-3.76-.51-5.4-1.48l-.39-.23-4.03 1.06 1.08-3.93-.25-.4a10.6 10.6 0 0 1-1.62-5.66c0-5.86 4.77-10.62 10.63-10.62 2.84 0 5.5 1.11 7.51 3.12a10.55 10.55 0 0 1 3.11 7.51c0 5.86-4.77 10.63-10.62 10.63z"/></svg>
+                Enviar e falar com a Dra. Ana
+              </a>
+              <button type="button" class="quiz__restart" data-quiz-restart>Refazer respostas</button>
+            </div>
+
+            <div class="quiz__nav">
+              <button type="button" class="quiz__back" data-quiz-back hidden>← Voltar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- BENEFÍCIOS -->
     <section class="section" id="beneficios">
@@ -319,24 +394,41 @@
       </div>
     </section>
 
-    <!-- TODOS OS TRATAMENTOS (SEO) -->
+    <!-- TODOS OS TRATAMENTOS -->
     <section class="section section--cream" id="todos">
       <div class="container">
         <div class="section__head">
-          <h2>Conheça todos os tratamentos da Dra. Ana Pontes em João Pessoa</h2>
+          <span class="eyebrow eyebrow--plain">Todos os tratamentos</span>
+          <h2>Todos os tratamentos da Dra. Ana Pontes em João Pessoa</h2>
+          <p>Conheça os procedimentos que a Dra. Ana Pontes realiza em Manaíra, João Pessoa — do rejuvenescimento facial aos tratamentos corporais. Clique para ver os detalhes.</p>
         </div>
-        <div class="grid grid--3">
-          <a class="card" href="/detalhes/botox.html"><h3>Botox® em João Pessoa</h3><span class="treatment__more">Ver detalhes →</span></a>
-          <a class="card" href="/detalhes/preenchimento-facial.html"><h3>Preenchimento Facial em João Pessoa</h3><span class="treatment__more">Ver detalhes →</span></a>
-          <a class="card" href="/detalhes/radiesse.html"><h3>Radiesse® em João Pessoa</h3><span class="treatment__more">Ver detalhes →</span></a>
-          <a class="card" href="/detalhes/culote.html"><h3>Tratamento de Culote em João Pessoa</h3><span class="treatment__more">Ver detalhes →</span></a>
-          <a class="card" href="/detalhes/harmonizacao-glutea.html"><h3>Harmonização Glútea em João Pessoa</h3><span class="treatment__more">Ver detalhes →</span></a>
-          <a class="card" href="/detalhes/lavieen-pdrn.html"><h3>Lavieen + PDRN (Glow Repair) em João Pessoa</h3><span class="treatment__more">Ver detalhes →</span></a>
-          <a class="card" href="/detalhes/pdrn-injetavel.html"><h3>PDRN Injetável em João Pessoa</h3><span class="treatment__more">Ver detalhes →</span></a>
-          <a class="card" href="/detalhes/pdrn-mesoject.html"><h3>PDRN Mesoject em João Pessoa</h3><span class="treatment__more">Ver detalhes →</span></a>
-          <a class="card" href="/detalhes/fios-lisos.html"><h3>Fios PDO Lisos em João Pessoa</h3><span class="treatment__more">Ver detalhes →</span></a>
-          <a class="card" href="/detalhes/fios-de-tracao.html"><h3>Fios de Tração em João Pessoa</h3><span class="treatment__more">Ver detalhes →</span></a>
-          <a class="card" href="/detalhes/ultrassom-microfocado.html"><h3>Ultrassom Microfocado em João Pessoa</h3><span class="treatment__more">Ver detalhes →</span></a>
+      </div>
+      <div class="marquee" aria-label="Lista de tratamentos disponíveis">
+        <div class="marquee__track">
+          <!-- conjunto real (indexável) -->
+          <a class="marquee__item" href="/detalhes/botox.html">Botox®</a>
+          <a class="marquee__item" href="/detalhes/preenchimento-facial.html">Preenchimento Facial</a>
+          <a class="marquee__item" href="/detalhes/radiesse.html">Radiesse®</a>
+          <a class="marquee__item" href="/detalhes/culote.html">Tratamento de Culote</a>
+          <a class="marquee__item" href="/detalhes/harmonizacao-glutea.html">Harmonização Glútea</a>
+          <a class="marquee__item" href="/detalhes/lavieen-pdrn.html">Lavieen + PDRN (Glow Repair)</a>
+          <a class="marquee__item" href="/detalhes/pdrn-injetavel.html">PDRN Injetável</a>
+          <a class="marquee__item" href="/detalhes/pdrn-mesoject.html">PDRN Mesoject</a>
+          <a class="marquee__item" href="/detalhes/fios-lisos.html">Fios PDO Lisos</a>
+          <a class="marquee__item" href="/detalhes/fios-de-tracao.html">Fios de Tração</a>
+          <a class="marquee__item" href="/detalhes/ultrassom-microfocado.html">Ultrassom Microfocado</a>
+          <!-- cópia para loop contínuo (oculta para leitores de tela e busca) -->
+          <a class="marquee__item" href="/detalhes/botox.html" aria-hidden="true" tabindex="-1">Botox®</a>
+          <a class="marquee__item" href="/detalhes/preenchimento-facial.html" aria-hidden="true" tabindex="-1">Preenchimento Facial</a>
+          <a class="marquee__item" href="/detalhes/radiesse.html" aria-hidden="true" tabindex="-1">Radiesse®</a>
+          <a class="marquee__item" href="/detalhes/culote.html" aria-hidden="true" tabindex="-1">Tratamento de Culote</a>
+          <a class="marquee__item" href="/detalhes/harmonizacao-glutea.html" aria-hidden="true" tabindex="-1">Harmonização Glútea</a>
+          <a class="marquee__item" href="/detalhes/lavieen-pdrn.html" aria-hidden="true" tabindex="-1">Lavieen + PDRN (Glow Repair)</a>
+          <a class="marquee__item" href="/detalhes/pdrn-injetavel.html" aria-hidden="true" tabindex="-1">PDRN Injetável</a>
+          <a class="marquee__item" href="/detalhes/pdrn-mesoject.html" aria-hidden="true" tabindex="-1">PDRN Mesoject</a>
+          <a class="marquee__item" href="/detalhes/fios-lisos.html" aria-hidden="true" tabindex="-1">Fios PDO Lisos</a>
+          <a class="marquee__item" href="/detalhes/fios-de-tracao.html" aria-hidden="true" tabindex="-1">Fios de Tração</a>
+          <a class="marquee__item" href="/detalhes/ultrassom-microfocado.html" aria-hidden="true" tabindex="-1">Ultrassom Microfocado</a>
         </div>
       </div>
     </section>
@@ -346,7 +438,7 @@
     <div class="container">
       <div class="footer__grid">
         <div>
-          <div class="footer__brand">Dra. Ana Pontes <span style="font-size:.9rem;color:#a49a8e">| CRM 16743 PB</span></div>
+          <div class="footer__brand"><img src="/assets/mMSAKhBYWTiskMu6CYJADkof9gE.png" alt="Dra. Ana Pontes" width="153" height="46"><span class="footer__crm">CRM 16743 PB</span></div>
           <p style="color:#c4bcb1;max-width:38ch">Especialista em Rejuvenescimento Natural e Estética Avançada em João Pessoa. Procedimentos como Botox, Radiesse e tecnologias para flacidez.</p>
           <a class="btn btn--primary" href="https://wa.me/message/44CXA4J53PNUC1" target="_blank" rel="noopener">Falar no WhatsApp</a>
         </div>
