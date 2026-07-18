@@ -369,36 +369,67 @@
     <!-- DEPOIMENTOS -->
     <section class="section tstm-section" id="depoimentos">
       <div class="container">
-        <div class="tstm" data-tstm>
-          <div class="tstm__intro" data-reveal>
+        <div class="tstm-wall">
+          <div class="tstm-wall__intro" data-reveal>
             <span class="eyebrow eyebrow--plain">Quem já confiou</span>
             <h2>O que dizem as pacientes da Dra. Ana</h2>
-            <p class="tstm__count"><strong>Mais de <span data-countup="280">280</span> pacientes</strong> atendidas em João Pessoa. Depoimentos reais, de quem já viveu essa experiência.</p>
-            <div class="tstm__nav">
-              <div class="tstm__arrows">
-                <button class="tstm__arrow" type="button" data-tstm-prev aria-label="Depoimento anterior"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
-                <button class="tstm__arrow" type="button" data-tstm-next aria-label="Próximo depoimento"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-              </div>
-              <div class="tstm__dots" data-tstm-dots></div>
-            </div>
+            <p class="tstm-wall__count"><strong>Mais de <span data-countup="280">280</span> pacientes</strong> atendidas em João Pessoa. Depoimentos reais, de quem já viveu essa experiência.</p>
           </div>
-          <div class="tstm__stage" aria-live="polite" data-reveal>
-            <svg class="tstm__mark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7.2 5C4.9 6.4 3.2 8.9 3.2 12v7h7v-7H6.4c0-2 .9-3.6 2.8-4.8L7.2 5zm10 0c-2.3 1.4-4 3.9-4 7v7h7v-7h-3.8c0-2 .9-3.6 2.8-4.8L17.2 5z"/></svg>
-            <figure class="tstm__slide is-active">
-              <div class="tstm__stars" aria-label="5 estrelas">★★★★★</div>
-              <blockquote>Quero deixar meu agradecimento especial à Dra. Ana Paula! Obrigada por ser tão atenciosa e por ter me entregado um resultado tão maravilhoso e natural. Superou todas as minhas expectativas. Recomendo de olhos fechados, muito obrigada!</blockquote>
-              <figcaption class="tstm__author"><span class="avatar-initials" aria-hidden="true">JN</span><span><strong>Joselma do Nascimento</strong><span class="tstm__role">Paciente da Dra. Ana</span></span></figcaption>
-            </figure>
-            <figure class="tstm__slide">
-              <div class="tstm__stars" aria-label="5 estrelas">★★★★★</div>
-              <blockquote>Quando se trata do meu rosto, confiança é tudo, e encontrei isso em você. Obrigada por cuidar de cada detalhe com tanta dedicação. Nunca tinha feito nenhum procedimento estético até conhecer você, e até hoje entrego de olhos fechados. Você é única!</blockquote>
-              <figcaption class="tstm__author"><span class="avatar-initials" aria-hidden="true">CK</span><span><strong>Camilla Kissia</strong><span class="tstm__role">Paciente da Dra. Ana</span></span></figcaption>
-            </figure>
-            <figure class="tstm__slide">
-              <div class="tstm__stars" aria-label="5 estrelas">★★★★★</div>
-              <blockquote>Dra. Ana é simplesmente incrível! Além de ser extremamente perfeccionista e atenciosa em cada detalhe, ela tem um olhar artístico único, até desenha para mostrar como imagina o resultado. Eu me senti super acolhida e confiante durante todo o processo. Recomendo de olhos fechados!</blockquote>
-              <figcaption class="tstm__author"><span class="avatar-initials" aria-hidden="true">KS</span><span><strong>Kênia Suzana</strong><span class="tstm__role">Paciente da Dra. Ana</span></span></figcaption>
-            </figure>
+          <div class="tstm-wall__marquee" data-reveal>
+            <div class="tstm-wall__row tstm-wall__row--left" data-tstm-row>
+              <article class="tstm-card">
+                <div class="tstm-card__stars" aria-label="5 estrelas">★★★★★</div>
+                <p class="tstm-card__quote">Quero deixar meu agradecimento especial à Dra. Ana Paula! Obrigada por ser tão atenciosa e por ter me entregado um resultado tão maravilhoso e natural. Superou todas as minhas expectativas. Recomendo de olhos fechados, muito obrigada!</p>
+                <div class="tstm-card__author"><img class="avatar-photo" src="/assets/depoimentos/joselma-nascimento.webp" alt="Foto de Joselma do Nascimento, paciente da Dra. Ana" width="44" height="44" loading="lazy" decoding="async"><span><strong>Joselma do Nascimento</strong><span class="tstm-card__role">Paciente da Dra. Ana</span></span></div>
+              </article>
+              <article class="tstm-card">
+                <div class="tstm-card__stars" aria-label="5 estrelas">★★★★★</div>
+                <p class="tstm-card__quote">Dra. Ana é simplesmente incrível! Além de ser extremamente perfeccionista e atenciosa em cada detalhe, ela tem um olhar artístico único, até desenha para mostrar como imagina o resultado. Eu me senti super acolhida e confiante durante todo o processo. Recomendo de olhos fechados!</p>
+                <div class="tstm-card__author"><img class="avatar-photo" src="/assets/depoimentos/kenia-suzana.webp" alt="Foto de Kênia Suzana, paciente da Dra. Ana" width="44" height="44" loading="lazy" decoding="async"><span><strong>Kênia Suzana</strong><span class="tstm-card__role">Paciente da Dra. Ana</span></span></div>
+              </article>
+              <article class="tstm-card">
+                <div class="tstm-card__stars" aria-label="5 estrelas">★★★★★</div>
+                <p class="tstm-card__quote">Ambiente aconchegante e atendimento impecável. A Dra. Ana Pontes é a melhor, nos traz muita segurança e resultado.</p>
+                <div class="tstm-card__author"><img class="avatar-photo" src="/assets/depoimentos/juliana-dantas.webp" alt="Foto de Juliana Dantas, paciente da Dra. Ana" width="44" height="44" loading="lazy" decoding="async"><span><strong>Juliana Dantas</strong><span class="tstm-card__role">Paciente da Dra. Ana</span></span></div>
+              </article>
+              <article class="tstm-card">
+                <div class="tstm-card__stars" aria-label="5 estrelas">★★★★★</div>
+                <p class="tstm-card__quote">Procurei a Dra. Ana Pontes pois tinha uma grande insegurança com o meu perfil. O queixo retraído me deixava incomodada e com receio na hora das fotos, mas a Dra. conseguiu solucionar isso com apenas 1ml! Mostrou que a técnica certa é valiosa e mantém a naturalidade, que é o carro chefe dela. Sem contar o ambiente da clínica no Liv Mall, em João Pessoa, que é extremamente confortável, e o atendimento, do início ao fim, é impecável, detalhista e muito dedicado. Minha autoestima agora é outra e minhas expectativas foram totalmente superadas.</p>
+                <div class="tstm-card__author"><span class="avatar-initials" aria-hidden="true">LR</span><span><strong>Letícia Rodrigues</strong><span class="tstm-card__role">Paciente da Dra. Ana</span></span></div>
+              </article>
+              <article class="tstm-card">
+                <div class="tstm-card__stars" aria-label="5 estrelas">★★★★★</div>
+                <p class="tstm-card__quote">Experiência 10/10. Tinha muito medo de realizar preenchimento e ficar artificial, mas fiz o procedimento com a Dra. Ana e ficou simplesmente perfeito! Além de deixar um contorno super natural e lindo, foi super tranquilo.</p>
+                <div class="tstm-card__author"><span class="avatar-initials" aria-hidden="true">PN</span><span><strong>Palloma Nascimento</strong><span class="tstm-card__role">Paciente da Dra. Ana</span></span></div>
+              </article>
+            </div>
+            <div class="tstm-wall__row tstm-wall__row--right" data-tstm-row>
+              <article class="tstm-card">
+                <div class="tstm-card__stars" aria-label="5 estrelas">★★★★★</div>
+                <p class="tstm-card__quote">Quando se trata do meu rosto, confiança é tudo, e encontrei isso em você. Obrigada por cuidar de cada detalhe com tanta dedicação. Nunca tinha feito nenhum procedimento estético até conhecer você, e até hoje entrego de olhos fechados. Você é única!</p>
+                <div class="tstm-card__author"><img class="avatar-photo" src="/assets/depoimentos/camilla-kissia.webp" alt="Foto de Camilla Kissia, paciente da Dra. Ana" width="44" height="44" loading="lazy" decoding="async"><span><strong>Camilla Kissia</strong><span class="tstm-card__role">Paciente da Dra. Ana</span></span></div>
+              </article>
+              <article class="tstm-card">
+                <div class="tstm-card__stars" aria-label="5 estrelas">★★★★★</div>
+                <p class="tstm-card__quote">Amei demais ser atendida pela Dra. Ana. Além do resultado ter ficado maravilhoso, o atendimento foi melhor ainda!</p>
+                <div class="tstm-card__author"><span class="avatar-initials" aria-hidden="true">AC</span><span><strong>Antônia Luzimar do Carmo</strong><span class="tstm-card__role">Paciente da Dra. Ana</span></span></div>
+              </article>
+              <article class="tstm-card">
+                <div class="tstm-card__stars" aria-label="5 estrelas">★★★★★</div>
+                <p class="tstm-card__quote">Fiz um tratamento para lipedema e flacidez e foi uma experiência maravilhosa. Diminuiu muito a questão das dores e aquela sensação de peso e cansaço, sem falar na estética. Agradeço à Dra. Ana Pontes, uma excelente profissional. Amei!</p>
+                <div class="tstm-card__author"><span class="avatar-initials" aria-hidden="true">RC</span><span><strong>Rita Cássia</strong><span class="tstm-card__role">Paciente da Dra. Ana</span></span></div>
+              </article>
+              <article class="tstm-card">
+                <div class="tstm-card__stars" aria-label="5 estrelas">★★★★★</div>
+                <p class="tstm-card__quote">Minha experiência com a Dra. Ana Paula Pontes não poderia ter sido melhor. O que mais me encantou foi o foco dela no rejuvenescimento natural, sem exageros. Ela é extremamente atenciosa e explica cada detalhe dos procedimentos. A clínica no Liv Mall, em Manaíra, é linda e transmite muita paz. Fiz o Protocolo Glow Repair e o resultado na minha pele foi incrível! Se você procura uma médica de confiança para cuidar da sua autoestima com elegância, ela é a pessoa certa.</p>
+                <div class="tstm-card__author"><span class="avatar-initials" aria-hidden="true">GS</span><span><strong>Gabriela Santos</strong><span class="tstm-card__role">Paciente da Dra. Ana</span></span></div>
+              </article>
+              <article class="tstm-card">
+                <div class="tstm-card__stars" aria-label="5 estrelas">★★★★★</div>
+                <p class="tstm-card__quote">Atendimento maravilhoso, a Dra. Ana é uma excelente profissional. Os produtos utilizados são de qualidade. Tenho muita confiança no seu trabalho e me sinto muito satisfeita com os resultados.</p>
+                <div class="tstm-card__author"><img class="avatar-photo" src="/assets/depoimentos/isabelle-batista.webp" alt="Foto de Isabelle Batista, paciente da Dra. Ana" width="44" height="44" loading="lazy" decoding="async"><span><strong>Isabelle Batista</strong><span class="tstm-card__role">Paciente da Dra. Ana</span></span></div>
+              </article>
+            </div>
           </div>
         </div>
         <div style="text-align:center;margin-top:2.25rem">
@@ -503,7 +534,7 @@
       <div class="footer__grid">
         <div>
           <div class="footer__brand"><img src="/assets/mMSAKhBYWTiskMu6CYJADkof9gE.png" alt="Dra. Ana Pontes" width="153" height="46"><span class="footer__crm">CRM 16743 PB</span></div>
-          <p style="color:#c4bcb1;max-width:38ch">Especialista em Rejuvenescimento Natural e Estética Avançada em João Pessoa. Procedimentos como Botox e Radiesse, além de tecnologias para flacidez.</p>
+          <p style="color:var(--muted);max-width:38ch">Especialista em Rejuvenescimento Natural e Estética Avançada em João Pessoa. Procedimentos como Botox e Radiesse, além de tecnologias para flacidez.</p>
           <a class="btn btn--primary btn--whatsapp" href="https://wa.me/message/44CXA4J53PNUC1" target="_blank" rel="noopener">
             <svg class="btn__wa" width="18" height="18" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M16 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.26.59 4.42 1.71 6.35L3.2 28.8l6.62-1.73A12.7 12.7 0 0 0 16 28.65c7.06 0 12.8-5.74 12.8-12.8S23.06 3.2 16 3.2zm0 23.02c-1.9 0-3.76-.51-5.4-1.48l-.39-.23-4.03 1.06 1.08-3.93-.25-.4a10.6 10.6 0 0 1-1.62-5.66c0-5.86 4.77-10.62 10.63-10.62 2.84 0 5.5 1.11 7.51 3.12a10.55 10.55 0 0 1 3.11 7.51c0 5.86-4.77 10.63-10.62 10.63z"/></svg>
             Falar no WhatsApp

@@ -298,6 +298,25 @@
   }
 
   // ----------------------------------------------------------------
+  // Muro de depoimentos (home) — duas esteiras em direções opostas.
+  // Clona os cards de cada linha para o loop contínuo (translateX -50%
+  // volta exatamente ao início). Sem animação em prefers-reduced-motion,
+  // onde a linha vira scroll horizontal manual, então não clonamos.
+  // ----------------------------------------------------------------
+  var wallReduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var wallRows = document.querySelectorAll("[data-tstm-row]");
+  if (wallRows.length && !wallReduce) {
+    wallRows.forEach(function (row) {
+      var cards = Array.prototype.slice.call(row.children);
+      cards.forEach(function (card) {
+        var clone = card.cloneNode(true);
+        clone.setAttribute("aria-hidden", "true");
+        row.appendChild(clone);
+      });
+    });
+  }
+
+  // ----------------------------------------------------------------
   // Quiz de recomendação (tratamentos-quiz) — objetivo + prazo →
   // recomenda os tratamentos que melhor se encaixam e monta a
   // mensagem de WhatsApp já qualificada.
@@ -526,5 +545,86 @@
     }
 
     showStep(1);
+  }
+
+  // --- Destaca o link da seção atual na navbar (scrollspy) ---
+  var spyLinks = Array.prototype.slice.call(
+    document.querySelectorAll('.nav__menu a[href^="#"]')
+  );
+  if (spyLinks.length) {
+    var spyItems = [];
+    spyLinks.forEach(function (link) {
+      var id = link.getAttribute("href").slice(1);
+      var section = id && document.getElementById(id);
+      if (section) spyItems.push({ link: link, section: section });
+    });
+
+    if (spyItems.length) {
+      var headerEl = document.querySelector(".site-header");
+      var activeLink = null;
+      var ticking = false;
+
+      function updateActive() {
+        ticking = false;
+        var offset = (headerEl ? headerEl.offsetHeight : 76) + 24;
+        var line = window.scrollY + offset;
+        var current = spyItems[0];
+        for (var i = 0; i < spyItems.length; i++) {
+          var top = spyItems[i].section.getBoundingClientRect().top + window.scrollY;
+          if (top <= line) current = spyItems[i];
+        }
+        // no fim da página, força a última seção
+        if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) {
+          current = spyItems[spyItems.length - 1];
+        }
+        if (current.link !== activeLink) {
+          if (activeLink) activeLink.classList.remove("is-active");
+          current.link.classList.add("is-active");
+          activeLink = current.link;
+        }
+      }
+
+      function onScroll() {
+        if (!ticking) {
+          ticking = true;
+          window.requestAnimationFrame(updateActive);
+        }
+      }
+
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll, { passive: true });
+      updateActive();
+    }
+  }
+
+  // --- Destaca o item da página atual nas demais páginas (sem âncoras próprias) ---
+  var navLinks = Array.prototype.slice.call(
+    document.querySelectorAll(".nav__menu a")
+  );
+  if (navLinks.length) {
+    var normalize = function (p) {
+      return p.replace(/\/index\.html$/, "/") || "/";
+    };
+    var path = normalize(window.location.pathname);
+    var isHome = path === "/";
+    if (!isHome) {
+      // páginas que fazem parte da área de Tratamentos
+      var inTreatments =
+        path === "/tratamentos.html" ||
+        path === "/tratamentos-quiz.html" ||
+        path.indexOf("/detalhes/") === 0;
+      var match = null;
+      navLinks.forEach(function (link) {
+        // ignora links que são apenas âncora (pertencem à home)
+        if (link.hash && normalize(link.pathname) === "/") return;
+        if (normalize(link.pathname) === path && !link.hash) match = link;
+      });
+      if (!match && inTreatments) {
+        navLinks.forEach(function (link) {
+          if (normalize(link.pathname) === "/tratamentos.html") match = link;
+        });
+      }
+      if (match) match.classList.add("is-active");
+    }
   }
 })();
