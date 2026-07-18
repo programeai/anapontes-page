@@ -270,7 +270,7 @@
   }
 
   // ----------------------------------------------------------------
-  // Quiz de recomendação (tratamentos-b) — objetivo + prazo →
+  // Quiz de recomendação (tratamentos-quiz) — objetivo + prazo →
   // recomenda os tratamentos que melhor se encaixam e monta a
   // mensagem de WhatsApp já qualificada.
   // ----------------------------------------------------------------
@@ -368,7 +368,7 @@
       if (window.dataLayer) {
         window.dataLayer.push({
           event: "quiz_complete",
-          quiz_variant: "tratamentos-b",
+          quiz_variant: "tratamentos-quiz",
           quiz_objetivo: rAnswers.objetivo,
           quiz_prazo: rAnswers.prazo
         });
@@ -393,7 +393,7 @@
         opt.classList.add("is-selected");
         if (!rStarted) {
           rStarted = true;
-          if (window.dataLayer) window.dataLayer.push({ event: "quiz_start", quiz_variant: "tratamentos-b" });
+          if (window.dataLayer) window.dataLayer.push({ event: "quiz_start", quiz_variant: "tratamentos-quiz" });
         }
         if (rCurrent < R_TOTAL) rShowStep(rCurrent + 1);
         else rFinish();

@@ -427,7 +427,7 @@ ul.checks li::before {
 .goal-help a { color: var(--bronze-dark); font-weight: 600; border-bottom: 1px solid rgba(157,118,75,.35); }
 .goal-help a:hover { color: var(--bronze); border-color: var(--bronze); }
 
-/* Parede de tratamentos em carrossel contínuo (tratamentos-b.html) */
+/* Parede de tratamentos em carrossel contínuo (tratamentos-quiz.html) */
 .marquee--cards {
   overflow: hidden; padding: .75rem 0;
   -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
@@ -450,11 +450,11 @@ ul.checks li::before {
   .marquee--cards .marquee__group[aria-hidden="true"] { display: none; }
 }
 
-/* Grid de resultado do quiz — cards sempre centralizados (tratamentos-b.html) */
+/* Grid de resultado do quiz — cards sempre centralizados (tratamentos-quiz.html) */
 .reco-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.25rem; }
 .reco-grid .card.treatment { flex: 1 1 300px; max-width: 362px; }
 
-/* Cards de recomendação do quiz (tratamentos-b.html) */
+/* Cards de recomendação do quiz (tratamentos-quiz.html) */
 .reco-cards { display: grid; gap: .6rem; margin: 0 0 1.25rem; }
 .reco-card {
   display: flex; align-items: center; gap: .85rem; text-align: left;
