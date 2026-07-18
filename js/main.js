@@ -163,6 +163,13 @@
           Array.prototype.forEach.call(el.children, function (child, i) {
             child.style.transitionDelay = (i * 90) + "ms";
           });
+          // devolve as transições de hover dos filhos após o reveal
+          setTimeout(function () {
+            Array.prototype.forEach.call(el.children, function (child) {
+              child.style.transitionDelay = "";
+            });
+            el.classList.add("reveal-done");
+          }, el.children.length * 90 + 700);
         }
         el.classList.add("in-view");
         revealIO.unobserve(el);
@@ -260,6 +267,151 @@
 
     tGo(0);
     tRestart();
+  }
+
+  // ----------------------------------------------------------------
+  // Quiz de recomendação (tratamentos-b) — objetivo + prazo →
+  // recomenda os tratamentos que melhor se encaixam e monta a
+  // mensagem de WhatsApp já qualificada.
+  // ----------------------------------------------------------------
+  var recoQuiz = document.querySelector("[data-quiz-reco]");
+  if (recoQuiz) {
+    var RECO_TREATMENTS = {
+      "botox": { name: "Botox®", img: "/assets/dW22U9uHPjKc5fsxnSc4lH6t4.webp", blurb: "Suaviza rugas de expressão e previne novas linhas, preservando a naturalidade." },
+      "preenchimento-facial": { name: "Preenchimento Facial", img: "/assets/bzyVP31HieeS10KXo4IWdchPOk.webp", blurb: "Restaura volume, suaviza rugas e melhora contornos com efeito natural." },
+      "radiesse": { name: "Radiesse®", img: "/assets/Js3HXjggO2qljwDprcZd6s2mYY.webp", blurb: "Estimula colágeno, melhora firmeza e qualidade da pele com efeito gradual." },
+      "ultrassom-microfocado": { name: "Ultrassom Microfocado", img: "/assets/stM4cjrGLCfiynBeoCV36BoTA.webp", blurb: "Lifting não cirúrgico que trata a flacidez nas camadas profundas." },
+      "fios-de-tracao": { name: "Fios de Tração", img: "/assets/Wu8I1GxBZcWATLMlfJChKNv968.webp", blurb: "Efeito lifting com reposicionamento dos tecidos, sem cirurgia." },
+      "fios-lisos": { name: "Fios PDO Lisos", img: "/assets/otE3FZZV1upj51ZCIX8EW2xyzc.webp", blurb: "Fios PDO que estimulam colágeno e melhoram a firmeza da pele." },
+      "pdrn-injetavel": { name: "PDRN Injetável", img: "/assets/KmKoqLIoP9VWc7ypQAsjKlfgc.webp", blurb: "Regeneração celular que melhora hidratação, firmeza e qualidade da pele." },
+      "pdrn-mesoject": { name: "PDRN Mesoject", img: "/assets/VupnLanKE9nf0216TtpzZwVqRa8.webp", blurb: "Regeneração celular sem agulhas, com máximo conforto." },
+      "lavieen-pdrn": { name: "Lavieen + PDRN", img: "/assets/KvtSNI4Ewfp8A44w3JC24kqH4Y.webp", blurb: "Protocolo Glow Repair: laser Lavieen + PDRN para viço e textura da pele." },
+      "culote": { name: "Culote", img: "/assets/na1B0GxqftU7Y00SZgK1AU8I.webp", blurb: "Injetáveis que ajudam a reduzir medidas e melhorar o contorno corporal." },
+      "harmonizacao-glutea": { name: "Harmonização Glútea", img: "/assets/vX9TpIzfqH1h451GI43uuFH1aSA.webp", blurb: "Volume, firmeza e contorno para os glúteos, sem cirurgia." }
+    };
+    var RECO_MAP = {
+      "rugas": ["botox", "preenchimento-facial"],
+      "flacidez": ["radiesse", "ultrassom-microfocado", "fios-de-tracao", "fios-lisos"],
+      "volume": ["preenchimento-facial", "radiesse"],
+      "pele": ["pdrn-injetavel", "pdrn-mesoject", "lavieen-pdrn"],
+      "corporal": ["culote", "harmonizacao-glutea"],
+      "orientacao": []
+    };
+    var RECO_SECTIONS = {
+      "rugas": { eyebrow: "Objetivo · Rosto", title: "Para rugas e linhas de expressão", desc: "Linhas que marcam a testa, a região dos olhos ou o contorno da boca — para o seu objetivo, a Dra. Ana costuma avaliar estes caminhos, sempre preservando as suas expressões." },
+      "flacidez": { eyebrow: "Objetivo · Rosto e pescoço", title: "Para flacidez e firmeza", desc: "Quando a pele começa a ceder e o contorno perde definição — para o seu objetivo, a Dra. Ana costuma avaliar estas tecnologias que estimulam o seu próprio colágeno." },
+      "volume": { eyebrow: "Objetivo · Rosto", title: "Para volume e contorno do rosto", desc: "Áreas que \"afundaram\", maçãs do rosto e linha da mandíbula — para o seu objetivo, a Dra. Ana costuma avaliar estes caminhos de reposição com naturalidade." },
+      "pele": { eyebrow: "Objetivo · Pele", title: "Para qualidade e viço da pele", desc: "Viço, textura, manchas e hidratação profunda — para o seu objetivo, a Dra. Ana costuma avaliar estes tratamentos regenerativos." },
+      "corporal": { eyebrow: "Objetivo · Corpo", title: "Para contorno corporal", desc: "Gordura localizada que resiste a dieta e treino — para o seu objetivo, a Dra. Ana costuma avaliar estes caminhos, sem cirurgia." },
+      "orientacao": { eyebrow: "Avaliação individual", title: "A Dra. Ana te orienta no melhor caminho", desc: "Cada rosto e cada história pedem um plano próprio. Na avaliação individual, a Dra. Ana entende o que te incomoda e monta o caminho certo para o seu caso — sem pressa e sem compromisso." }
+    };
+
+    var rSteps = recoQuiz.querySelectorAll(".quiz__step");
+    var rBar = recoQuiz.querySelector("[data-quiz-bar]");
+    var rBack = recoQuiz.querySelector("[data-quiz-back]");
+    var rRestart = recoQuiz.querySelector("[data-quiz-restart]");
+    var rResult = document.querySelector("[data-reco-result]");
+    var rEyebrow = document.querySelector("[data-reco-eyebrow]");
+    var rH2 = document.querySelector("[data-reco-h2]");
+    var rDesc = document.querySelector("[data-reco-desc]");
+    var rGrid = document.querySelector("[data-reco-grid]");
+    var rSend = document.querySelector("[data-reco-send]");
+    var rAnswers = {};
+    var R_TOTAL = 2;
+    var rCurrent = 1;
+    var rStarted = false;
+
+    function rShowStep(step) {
+      rSteps.forEach(function (s) {
+        s.classList.toggle("is-active", Number(s.getAttribute("data-step")) === step);
+      });
+      rCurrent = step;
+      if (rBar) rBar.style.width = (Math.min((step - 1) / R_TOTAL, 1) * 100) + "%";
+      if (rBack) rBack.hidden = step <= 1 || step > R_TOTAL;
+    }
+
+    function rTreatmentCard(slug) {
+      var t = RECO_TREATMENTS[slug];
+      if (!t) return null;
+      var a = document.createElement("a");
+      a.className = "card treatment";
+      a.href = "/detalhes/" + slug + ".html";
+      a.innerHTML =
+        '<img src="' + t.img + '" loading="lazy" width="400" height="300" alt="' + t.name + ' em João Pessoa com a Dra. Ana Pontes.">' +
+        '<div class="treatment__body"><h3>' + t.name + "</h3><p>" + t.blurb + "</p>" +
+        '<span class="treatment__more">Saiba mais →</span></div>';
+      return a;
+    }
+
+    function rFinish() {
+      var key = rAnswers.recoKey;
+      var slugs = RECO_MAP[key] || [];
+      var section = RECO_SECTIONS[key];
+      if (rResult && section) {
+        if (rEyebrow) rEyebrow.textContent = section.eyebrow;
+        if (rH2) rH2.textContent = section.title;
+        if (rDesc) rDesc.textContent = section.desc;
+        if (rGrid) {
+          rGrid.innerHTML = "";
+          slugs.forEach(function (slug) {
+            var card = rTreatmentCard(slug);
+            if (card) rGrid.appendChild(card);
+          });
+          rGrid.hidden = slugs.length === 0;
+        }
+        rResult.hidden = false;
+      }
+      var msg = "Olá, Dra. Ana! Vim pela página de tratamentos. Meu objetivo é " +
+        rAnswers.objetivo + ", pretendo começar " + rAnswers.prazo +
+        " e gostaria de agendar uma avaliação individual.";
+      if (rSend) rSend.href = buildWaHref(msg);
+      if (window.dataLayer) {
+        window.dataLayer.push({
+          event: "quiz_complete",
+          quiz_variant: "tratamentos-b",
+          quiz_objetivo: rAnswers.objetivo,
+          quiz_prazo: rAnswers.prazo
+        });
+      }
+      rShowStep(R_TOTAL + 1);
+      if (rBar) rBar.style.width = "100%";
+      if (rResult) {
+        var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        rResult.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+      }
+    }
+
+    recoQuiz.querySelectorAll(".quiz__opt").forEach(function (opt) {
+      opt.addEventListener("click", function () {
+        var field = opt.getAttribute("data-field");
+        rAnswers[field] = opt.getAttribute("data-value");
+        if (field === "objetivo") rAnswers.recoKey = opt.getAttribute("data-reco");
+        var group = opt.closest(".quiz__options");
+        if (group) {
+          group.querySelectorAll(".quiz__opt").forEach(function (o) { o.classList.remove("is-selected"); });
+        }
+        opt.classList.add("is-selected");
+        if (!rStarted) {
+          rStarted = true;
+          if (window.dataLayer) window.dataLayer.push({ event: "quiz_start", quiz_variant: "tratamentos-b" });
+        }
+        if (rCurrent < R_TOTAL) rShowStep(rCurrent + 1);
+        else rFinish();
+      });
+    });
+
+    if (rBack) rBack.addEventListener("click", function () { if (rCurrent > 1) rShowStep(rCurrent - 1); });
+    if (rRestart) {
+      rRestart.addEventListener("click", function () {
+        rAnswers = {};
+        rStarted = false;
+        recoQuiz.querySelectorAll(".quiz__opt").forEach(function (o) { o.classList.remove("is-selected"); });
+        if (rResult) rResult.hidden = true;
+        rShowStep(1);
+      });
+    }
+
+    rShowStep(1);
   }
 
   // ----------------------------------------------------------------
