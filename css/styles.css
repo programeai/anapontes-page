@@ -487,11 +487,13 @@ ul.checks li::before {
 .goal-help a { color: var(--bronze-dark); font-weight: 600; border-bottom: 1px solid rgba(157,118,75,.35); }
 .goal-help a:hover { color: var(--bronze); border-color: var(--bronze); }
 
-/* Parede de tratamentos em carrossel contínuo (tratamentos-quiz.html) */
+/* Parede de tratamentos em carrossel contínuo (home) */
 .marquee--cards {
   overflow: hidden; padding: .75rem 0;
   -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
           mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+  /* Camada própria: sem isso o WebKit/iOS falha ao aplicar mask sobre filhos animados */
+  transform: translateZ(0);
 }
 .marquee--cards .marquee__track { display: flex; width: max-content; gap: 1.25rem; animation: marquee-cards-scroll 55s linear infinite; }
 .marquee--cards:hover .marquee__track,
@@ -504,7 +506,7 @@ ul.checks li::before {
 .marquee--cards .treatment__body p { font-size: .88rem; line-height: 1.5; margin-bottom: .85rem; }
 .marquee--cards .treatment__more { margin-top: auto; font-size: .92rem; }
 .marquee--cards + .marquee--cards { margin-top: 1.25rem; }
-@keyframes marquee-cards-scroll { to { transform: translateX(calc(-50% - .625rem)); } }
+@keyframes marquee-cards-scroll { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(calc(-50% - .625rem), 0, 0); } }
 @media (prefers-reduced-motion: reduce) {
   .marquee--cards .marquee__track { animation: none; flex-wrap: wrap; justify-content: center; width: auto; }
   .marquee--cards .marquee__group[aria-hidden="true"] { display: none; }
@@ -687,13 +689,18 @@ ul.checks li::before {
   display: grid; gap: clamp(1rem, 2vw, 1.25rem); position: relative; overflow: hidden;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  /* Camada própria: sem isso o WebKit/iOS falha ao aplicar mask sobre filhos animados */
+  transform: translateZ(0);
 }
-.tstm-wall__row { display: flex; width: max-content; will-change: transform; }
+.tstm-wall__row { display: flex; width: max-content; }
 .tstm-wall__row--left { animation: tstm-marquee 60s linear infinite; }
-.tstm-wall__row--right { animation: tstm-marquee 60s linear infinite reverse; }
+/* Keyframes explícitos no lugar de animation-direction: reverse — no iOS a fileira
+   reversa nasce em -50% e o WebKit pode não ter rasterizado essa região (fica em branco) */
+.tstm-wall__row--right { animation: tstm-marquee-rev 60s linear infinite; }
 .tstm-wall__marquee:hover .tstm-wall__row,
 .tstm-wall__marquee:focus-within .tstm-wall__row { animation-play-state: paused; }
-@keyframes tstm-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes tstm-marquee { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
+@keyframes tstm-marquee-rev { from { transform: translate3d(-50%, 0, 0); } to { transform: translate3d(0, 0, 0); } }
 
 .tstm-card {
   flex: 0 0 clamp(268px, 80vw, 344px); margin-right: clamp(1rem, 2vw, 1.25rem);
