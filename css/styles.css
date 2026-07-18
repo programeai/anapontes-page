@@ -172,7 +172,13 @@ ul { margin: 0 0 1rem; padding: 0; list-style: none; }
 }
 
 /* ---------- Hero ---------- */
-.hero { padding: clamp(2.5rem, 6vw, 4.5rem) 0 0; overflow: hidden; }
+.hero {
+  padding: clamp(2.5rem, 6vw, 4.5rem) 0 0;
+  overflow: hidden;
+  /* Mesmo degradê do fundo da foto do hero: luz vinda da base-esquerda,
+     clareando de ~#f8f8f6 (canto inferior esquerdo) até ~#d9d9d9 no topo/direita */
+  background: radial-gradient(125% 130% at 16% 96%, #f8f8f6 0%, #ededeb 40%, #e0e0de 70%, #d7d7d5 100%);
+}
 .hero__grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(1.5rem, 4vw, 3.5rem); align-items: end; }
 .hero__title { margin-top: 1rem; }
 .hero__lead { font-size: 1.15rem; max-width: 46ch; }
