@@ -277,17 +277,17 @@
   var recoQuiz = document.querySelector("[data-quiz-reco]");
   if (recoQuiz) {
     var RECO_TREATMENTS = {
-      "botox": { name: "Botox®", img: "/assets/dW22U9uHPjKc5fsxnSc4lH6t4.webp", blurb: "Suaviza rugas de expressão e previne novas linhas, preservando a naturalidade." },
-      "preenchimento-facial": { name: "Preenchimento Facial", img: "/assets/bzyVP31HieeS10KXo4IWdchPOk.webp", blurb: "Restaura volume, suaviza rugas e melhora contornos com efeito natural." },
-      "radiesse": { name: "Radiesse®", img: "/assets/Js3HXjggO2qljwDprcZd6s2mYY.webp", blurb: "Estimula colágeno, melhora firmeza e qualidade da pele com efeito gradual." },
-      "ultrassom-microfocado": { name: "Ultrassom Microfocado", img: "/assets/stM4cjrGLCfiynBeoCV36BoTA.webp", blurb: "Lifting não cirúrgico que trata a flacidez nas camadas profundas." },
-      "fios-de-tracao": { name: "Fios de Tração", img: "/assets/Wu8I1GxBZcWATLMlfJChKNv968.webp", blurb: "Efeito lifting com reposicionamento dos tecidos, sem cirurgia." },
-      "fios-lisos": { name: "Fios PDO Lisos", img: "/assets/otE3FZZV1upj51ZCIX8EW2xyzc.webp", blurb: "Fios PDO que estimulam colágeno e melhoram a firmeza da pele." },
-      "pdrn-injetavel": { name: "PDRN Injetável", img: "/assets/KmKoqLIoP9VWc7ypQAsjKlfgc.webp", blurb: "Regeneração celular que melhora hidratação, firmeza e qualidade da pele." },
-      "pdrn-mesoject": { name: "PDRN Mesoject", img: "/assets/VupnLanKE9nf0216TtpzZwVqRa8.webp", blurb: "Regeneração celular sem agulhas, com máximo conforto." },
-      "lavieen-pdrn": { name: "Lavieen + PDRN", img: "/assets/KvtSNI4Ewfp8A44w3JC24kqH4Y.webp", blurb: "Protocolo Glow Repair: laser Lavieen + PDRN para viço e textura da pele." },
-      "culote": { name: "Culote", img: "/assets/na1B0GxqftU7Y00SZgK1AU8I.webp", blurb: "Injetáveis que ajudam a reduzir medidas e melhorar o contorno corporal." },
-      "harmonizacao-glutea": { name: "Harmonização Glútea", img: "/assets/vX9TpIzfqH1h451GI43uuFH1aSA.webp", blurb: "Volume, firmeza e contorno para os glúteos, sem cirurgia." }
+      "botox": { name: "Botox®", img: "/assets/treatments/botox.webp", blurb: "Suaviza rugas de expressão e previne novas linhas, preservando a naturalidade." },
+      "preenchimento-facial": { name: "Preenchimento Facial", img: "/assets/treatments/preenchimento-facial.webp", blurb: "Restaura volume, suaviza rugas e melhora contornos com efeito natural." },
+      "radiesse": { name: "Radiesse®", img: "/assets/treatments/radiesse.webp", blurb: "Estimula colágeno, melhora firmeza e qualidade da pele com efeito gradual." },
+      "ultrassom-microfocado": { name: "Ultrassom Microfocado", img: "/assets/treatments/ultrassom-microfocado.webp", blurb: "Lifting não cirúrgico que trata a flacidez nas camadas profundas." },
+      "fios-de-tracao": { name: "Fios de Tração", img: "/assets/treatments/fios-de-tracao.webp", blurb: "Efeito lifting com reposicionamento dos tecidos, sem cirurgia." },
+      "fios-lisos": { name: "Fios PDO Lisos", img: "/assets/treatments/fios-lisos.webp", blurb: "Fios PDO que estimulam colágeno e melhoram a firmeza da pele." },
+      "pdrn-injetavel": { name: "PDRN Injetável", img: "/assets/treatments/pdrn-injetavel.webp", blurb: "Regeneração celular que melhora hidratação, firmeza e qualidade da pele." },
+      "pdrn-mesoject": { name: "PDRN Mesoject", img: "/assets/treatments/pdrn-mesoject.webp", blurb: "Regeneração celular sem agulhas, com máximo conforto." },
+      "lavieen-pdrn": { name: "Lavieen + PDRN", img: "/assets/treatments/lavieen-pdrn.webp", blurb: "Protocolo Glow Repair: laser Lavieen + PDRN para viço e textura da pele." },
+      "culote": { name: "Culote", img: "/assets/treatments/culote.webp", blurb: "Injetáveis que ajudam a reduzir medidas e melhorar o contorno corporal." },
+      "harmonizacao-glutea": { name: "Harmonização Glútea", img: "/assets/treatments/harmonizacao-glutea.webp", blurb: "Volume, firmeza e contorno para os glúteos, sem cirurgia." }
     };
     var RECO_MAP = {
       "rugas": ["botox", "preenchimento-facial"],

@@ -130,6 +130,16 @@ ul { margin: 0 0 1rem; padding: 0; list-style: none; }
 .btn--ghost:hover { border-color: var(--bronze); color: var(--bronze); transform: translateY(-2px); }
 .btn--lg { padding: 1.1rem 2rem; font-size: 1.05rem; }
 
+/* CTA "Falar no WhatsApp" — mantém a marca (bronze) e ganha o brilho verde do canal no hover */
+.btn--whatsapp .btn__wa { color: #25d366; transition: color .18s ease; }
+.btn--primary.btn--whatsapp .btn__wa { color: #eafff2; }
+.btn--whatsapp:hover .btn__wa { color: #25d366; }
+
+/* CTA de índice — seta que desliza e preenche no hover */
+.btn--arrow svg { transition: transform .2s ease; }
+.btn--arrow:hover svg { transform: translateX(4px); }
+.btn--fill:hover { background: var(--bronze); color: var(--white); border-color: var(--bronze); box-shadow: var(--shadow-hover); }
+
 /* ---------- Header / nav ---------- */
 .site-header {
   position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,.86);
@@ -162,12 +172,14 @@ ul { margin: 0 0 1rem; padding: 0; list-style: none; }
 }
 
 /* ---------- Hero ---------- */
-.hero { padding: clamp(2.5rem, 6vw, 4.5rem) 0 clamp(3rem, 7vw, 5rem); }
-.hero__grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(1.5rem, 4vw, 3.5rem); align-items: center; }
+.hero { padding: clamp(2.5rem, 6vw, 4.5rem) 0 0; overflow: hidden; }
+.hero__grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(1.5rem, 4vw, 3.5rem); align-items: end; }
 .hero__title { margin-top: 1rem; }
 .hero__lead { font-size: 1.15rem; max-width: 46ch; }
 .hero__cta { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.6rem; }
-.hero__media img { width: 100%; border-radius: var(--radius-lg); object-fit: cover; box-shadow: var(--shadow); }
+.hero__content { align-self: center; padding-bottom: clamp(3rem, 7vw, 5rem); }
+.hero__media { align-self: end; }
+.hero__media img { display: block; width: 100%; height: auto; }
 .hero__proof { display: flex; align-items: center; gap: 1rem; margin-top: 2.2rem; flex-wrap: wrap; }
 .hero__avatars { display: inline-flex; }
 .hero__avatars img { width: 44px; height: 44px; border-radius: 999px; border: 2px solid var(--white); margin-left: -12px; object-fit: cover; }
@@ -504,6 +516,7 @@ ul.checks li::before {
 .doctor { display: grid; grid-template-columns: .85fr 1.15fr; gap: clamp(1.5rem, 4vw, 3.5rem); align-items: center; }
 @media (max-width: 820px) { .doctor { grid-template-columns: 1fr; } .doctor__media { max-width: 420px; margin-inline: auto; } }
 .doctor__media img { width: 100%; border-radius: var(--radius-lg); box-shadow: var(--shadow); object-fit: cover; }
+.doctor__media--flat img { box-shadow: none; }
 .doctor__content .eyebrow { margin-bottom: .9rem; }
 .doctor__content ul.checks { margin: 1.25rem 0 1.5rem; }
 
