@@ -1,8 +1,9 @@
 # Rastreamento & Conversão — Guia de Configuração
 
-Este site já está **instrumentado no código**. Falta apenas ligar as contas
-(GTM + Meta Pixel) e mapear as tags dentro do GTM. Nenhuma mudança adicional de
-código é necessária depois disso.
+Este site já está **instrumentado no código** e o container GTM
+(**`GTM-5B27V5DF`**) já está instalado em todas as páginas. Falta apenas
+**mapear as tags dentro do painel do GTM** (GA4 + Meta Pixel + os acionadores
+dos eventos). Nenhuma mudança adicional de código é necessária.
 
 ## O que já está no código
 
@@ -21,14 +22,9 @@ código é necessária depois disso.
 
 ## Passo a passo (uma vez só)
 
-### 1. Criar o container GTM
-1. Acesse <https://tagmanager.google.com>, crie um container do tipo **Web**.
-2. Copie o ID (formato `GTM-XXXXXXX`).
-3. Troque o placeholder no código rodando na raiz do projeto:
-   ```bash
-   grep -rl 'GTM-XXXXXXX' index.html detalhes/ | xargs sed -i 's/GTM-XXXXXXX/GTM-SEUID/g'
-   ```
-4. Commit + deploy.
+### 1. Criar o container GTM ✅ FEITO
+Container **`GTM-5B27V5DF`** criado e já instalado no código de todas as páginas
+(`<head>` + `<noscript>`). Nada a fazer aqui.
 
 ### 2. Meta Pixel — base
 No GTM: **Tags → Nova → Meta Pixel** (via template da comunidade "Facebook Pixel"
