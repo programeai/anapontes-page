@@ -7,15 +7,20 @@ dos eventos). Nenhuma mudança adicional de código é necessária.
 
 ## O que já está no código
 
-- **Container GTM** injetado em todas as páginas (`index.html` + `detalhes/*.html`),
-  no `<head>` e como `<noscript>` logo após `<body>`.
-- **GA4** (`G-KBQL7JZJ41`) já existente, mantido como estava (pageview automático).
-- **`/js/tracking.js`** dispara eventos no `dataLayer` para o GTM consumir:
+- **Container GTM** (`GTM-5B27V5DF`) injetado em todas as páginas, no `<head>` e
+  como `<noscript>` logo após `<body>`.
+- **GA4** (`G-KBQL7JZJ41`) **não é mais carregado por código** — o `gtag.js`
+  hardcoded foi removido de todas as páginas (2026-07-18) e o GA4 passou a ser
+  **gerenciado 100% pelo GTM** (pageview + eventos). Fonte única de rastreamento.
+- **`/js/tracking.js`** e **`/js/main.js`** disparam eventos no `dataLayer`:
 
 | Evento (`event`)  | Quando dispara                            | Parâmetros úteis |
 |-------------------|-------------------------------------------|------------------|
 | `view_content`    | Ao abrir uma página `/detalhes/*.html`    | `procedure_slug`, `procedure_name`, `utm_*`, `gclid`, `fbclid` |
-| `whatsapp_click`  | Ao clicar em qualquer botão de WhatsApp   | `procedure_slug`, `procedure_name`, `link_url`, `utm_*`, `gclid`, `fbclid` |
+| `whatsapp_click`  | Ao clicar em qualquer botão de WhatsApp   | `procedure_slug`, `procedure_name`, `link_url`, `utm_*` |
+| `qualify_select`  | Ao escolher o prazo no bloco da home      | `qualify_prazo`, `procedure_slug` |
+| `quiz_start`      | Ao iniciar o quiz de qualificação         | `quiz_variant` |
+| `quiz_complete`   | Ao terminar o quiz                        | `quiz_objetivo`, `quiz_regiao`, `quiz_prazo` |
 
 > As UTMs da campanha são capturadas da URL da landing e **persistem na sessão**,
 > então aparecem no `whatsapp_click` mesmo que o clique aconteça páginas depois.
@@ -23,34 +28,36 @@ dos eventos). Nenhuma mudança adicional de código é necessária.
 ## Passo a passo (uma vez só)
 
 ### 1. Criar o container GTM ✅ FEITO
-Container **`GTM-5B27V5DF`** criado e já instalado no código de todas as páginas
-(`<head>` + `<noscript>`). Nada a fazer aqui.
+Container **`GTM-5B27V5DF`** criado e instalado no código de todas as páginas.
 
-### 2. Meta Pixel — base
-No GTM: **Tags → Nova → Meta Pixel** (via template da comunidade "Facebook Pixel"
-ou HTML customizado com o `fbq` base). Acionador: **All Pages**. Use o seu Pixel ID.
+### 2. GA4 — pageview (substitui o gtag removido)
+No GTM: **Tags → Nova → Google (Google Tag)**.
+- **ID da tag:** `G-KBQL7JZJ41`
+- **Acionador:** `Initialization - All Pages` (ou `All Pages`)
+- Isso restabelece o pageview do GA4, agora via GTM. Publicar **antes** de subir
+  o código que remove o gtag, para não ficar sem medição.
 
-### 3. Triggers (acionadores) sobre os eventos do dataLayer
-Crie dois acionadores do tipo **Evento personalizado**:
-- Nome do evento: `view_content`
-- Nome do evento: `whatsapp_click`
+### 3. GA4 — eventos (uma tag repassa os 5)
+- **Variáveis** (tipo *Variável da camada de dados*): `procedure_slug`,
+  `procedure_name`, `quiz_objetivo`, `quiz_regiao`, `quiz_prazo`.
+- **Acionador** (Evento personalizado, com regex): nome do evento
+  `view_content|whatsapp_click|quiz_start|qualify_select|quiz_complete` →
+  nomear `Eventos do site`.
+- **Tag** GA4 Event: Measurement ID `G-KBQL7JZJ41`; **Nome do evento** = `{{Event}}`
+  (variável interna, repassa o nome real); parâmetros mapeados às variáveis acima;
+  acionador `Eventos do site`.
 
-### 4. Tags de conversão
-
-| Tag                 | Tipo            | Acionador        | Observação |
-|---------------------|-----------------|------------------|------------|
-| Pixel — ViewContent | Meta Pixel evt  | `view_content`   | `content_name` = `{{dlv - procedure_name}}` |
-| Pixel — Contact     | Meta Pixel evt  | `whatsapp_click` | Evento `Contact` (ou `Lead`) |
-| GA4 — view_content  | GA4 Event       | `view_content`   | Envia p/ `G-KBQL7JZJ41` |
-| GA4 — generate_lead | GA4 Event       | `whatsapp_click` | Envia p/ `G-KBQL7JZJ41` |
-
-> Crie **variáveis de camada de dados** (dlv) para `procedure_name`,
-> `procedure_slug`, `utm_source`, `utm_campaign` e use-as como parâmetros das tags.
+### 4. Meta Pixel
+- **Base:** Tag **Google tag template / HTML customizado** com o `fbq` base do seu
+  Pixel ID; acionador **All Pages**.
+- **Eventos:** tag Meta Pixel para `whatsapp_click` → evento `Contact` (ou `Lead`);
+  `view_content` → `ViewContent`. Usa os mesmos acionadores/variáveis.
 
 ### 5. Verificar
-- Use o **Preview** do GTM + a extensão **Meta Pixel Helper**.
-- Abra `/detalhes/botox.html?utm_source=meta&utm_campaign=teste` → deve disparar
-  `view_content`. Clique no WhatsApp → deve disparar `whatsapp_click` com a UTM.
+- **Preview** do GTM + **Tag Assistant** (GA4) e **Meta Pixel Helper** (Pixel).
+- Abra `/detalhes/botox.html?utm_source=meta&utm_campaign=teste` → dispara
+  `view_content`. Clique no WhatsApp → `whatsapp_click` com a UTM. Faça o quiz →
+  `quiz_complete`. Confirme o pageview no **GA4 → Tempo real**.
 
 ## Otimização de campanha (lembrete de estratégia)
 
