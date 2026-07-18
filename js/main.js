@@ -9,6 +9,10 @@
   var toggle = document.querySelector(".nav__toggle");
   var menu = document.getElementById("nav-menu");
   if (toggle && menu) {
+    function closeMenu() {
+      menu.classList.remove("is-open");
+      toggle.setAttribute("aria-expanded", "false");
+    }
     toggle.addEventListener("click", function () {
       var open = menu.classList.toggle("is-open");
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
@@ -16,8 +20,20 @@
     // fecha ao clicar num link
     menu.addEventListener("click", function (e) {
       if (e.target.closest("a")) {
-        menu.classList.remove("is-open");
-        toggle.setAttribute("aria-expanded", "false");
+        closeMenu();
+      }
+    });
+    // fecha ao clicar fora do menu ou do botão
+    document.addEventListener("click", function (e) {
+      if (!menu.classList.contains("is-open")) return;
+      if (menu.contains(e.target) || toggle.contains(e.target)) return;
+      closeMenu();
+    });
+    // fecha ao pressionar Esc
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && menu.classList.contains("is-open")) {
+        closeMenu();
+        toggle.focus();
       }
     });
   }
