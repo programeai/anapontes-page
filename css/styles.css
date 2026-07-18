@@ -422,13 +422,33 @@ ul.checks li::before {
 .hero .eyebrow,
 .hero__title,
 .hero__lead,
-.hero__cta,
-.hero__proof { animation: hero-rise .6s cubic-bezier(.22, 1, .36, 1) both; }
+.hero__cta { animation: hero-rise .6s cubic-bezier(.22, 1, .36, 1) both; }
 .hero__title { animation-delay: .06s; }
 .hero__lead { animation-delay: .14s; }
 .hero__cta { animation-delay: .22s; }
-.hero__proof { animation-delay: .32s; }
 .hero__media img { animation: hero-img-in .75s cubic-bezier(.22, 1, .36, 1) .18s both; }
+/* Selos flutuantes: "aterrissam" com overshoot (opacity+scale) e depois flutuam
+   continuamente (translate). Usam propriedades de transform separadas para os dois
+   movimentos não conflitarem — e para o rotate do about__note se preservar. */
+.hero__proof {
+  animation:
+    badge-in .55s cubic-bezier(.34, 1.56, .64, 1) .6s both,
+    badge-float 4s ease-in-out 1.2s infinite;
+}
+.has-anim .about__note { opacity: 0; }
+.has-anim [data-reveal].in-view .about__note {
+  animation:
+    badge-in .55s cubic-bezier(.34, 1.56, .64, 1) .25s both,
+    badge-float 4.6s ease-in-out .85s infinite;
+}
+@keyframes badge-in {
+  from { opacity: 0; scale: .85; }
+  to   { opacity: 1; scale: 1; }
+}
+@keyframes badge-float {
+  0%, 100% { translate: 0 0; }
+  50%      { translate: 0 -7px; }
+}
 
 /* Fotos dos cards de tratamento ganham zoom lento no hover */
 .treatment img { transition: transform .6s cubic-bezier(.22, 1, .36, 1); }
@@ -557,7 +577,7 @@ ul.checks li::before {
   display: flex; align-items: center; gap: .7rem; max-width: 240px;
   background: var(--white); border-radius: var(--radius);
   padding: .8rem 1.05rem; box-shadow: var(--shadow-hover);
-  transform: rotate(-2.5deg);
+  rotate: -2.5deg;
 }
 .about__note p { margin: 0; font-family: var(--font-ui); font-weight: 500; font-size: .92rem; color: var(--ink-strong); line-height: 1.4; }
 .about__note-icon {
