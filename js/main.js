@@ -75,6 +75,18 @@
     });
   }
 
+  // --- CTA flutuante: na home, só aparece depois que o hero sai de cena ---
+  var waFloat = document.querySelector(".dap-wa-float");
+  var heroHome = document.querySelector(".hero");
+  if (waFloat && heroHome) {
+    var waToggle = function () {
+      var limit = heroHome.offsetTop + heroHome.offsetHeight - 120;
+      waFloat.classList.toggle("is-hidden", window.scrollY < limit);
+    };
+    window.addEventListener("scroll", waToggle, { passive: true });
+    waToggle();
+  }
+
   // --- Ano do rodapé ---
   var yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
