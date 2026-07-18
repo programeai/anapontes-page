@@ -1,27 +1,27 @@
 # draanapontes.com.br - GEO profile
 
 Project: Dra. Ana Pontes - Rejuvenescimento Natural e Estetica Avancada
-Website: https://draanapontes.com.br/
+Website: https://www.draanapontes.com.br/
 Language: pt-BR
 Location: Joao Pessoa, PB, Brasil
 Medical registration: CRM 16743 PB
 
 ## Core pages
-- Home: https://draanapontes.com.br/
-- Tratamentos: https://draanapontes.com.br/tratamentos
+- Home: https://www.draanapontes.com.br/
+- Tratamentos: https://www.draanapontes.com.br/tratamentos
 
 ## Treatment pages
-- Botox: https://draanapontes.com.br/detalhes/botox
-- Preenchimento facial: https://draanapontes.com.br/detalhes/preenchimento-facial
-- Radiesse: https://draanapontes.com.br/detalhes/radiesse
-- Culote: https://draanapontes.com.br/detalhes/culote
-- Harmonizacao glutea: https://draanapontes.com.br/detalhes/harmonizacao-glutea
-- Lavieen + PDRN: https://draanapontes.com.br/detalhes/lavieen-pdrn
-- PDRN injetavel: https://draanapontes.com.br/detalhes/pdrn-injetavel
-- PDRN mesoject: https://draanapontes.com.br/detalhes/pdrn-mesoject
-- Fios lisos: https://draanapontes.com.br/detalhes/fios-lisos
-- Fios de tracao: https://draanapontes.com.br/detalhes/fios-de-tracao
-- Ultrassom microfocado: https://draanapontes.com.br/detalhes/ultrassom-microfocado
+- Botox: https://www.draanapontes.com.br/detalhes/botox
+- Preenchimento facial: https://www.draanapontes.com.br/detalhes/preenchimento-facial
+- Radiesse: https://www.draanapontes.com.br/detalhes/radiesse
+- Culote: https://www.draanapontes.com.br/detalhes/culote
+- Harmonizacao glutea: https://www.draanapontes.com.br/detalhes/harmonizacao-glutea
+- Lavieen + PDRN: https://www.draanapontes.com.br/detalhes/lavieen-pdrn
+- PDRN injetavel: https://www.draanapontes.com.br/detalhes/pdrn-injetavel
+- PDRN mesoject: https://www.draanapontes.com.br/detalhes/pdrn-mesoject
+- Fios lisos: https://www.draanapontes.com.br/detalhes/fios-lisos
+- Fios de tracao: https://www.draanapontes.com.br/detalhes/fios-de-tracao
+- Ultrassom microfocado: https://www.draanapontes.com.br/detalhes/ultrassom-microfocado
 
 ## Contact and brand entities
 - WhatsApp: https://wa.me/message/44CXA4J53PNUC1
