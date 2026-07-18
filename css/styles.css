@@ -455,7 +455,7 @@ ul.checks li::before {
 @media (max-width: 980px) { .grid--4 { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 540px) { .grid--4 { grid-template-columns: 1fr; } }
 .goal-card { display: flex; flex-direction: column; }
-.goal-card h3 { font-family: var(--font-ui); font-size: 1.12rem; margin-bottom: .3rem; }
+.goal-card h2 { font-family: var(--font-ui); font-size: 1.12rem; margin-bottom: .3rem; }
 .goal-card p { font-size: .92rem; margin-bottom: 1.1rem; }
 .goal-card .treatment__more { margin-top: auto; font-size: .95rem; }
 .goal-card:hover .treatment__more { gap: .65rem; }
