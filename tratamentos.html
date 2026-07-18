@@ -239,43 +239,120 @@
     </div>
   </header>
   <main>
-    <section class="section" style="padding-bottom:0">
-      <div class="container section__head">
-        <span class="eyebrow eyebrow--plain">Nossos tratamentos</span>
-        <h1>Tratamentos em João Pessoa</h1>
-        <p>Conheça os procedimentos da Dra. Ana Pontes para rejuvenescimento facial e corporal. Todos com avaliação médica individual, priorizando resultados naturais.</p>
+    <section class="section" style="padding-bottom:clamp(2rem,4vw,3rem)">
+      <div class="container">
+        <div class="section__head" style="margin-bottom:clamp(1.75rem,3.5vw,2.5rem)">
+          <h1>Tratamentos em João Pessoa</h1>
+          <p style="margin-bottom:0;font-size:1.15rem">O que você quer melhorar?</p>
+        </div>
+        <div class="grid grid--4" data-reveal-group>
+          <a class="card goal-card" href="#rugas">
+            <div class="card__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7c2-1.5 4-1.5 6 0s4 1.5 6 0M4 12c2-1.5 4-1.5 6 0s4 1.5 6 0M4 17c2-1.5 4-1.5 6 0s4 1.5 6 0"/></svg></div>
+            <h3>Rugas e expressão</h3>
+            <p>Testa marcada, pés de galinha, bigode chinês.</p>
+            <span class="treatment__more">2 tratamentos →</span>
+          </a>
+          <a class="card goal-card" href="#flacidez">
+            <div class="card__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></div>
+            <h3>Flacidez e firmeza</h3>
+            <p>Pele cedendo, contorno da mandíbula, pescoço.</p>
+            <span class="treatment__more">4 tratamentos →</span>
+          </a>
+          <a class="card goal-card" href="#pele">
+            <div class="card__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z"/><path d="M18.5 15.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7.7-1.8z"/></svg></div>
+            <h3>Qualidade da pele</h3>
+            <p>Viço, manchas, textura e hidratação profunda.</p>
+            <span class="treatment__more">3 tratamentos →</span>
+          </a>
+          <a class="card goal-card" href="#corpo">
+            <div class="card__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 3c0 4.5-4 5.5-4 9s4 4.5 4 9M15 3c0 4.5 4 5.5 4 9s-4 4.5-4 9"/></svg></div>
+            <h3>Contorno corporal</h3>
+            <p>Culote, gordura localizada, glúteos.</p>
+            <span class="treatment__more">2 tratamentos →</span>
+          </a>
+        </div>
+        <p class="goal-help">Não sabe qual é o seu caso? <a href="/#avaliacao">Faça a avaliação em 30 segundos →</a></p>
       </div>
     </section>
-    <section class="section">
-      <div class="container"><div class="grid grid--3">
-          <a class="card treatment" href="/detalhes/preenchimento-facial.html">
-            <img src="/assets/bzyVP31HieeS10KXo4IWdchPOk.webp" loading="lazy" width="400" height="300" alt="Preenchimento Facial em João Pessoa com a Dra. Ana Pontes.">
-            <div class="treatment__body"><h3>Preenchimento Facial</h3><p>Restaura volume, suaviza rugas e melhora contornos com efeito natural.</p><span class="treatment__more">Saiba mais →</span></div>
-          </a>
+
+    <div class="cat-nav" aria-label="Navegar por objetivo">
+      <div class="container">
+        <div class="cat-nav__track" style="justify-content:center">
+          <a class="cat-nav__link" href="#rugas">Rugas e expressão</a>
+          <a class="cat-nav__link" href="#flacidez">Flacidez e firmeza</a>
+          <a class="cat-nav__link" href="#pele">Qualidade da pele</a>
+          <a class="cat-nav__link" href="#corpo">Contorno corporal</a>
+          <a class="cat-nav__link cat-nav__link--cta" href="/#avaliacao">Não sei qual → fazer avaliação</a>
+        </div>
+      </div>
+    </div>
+
+    <section class="section" id="rugas" style="padding-bottom:clamp(2.5rem,5vw,4rem)">
+      <div class="container">
+        <div class="section__head" data-reveal>
+          <span class="eyebrow eyebrow--plain">Objetivo · Rosto</span>
+          <h2>Para rugas e linhas de expressão</h2>
+          <p>Linhas que marcam a testa, a região dos olhos ou o contorno da boca — o objetivo aqui é suavizar preservando as suas expressões.</p>
+        </div>
+        <div class="grid grid--3" data-reveal-group>
           <a class="card treatment" href="/detalhes/botox.html">
             <img src="/assets/dW22U9uHPjKc5fsxnSc4lH6t4.webp" loading="lazy" width="400" height="300" alt="Botox® em João Pessoa com a Dra. Ana Pontes.">
             <div class="treatment__body"><h3>Botox®</h3><p>Suaviza rugas de expressão e previne novas linhas, preservando a naturalidade.</p><span class="treatment__more">Saiba mais →</span></div>
           </a>
+          <a class="card treatment" href="/detalhes/preenchimento-facial.html">
+            <img src="/assets/bzyVP31HieeS10KXo4IWdchPOk.webp" loading="lazy" width="400" height="300" alt="Preenchimento Facial em João Pessoa com a Dra. Ana Pontes.">
+            <div class="treatment__body"><h3>Preenchimento Facial</h3><p>Restaura volume, suaviza rugas e melhora contornos com efeito natural.</p><span class="treatment__more">Saiba mais →</span></div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--cream" id="flacidez">
+      <div class="container">
+        <div class="section__head" data-reveal>
+          <span class="eyebrow eyebrow--plain">Objetivo · Rosto e pescoço</span>
+          <h2>Para flacidez e firmeza</h2>
+          <p>Quando a pele começa a ceder e o contorno perde definição, estas tecnologias estimulam o seu próprio colágeno e devolvem sustentação.</p>
+        </div>
+        <div class="grid grid--3" data-reveal-group>
           <a class="card treatment" href="/detalhes/radiesse.html">
             <img src="/assets/Js3HXjggO2qljwDprcZd6s2mYY.webp" loading="lazy" width="400" height="300" alt="Radiesse® em João Pessoa com a Dra. Ana Pontes.">
             <div class="treatment__body"><h3>Radiesse®</h3><p>Estimula colágeno, melhora firmeza e qualidade da pele com efeito gradual.</p><span class="treatment__more">Saiba mais →</span></div>
-          </a>
-          <a class="card treatment" href="/detalhes/harmonizacao-glutea.html">
-            <img src="/assets/vX9TpIzfqH1h451GI43uuFH1aSA.webp" loading="lazy" width="400" height="300" alt="Harmonização Glútea em João Pessoa com a Dra. Ana Pontes.">
-            <div class="treatment__body"><h3>Harmonização Glútea</h3><p>Volume, firmeza e contorno para os glúteos, sem cirurgia.</p><span class="treatment__more">Saiba mais →</span></div>
-          </a>
-          <a class="card treatment" href="/detalhes/culote.html">
-            <img src="/assets/na1B0GxqftU7Y00SZgK1AU8I.webp" loading="lazy" width="400" height="300" alt="Culote em João Pessoa com a Dra. Ana Pontes.">
-            <div class="treatment__body"><h3>Culote</h3><p>Injetáveis que ajudam a reduzir medidas e melhorar o contorno corporal.</p><span class="treatment__more">Saiba mais →</span></div>
           </a>
           <a class="card treatment" href="/detalhes/ultrassom-microfocado.html">
             <img src="/assets/stM4cjrGLCfiynBeoCV36BoTA.webp" loading="lazy" width="400" height="300" alt="Ultrassom Microfocado em João Pessoa com a Dra. Ana Pontes.">
             <div class="treatment__body"><h3>Ultrassom Microfocado</h3><p>Lifting não cirúrgico que trata a flacidez nas camadas profundas.</p><span class="treatment__more">Saiba mais →</span></div>
           </a>
-          <a class="card treatment" href="/detalhes/lavieen-pdrn.html">
-            <img src="/assets/KvtSNI4Ewfp8A44w3JC24kqH4Y.webp" loading="lazy" width="400" height="300" alt="Lavieen + PDRN em João Pessoa com a Dra. Ana Pontes.">
-            <div class="treatment__body"><h3>Lavieen + PDRN</h3><p>Protocolo Glow Repair: laser Lavieen + PDRN para viço e textura da pele.</p><span class="treatment__more">Saiba mais →</span></div>
+          <a class="card treatment" href="/detalhes/fios-de-tracao.html">
+            <img src="/assets/Wu8I1GxBZcWATLMlfJChKNv968.webp" loading="lazy" width="400" height="300" alt="Fios de Tração em João Pessoa com a Dra. Ana Pontes.">
+            <div class="treatment__body"><h3>Fios de Tração</h3><p>Efeito lifting com reposicionamento dos tecidos, sem cirurgia.</p><span class="treatment__more">Saiba mais →</span></div>
           </a>
+          <a class="card treatment" href="/detalhes/fios-lisos.html">
+            <img src="/assets/otE3FZZV1upj51ZCIX8EW2xyzc.webp" loading="lazy" width="400" height="300" alt="Fios PDO Lisos em João Pessoa com a Dra. Ana Pontes.">
+            <div class="treatment__body"><h3>Fios PDO Lisos</h3><p>Fios PDO que estimulam colágeno e melhoram a firmeza da pele.</p><span class="treatment__more">Saiba mais →</span></div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-bottom:0">
+      <div class="container">
+        <div class="cta-band" data-reveal>
+          <h2>Não sabe qual tratamento é para o seu caso?</h2>
+          <p>Normal — a maioria das pacientes chega assim. Responda 3 perguntas rápidas e a Dra. Ana recebe o seu perfil para indicar o caminho na avaliação individual.</p>
+          <a class="btn btn--primary btn--lg" href="/#avaliacao">Fazer minha avaliação em 30s</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pele" style="padding-bottom:clamp(2.5rem,5vw,4rem)">
+      <div class="container">
+        <div class="section__head" data-reveal>
+          <span class="eyebrow eyebrow--plain">Objetivo · Pele</span>
+          <h2>Para qualidade e viço da pele</h2>
+          <p>Viço, textura, manchas e hidratação profunda: tratamentos regenerativos que melhoram a pele de dentro para fora.</p>
+        </div>
+        <div class="grid grid--3" data-reveal-group>
           <a class="card treatment" href="/detalhes/pdrn-injetavel.html">
             <img src="/assets/KmKoqLIoP9VWc7ypQAsjKlfgc.webp" loading="lazy" width="400" height="300" alt="PDRN Injetável em João Pessoa com a Dra. Ana Pontes.">
             <div class="treatment__body"><h3>PDRN Injetável</h3><p>Regeneração celular que melhora hidratação, firmeza e qualidade da pele.</p><span class="treatment__more">Saiba mais →</span></div>
@@ -284,22 +361,111 @@
             <img src="/assets/VupnLanKE9nf0216TtpzZwVqRa8.webp" loading="lazy" width="400" height="300" alt="PDRN Mesoject em João Pessoa com a Dra. Ana Pontes.">
             <div class="treatment__body"><h3>PDRN Mesoject</h3><p>Regeneração celular sem agulhas, com máximo conforto.</p><span class="treatment__more">Saiba mais →</span></div>
           </a>
-          <a class="card treatment" href="/detalhes/fios-lisos.html">
-            <img src="/assets/otE3FZZV1upj51ZCIX8EW2xyzc.webp" loading="lazy" width="400" height="300" alt="Fios PDO Lisos em João Pessoa com a Dra. Ana Pontes.">
-            <div class="treatment__body"><h3>Fios PDO Lisos</h3><p>Fios PDO que estimulam colágeno e melhoram a firmeza da pele.</p><span class="treatment__more">Saiba mais →</span></div>
+          <a class="card treatment" href="/detalhes/lavieen-pdrn.html">
+            <img src="/assets/KvtSNI4Ewfp8A44w3JC24kqH4Y.webp" loading="lazy" width="400" height="300" alt="Lavieen + PDRN em João Pessoa com a Dra. Ana Pontes.">
+            <div class="treatment__body"><h3>Lavieen + PDRN</h3><p>Protocolo Glow Repair: laser Lavieen + PDRN para viço e textura da pele.</p><span class="treatment__more">Saiba mais →</span></div>
           </a>
-          <a class="card treatment" href="/detalhes/fios-de-tracao.html">
-            <img src="/assets/Wu8I1GxBZcWATLMlfJChKNv968.webp" loading="lazy" width="400" height="300" alt="Fios de Tração em João Pessoa com a Dra. Ana Pontes.">
-            <div class="treatment__body"><h3>Fios de Tração</h3><p>Efeito lifting com reposicionamento dos tecidos, sem cirurgia.</p><span class="treatment__more">Saiba mais →</span></div>
-          </a>
-      </div></div>
+        </div>
+      </div>
     </section>
+
+    <section class="section section--cream" id="corpo">
+      <div class="container">
+        <div class="section__head" data-reveal>
+          <span class="eyebrow eyebrow--plain">Objetivo · Corpo</span>
+          <h2>Para contorno corporal</h2>
+          <p>Gordura localizada que resiste a dieta e treino, e contorno corporal — tratados sem cirurgia, com plano definido em avaliação.</p>
+        </div>
+        <div class="grid grid--3" data-reveal-group>
+          <a class="card treatment" href="/detalhes/culote.html">
+            <img src="/assets/na1B0GxqftU7Y00SZgK1AU8I.webp" loading="lazy" width="400" height="300" alt="Culote em João Pessoa com a Dra. Ana Pontes.">
+            <div class="treatment__body"><h3>Culote</h3><p>Injetáveis que ajudam a reduzir medidas e melhorar o contorno corporal.</p><span class="treatment__more">Saiba mais →</span></div>
+          </a>
+          <a class="card treatment" href="/detalhes/harmonizacao-glutea.html">
+            <img src="/assets/vX9TpIzfqH1h451GI43uuFH1aSA.webp" loading="lazy" width="400" height="300" alt="Harmonização Glútea em João Pessoa com a Dra. Ana Pontes.">
+            <div class="treatment__body"><h3>Harmonização Glútea</h3><p>Volume, firmeza e contorno para os glúteos, sem cirurgia.</p><span class="treatment__more">Saiba mais →</span></div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section tstm-section">
+      <div class="container">
+        <div class="tstm" data-tstm>
+          <div class="tstm__intro" data-reveal>
+            <span class="eyebrow eyebrow--plain">Quem já confiou</span>
+            <h2>O que dizem as pacientes da Dra. Ana</h2>
+            <p class="tstm__count"><strong>Mais de <span data-countup="280">280</span> pacientes</strong> atendidas em João Pessoa. Depoimentos reais de pacientes.</p>
+            <div class="tstm__nav">
+              <div class="tstm__arrows">
+                <button class="tstm__arrow" type="button" data-tstm-prev aria-label="Depoimento anterior"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+                <button class="tstm__arrow" type="button" data-tstm-next aria-label="Próximo depoimento"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+              </div>
+              <div class="tstm__dots" data-tstm-dots></div>
+            </div>
+          </div>
+          <div class="tstm__stage" aria-live="polite">
+            <svg class="tstm__mark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7.2 5C4.9 6.4 3.2 8.9 3.2 12v7h7v-7H6.4c0-2 .9-3.6 2.8-4.8L7.2 5zm10 0c-2.3 1.4-4 3.9-4 7v7h7v-7h-3.8c0-2 .9-3.6 2.8-4.8L17.2 5z"/></svg>
+            <figure class="tstm__slide is-active">
+              <div class="tstm__stars" aria-label="5 estrelas">★★★★★</div>
+              <blockquote>Quando se trata do meu rosto, confiança é tudo — e encontrei isso em você. Obrigada por cuidar de cada detalhe com tanta dedicação. Nunca tinha feito nenhum procedimento estético até conhecer você, e até hoje entrego de olhos fechados. Você é única!</blockquote>
+              <figcaption class="tstm__author"><span class="avatar-initials" aria-hidden="true">CK</span><span><strong>Camilla Kissia</strong><span class="tstm__role">Paciente da Dra. Ana</span></span></figcaption>
+            </figure>
+            <figure class="tstm__slide">
+              <div class="tstm__stars" aria-label="5 estrelas">★★★★★</div>
+              <blockquote>Quero deixar meu agradecimento especial à Dra. Ana Paula! Obrigada por ser tão atenciosa e por ter me entregado um resultado tão maravilhoso e natural. Superou todas as minhas expectativas. Recomendo de olhos fechados, muito obrigada!</blockquote>
+              <figcaption class="tstm__author"><span class="avatar-initials" aria-hidden="true">JN</span><span><strong>Joselma do Nascimento</strong><span class="tstm__role">Paciente da Dra. Ana</span></span></figcaption>
+            </figure>
+            <figure class="tstm__slide">
+              <div class="tstm__stars" aria-label="5 estrelas">★★★★★</div>
+              <blockquote>Dra. Ana é simplesmente incrível! Além de ser extremamente perfeccionista e atenciosa em cada detalhe, ela tem um olhar artístico único, até desenha para mostrar como imagina o resultado. Eu me senti super acolhida e confiante durante todo o processo. Recomendo de olhos fechados!</blockquote>
+              <figcaption class="tstm__author"><span class="avatar-initials" aria-hidden="true">KS</span><span><strong>Kênia Suzana</strong><span class="tstm__role">Paciente da Dra. Ana</span></span></figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="duvidas" style="padding-top:clamp(2.5rem,6vw,4rem)">
+      <div class="container">
+        <div class="section__head" data-reveal>
+          <span class="eyebrow eyebrow--plain">Dúvidas frequentes</span>
+          <h2>Perguntas comuns sobre os tratamentos</h2>
+        </div>
+        <div class="faq">
+          <div class="faq__item">
+            <button class="faq__q" type="button" aria-expanded="false">Quais tratamentos a Dra. Ana Pontes realiza em João Pessoa?<span class="faq__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span></button>
+            <div class="faq__a"><p>A página de tratamentos reúne procedimentos como Botox, preenchimento facial, Radiesse, PDRN, fios de PDO, harmonização glútea e ultrassom microfocado, todos com avaliação médica individual em João Pessoa.</p></div>
+          </div>
+          <div class="faq__item">
+            <button class="faq__q" type="button" aria-expanded="false">Como saber qual tratamento estético é mais indicado para meu caso?<span class="faq__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span></button>
+            <div class="faq__a"><p>A indicação depende de objetivos, histórico clínico e avaliação presencial. A conduta é definida de forma personalizada após consulta médica.</p></div>
+          </div>
+          <div class="faq__item">
+            <button class="faq__q" type="button" aria-expanded="false">Os resultados dos procedimentos são iguais para todas as pessoas?<span class="faq__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span></button>
+            <div class="faq__a"><p>Não. A resposta varia conforme características individuais, técnica utilizada e plano terapêutico. Por isso, cada tratamento é planejado de forma personalizada.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="section" style="padding-top:0">
-      <div class="container"><div class="cta-band">
-        <h2>Não sabe por onde começar?</h2>
-        <p>Me conte o que você deseja melhorar. Na avaliação individual eu indico o tratamento ideal para o seu caso.</p>
-        <a class="btn btn--primary btn--lg" href="https://wa.me/message/44CXA4J53PNUC1" target="_blank" rel="noopener">Falar com a Dra. Ana</a>
-      </div></div>
+      <div class="container">
+        <div class="cta-band" data-qualify data-reveal>
+          <h2>Vamos avaliar o seu caso?</h2>
+          <p>Cada plano é individual. Conte quando você pretende começar e fale com a Dra. Ana no WhatsApp — sua mensagem já chega pronta.</p>
+          <div class="qualify">
+            <p class="qualify__label">Quando você pretende começar?</p>
+            <div class="qualify__opts">
+              <button type="button" class="qualify__opt" data-value="pretendo começar o quanto antes">O quanto antes</button>
+              <button type="button" class="qualify__opt" data-value="pretendo começar nas próximas semanas">Nas próximas semanas</button>
+              <button type="button" class="qualify__opt" data-value="ainda estou pesquisando as opções">Ainda estou pesquisando</button>
+            </div>
+          </div>
+          <a class="btn btn--primary btn--lg" data-qualify-send href="https://wa.me/message/44CXA4J53PNUC1" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M16 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.26.59 4.42 1.71 6.35L3.2 28.8l6.62-1.73A12.7 12.7 0 0 0 16 28.65c7.06 0 12.8-5.74 12.8-12.8S23.06 3.2 16 3.2zm0 23.02c-1.9 0-3.76-.51-5.4-1.48l-.39-.23-4.03 1.06 1.08-3.93-.25-.4a10.6 10.6 0 0 1-1.62-5.66c0-5.86 4.77-10.62 10.63-10.62 2.84 0 5.5 1.11 7.51 3.12a10.55 10.55 0 0 1 3.11 7.51c0 5.86-4.77 10.63-10.62 10.63z"/></svg> Agendar minha avaliação</a>
+          <p class="qualify__hint">Responder é opcional — você também pode enviar a mensagem direto.</p>
+        </div>
+      </div>
     </section>
   </main>
 
