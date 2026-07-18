@@ -299,8 +299,9 @@ ul.checks li::before {
 
 /* ---------- Footer ---------- */
 .site-footer { background: var(--cream); color: var(--muted); padding: clamp(3rem,6vw,4.5rem) 0 2rem; }
-.site-footer a { color: var(--muted); }
-.site-footer a:hover { color: var(--bronze); }
+.site-footer--light { background: var(--white); }
+.site-footer a:not(.btn) { color: var(--muted); }
+.site-footer a:not(.btn):hover { color: var(--bronze); }
 .footer__grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 2rem; }
 @media (max-width: 760px) { .footer__grid { grid-template-columns: 1fr; gap: 1.75rem; } }
 .footer__brand { display: flex; align-items: center; flex-wrap: wrap; gap: .35rem .75rem; margin-bottom: .75rem; }
