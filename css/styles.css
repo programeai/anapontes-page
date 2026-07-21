@@ -488,14 +488,17 @@ ul.checks li::before {
 .goal-help a:hover { color: var(--bronze); border-color: var(--bronze); }
 
 /* Parede de tratamentos em carrossel contínuo (home) */
-.marquee--cards {
-  overflow: hidden; padding: .75rem 0;
-  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
-          mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
-  /* Camada própria: sem isso o WebKit/iOS falha ao aplicar mask sobre filhos animados */
-  transform: translateZ(0);
+.marquee--cards { overflow: hidden; padding: .75rem 0; }
+/* Fade nas bordas SÓ em desktop com ponteiro fino. No iOS/WebKit a máscara
+   sobre filhos animados por transform falha ao rasterizar e deixa o carrossel
+   em branco (ou só aparece após um scroll). Em toque, clipa direto no overflow. */
+@media (hover: hover) and (pointer: fine) {
+  .marquee--cards {
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+            mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+  }
 }
-.marquee--cards .marquee__track { display: flex; width: max-content; gap: 1.25rem; animation: marquee-cards-scroll 55s linear infinite; }
+.marquee--cards .marquee__track { display: flex; width: max-content; gap: 1.25rem; animation: marquee-cards-scroll 55s linear infinite; will-change: transform; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
 .marquee--cards:hover .marquee__track,
 .marquee--cards:focus-within .marquee__track { animation-play-state: paused; }
 .marquee--cards .marquee__track--reverse { animation-direction: reverse; }
@@ -687,12 +690,16 @@ ul.checks li::before {
 
 .tstm-wall__marquee {
   display: grid; gap: clamp(1rem, 2vw, 1.25rem); position: relative; overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
-  /* Camada própria: sem isso o WebKit/iOS falha ao aplicar mask sobre filhos animados */
-  transform: translateZ(0);
 }
-.tstm-wall__row { display: flex; width: max-content; }
+/* Fade nas bordas SÓ em desktop com ponteiro fino — ver nota em .marquee--cards.
+   No iOS a máscara sobre as duas fileiras animadas deixava uma (ou ambas) em branco. */
+@media (hover: hover) and (pointer: fine) {
+  .tstm-wall__marquee {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  }
+}
+.tstm-wall__row { display: flex; width: max-content; will-change: transform; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
 .tstm-wall__row--left { animation: tstm-marquee 60s linear infinite; }
 /* Keyframes explícitos no lugar de animation-direction: reverse — no iOS a fileira
    reversa nasce em -50% e o WebKit pode não ter rasterizado essa região (fica em branco) */
