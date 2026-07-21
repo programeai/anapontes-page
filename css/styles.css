@@ -488,20 +488,22 @@ ul.checks li::before {
 .goal-help a:hover { color: var(--bronze); border-color: var(--bronze); }
 
 /* Parede de tratamentos em carrossel contínuo (home) */
-.marquee--cards { overflow: hidden; padding: .75rem 0; }
-/* Fade nas bordas SÓ em desktop com ponteiro fino. No iOS/WebKit a máscara
-   sobre filhos animados por transform falha ao rasterizar e deixa o carrossel
-   em branco (ou só aparece após um scroll). Em toque, clipa direto no overflow. */
+/* Rolagem via scrollLeft (JS), não transform: o WebKit/iOS renderiza conteúdo
+   rolável de forma confiável — as camadas GPU animadas por transform ficavam
+   em branco no iPhone. overflow-x permite também arrastar com o dedo. */
+.marquee--cards {
+  overflow-x: auto; overflow-y: hidden; padding: .75rem 0;
+  scrollbar-width: none; -ms-overflow-style: none; -webkit-overflow-scrolling: touch;
+}
+.marquee--cards::-webkit-scrollbar { display: none; }
+/* Fade nas bordas só em desktop com ponteiro fino (decorativo). */
 @media (hover: hover) and (pointer: fine) {
   .marquee--cards {
     -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
             mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
   }
 }
-.marquee--cards .marquee__track { display: flex; width: max-content; gap: 1.25rem; animation: marquee-cards-scroll 55s linear infinite; will-change: transform; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
-.marquee--cards:hover .marquee__track,
-.marquee--cards:focus-within .marquee__track { animation-play-state: paused; }
-.marquee--cards .marquee__track--reverse { animation-direction: reverse; }
+.marquee--cards .marquee__track { display: flex; width: max-content; gap: 1.25rem; }
 .marquee--cards .marquee__group { display: flex; gap: 1.25rem; }
 .marquee--cards .card.treatment { flex: 0 0 290px; }
 .marquee--cards .treatment img { aspect-ratio: 16/10; }
@@ -509,7 +511,6 @@ ul.checks li::before {
 .marquee--cards .treatment__body p { font-size: .88rem; line-height: 1.5; margin-bottom: .85rem; }
 .marquee--cards .treatment__more { margin-top: auto; font-size: .92rem; }
 .marquee--cards + .marquee--cards { margin-top: 1.25rem; }
-@keyframes marquee-cards-scroll { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(calc(-50% - .625rem), 0, 0); } }
 @media (prefers-reduced-motion: reduce) {
   .marquee--cards .marquee__track { animation: none; flex-wrap: wrap; justify-content: center; width: auto; }
   .marquee--cards .marquee__group[aria-hidden="true"] { display: none; }
@@ -691,23 +692,19 @@ ul.checks li::before {
 .tstm-wall__marquee {
   display: grid; gap: clamp(1rem, 2vw, 1.25rem); position: relative; overflow: hidden;
 }
-/* Fade nas bordas SÓ em desktop com ponteiro fino — ver nota em .marquee--cards.
-   No iOS a máscara sobre as duas fileiras animadas deixava uma (ou ambas) em branco. */
+/* Fade nas bordas só em desktop com ponteiro fino (decorativo). */
 @media (hover: hover) and (pointer: fine) {
   .tstm-wall__marquee {
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
             mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
   }
 }
-.tstm-wall__row { display: flex; width: max-content; will-change: transform; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
-.tstm-wall__row--left { animation: tstm-marquee 60s linear infinite; }
-/* Keyframes explícitos no lugar de animation-direction: reverse — no iOS a fileira
-   reversa nasce em -50% e o WebKit pode não ter rasterizado essa região (fica em branco) */
-.tstm-wall__row--right { animation: tstm-marquee-rev 60s linear infinite; }
-.tstm-wall__marquee:hover .tstm-wall__row,
-.tstm-wall__marquee:focus-within .tstm-wall__row { animation-play-state: paused; }
-@keyframes tstm-marquee { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
-@keyframes tstm-marquee-rev { from { transform: translate3d(-50%, 0, 0); } to { transform: translate3d(0, 0, 0); } }
+/* Rolagem via scrollLeft (JS) — ver nota em .marquee--cards. */
+.tstm-wall__row {
+  display: flex; overflow-x: auto; overflow-y: hidden;
+  scrollbar-width: none; -ms-overflow-style: none; -webkit-overflow-scrolling: touch;
+}
+.tstm-wall__row::-webkit-scrollbar { display: none; }
 
 .tstm-card {
   flex: 0 0 clamp(268px, 80vw, 344px); margin-right: clamp(1rem, 2vw, 1.25rem);

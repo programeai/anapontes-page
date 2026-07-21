@@ -298,22 +298,89 @@
   }
 
   // ----------------------------------------------------------------
-  // Muro de depoimentos (home) — duas esteiras em direções opostas.
-  // Clona os cards de cada linha para o loop contínuo (translateX -50%
-  // volta exatamente ao início). Sem animação em prefers-reduced-motion,
-  // onde a linha vira scroll horizontal manual, então não clonamos.
+  // Carrosséis contínuos (home) — depoimentos e tratamentos.
+  // Movidos por scrollLeft REAL (não por transform): o WebKit/iOS
+  // rasteriza conteúdo rolável de forma confiável, sem as camadas GPU
+  // animadas por transform que ficavam em branco no iPhone. Também deixa
+  // arrastar com o dedo. Sem auto-scroll em prefers-reduced-motion.
   // ----------------------------------------------------------------
-  var wallReduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var wallRows = document.querySelectorAll("[data-tstm-row]");
-  if (wallRows.length && !wallReduce) {
-    wallRows.forEach(function (row) {
-      var cards = Array.prototype.slice.call(row.children);
-      cards.forEach(function (card) {
+  var marqueeReduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function autoScroll(scroller, getLoopDist, dir, speed) {
+    var loopDist = getLoopDist();
+    function norm(p) {
+      if (loopDist <= 0) return 0;
+      p = p % loopDist;
+      return p < 0 ? p + loopDist : p;
+    }
+    var pos = dir < 0 ? loopDist : 0;
+    scroller.scrollLeft = pos;
+    pos = scroller.scrollLeft; // reata caso o navegador tenha limitado o scroll
+
+    var paused = false, last = 0;
+    function frame(t) {
+      if (!last) last = t;
+      var dt = (t - last) / 1000; last = t;
+      if (dt > 0.1) dt = 0.1; // evita salto ao voltar de aba oculta
+      if (!paused && loopDist > 0) {
+        pos = norm(pos + dir * speed * dt);
+        scroller.scrollLeft = pos;
+      }
+      window.requestAnimationFrame(frame);
+    }
+    window.requestAnimationFrame(frame);
+
+    function pause() { paused = true; }
+    function resume() { pos = norm(scroller.scrollLeft); last = 0; paused = false; }
+    scroller.addEventListener("mouseenter", pause);
+    scroller.addEventListener("mouseleave", resume);
+    scroller.addEventListener("focusin", pause);
+    scroller.addEventListener("focusout", resume);
+    scroller.addEventListener("touchstart", pause, { passive: true });
+    scroller.addEventListener("touchend", function () { setTimeout(resume, 1500); }, { passive: true });
+    scroller.addEventListener("scroll", function () { if (paused) pos = scroller.scrollLeft; }, { passive: true });
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) paused = true; else resume();
+    });
+    var rz;
+    window.addEventListener("resize", function () {
+      clearTimeout(rz);
+      rz = setTimeout(function () {
+        var ratio = loopDist > 0 ? pos / loopDist : 0;
+        loopDist = getLoopDist();
+        pos = norm(loopDist * ratio);
+        scroller.scrollLeft = pos;
+      }, 200);
+    });
+  }
+
+  if (!marqueeReduce) {
+    // Depoimentos: duas fileiras em direções opostas. Clona os cards de cada
+    // fileira (offsetLeft do 1º clone = distância exata de um ciclo).
+    var wRows = document.querySelectorAll("[data-tstm-row]");
+    Array.prototype.forEach.call(wRows, function (row, i) {
+      var n = row.children.length;
+      Array.prototype.slice.call(row.children).forEach(function (card) {
         var clone = card.cloneNode(true);
         clone.setAttribute("aria-hidden", "true");
         row.appendChild(clone);
       });
+      autoScroll(row, function () {
+        var a = row.children[0], b = row.children[n];
+        return (a && b) ? (b.offsetLeft - a.offsetLeft) : 0;
+      }, i === 0 ? 1 : -1, 40);
     });
+
+    // Tratamentos: uma esteira. Scroller = .marquee--cards; os cards ficam em
+    // .marquee__track, que já traz 2 grupos idênticos no HTML (não clona de novo).
+    var tScroller = document.querySelector(".marquee--cards");
+    var tTrack = tScroller && tScroller.querySelector(".marquee__track");
+    if (tTrack && tTrack.children.length >= 2) {
+      autoScroll(tScroller, function () {
+        var a = tTrack.children[0], b = tTrack.children[1];
+        return (a && b) ? (b.offsetLeft - a.offsetLeft) : 0;
+      }, 1, 55);
+    }
   }
 
   // ----------------------------------------------------------------
