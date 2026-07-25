@@ -8,20 +8,20 @@ Medical registration: CRM 16743 PB
 
 ## Core pages
 - Home: https://www.draanapontes.com.br/
-- Tratamentos: https://www.draanapontes.com.br/tratamentos
+- Tratamentos: https://www.draanapontes.com.br/tratamentos.html
 
 ## Treatment pages
-- Botox: https://www.draanapontes.com.br/detalhes/botox
-- Preenchimento facial: https://www.draanapontes.com.br/detalhes/preenchimento-facial
-- Radiesse: https://www.draanapontes.com.br/detalhes/radiesse
-- Culote: https://www.draanapontes.com.br/detalhes/culote
-- Harmonizacao glutea: https://www.draanapontes.com.br/detalhes/harmonizacao-glutea
-- Lavieen + PDRN: https://www.draanapontes.com.br/detalhes/lavieen-pdrn
-- PDRN injetavel: https://www.draanapontes.com.br/detalhes/pdrn-injetavel
-- PDRN mesoject: https://www.draanapontes.com.br/detalhes/pdrn-mesoject
-- Fios lisos: https://www.draanapontes.com.br/detalhes/fios-lisos
-- Fios de tracao: https://www.draanapontes.com.br/detalhes/fios-de-tracao
-- Ultrassom microfocado: https://www.draanapontes.com.br/detalhes/ultrassom-microfocado
+- Botox: https://www.draanapontes.com.br/detalhes/botox.html
+- Preenchimento facial: https://www.draanapontes.com.br/detalhes/preenchimento-facial.html
+- Radiesse: https://www.draanapontes.com.br/detalhes/radiesse.html
+- Culote: https://www.draanapontes.com.br/detalhes/culote.html
+- Harmonizacao glutea: https://www.draanapontes.com.br/detalhes/harmonizacao-glutea.html
+- Lavieen + PDRN: https://www.draanapontes.com.br/detalhes/lavieen-pdrn.html
+- PDRN injetavel: https://www.draanapontes.com.br/detalhes/pdrn-injetavel.html
+- PDRN mesoject: https://www.draanapontes.com.br/detalhes/pdrn-mesoject.html
+- Fios lisos: https://www.draanapontes.com.br/detalhes/fios-lisos.html
+- Fios de tracao: https://www.draanapontes.com.br/detalhes/fios-de-tracao.html
+- Ultrassom microfocado: https://www.draanapontes.com.br/detalhes/ultrassom-microfocado.html
 
 ## Contact and brand entities
 - WhatsApp: https://wa.me/message/44CXA4J53PNUC1
