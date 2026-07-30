@@ -221,18 +221,35 @@ após o container ser publicado.
 > A dúvida sobre o GA4 estar sem medição desde a remoção do `gtag.js` (`bf8c39a`)
 > está **resolvida: o GA4 está medindo normalmente.**
 
-**Não verificável por automação:** os beacons `POST/GET https://www.facebook.com/tr/`
-não saem em navegador automatizado. O pixel aceita os eventos (`eventCount` sobe), mas
-não os transmite. Causa provável: `navigator.webdriver === true` combinado com
-`enableEventSuppression: true`, que vem na própria config do pixel — o fbevents.js se
-recusa a transmitir de um contexto de automação.
+**Confirmado em navegador real (Meta Pixel Helper):** o pixel é detectado na página.
+Levou alguns minutos após o publish do container para aparecer — propagação normal, não
+erro de configuração.
 
-Descartado como falso positivo do método: um beacon de controle disparado à mão
-(`new Image().src = '...facebook.com/tr/?...'`) **foi** capturado, provando que o
-caminho de rede e a instrumentação funcionam. A supressão é interna ao `fbevents.js`.
+### 5.2 Por que automação não valida o Meta Pixel — não repita esse caminho
 
-**Portanto a validação dos eventos do Meta tem de ser feita em navegador real** — ver
-passo 5. Não há como fechar essa checagem por script.
+Fica registrado para ninguém gastar tempo de novo. Em navegador automatizado
+(Playwright, headless novo ou antigo) o pixel **inicializa mas não transmite**:
+`fbq('init')` e `fbq('track','PageView')` são chamados, `eventCount` sobe, e nenhum
+beacon `https://www.facebook.com/tr/` sai — nem após 12s, `pagehide` ou navegação.
+
+Não é limitação da instrumentação: beacons de controle disparados à mão pelas três vias
+(`new Image()`, `navigator.sendBeacon`, e `/tr` direto) **foram todos capturados**.
+
+A causa foi isolada comparando dois IDs na mesma página mínima, no mesmo domínio:
+
+| Pixel | Config que o Meta devolve | Beacon `/tr` |
+|---|---|---|
+| `4167985703499554` (válido) | inclui `enableEventSuppression: true`, `delayInMs: 200`, coleta de *browser properties* | **nenhum** |
+| ID inexistente | genérica, sem supressão | dispara na hora |
+
+Um dataset válido recebe config que **segura** o evento até a coleta de browser
+properties concluir. Em navegador real conclui (com pequeno atraso perceptível); em
+contexto automatizado, não libera. Efeito colateral perverso: um ID **inválido** parece
+"funcionar" no teste automatizado e o válido parece quebrado — exatamente o inverso da
+realidade.
+
+**Conclusão operacional:** GA4 se valida por script; **Meta Pixel, não.** Use Pixel
+Helper e Events Manager → Testar eventos, em navegador real.
 
 ---
 
