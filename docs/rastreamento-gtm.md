@@ -6,8 +6,9 @@ Este site já está **instrumentado no código** e o container GTM
 `4167985703499554` (passo 4), mais os acionadores dos eventos.
 
 Nenhuma mudança de código é necessária para as tags: os eventos já estão no
-`dataLayer`, o pixel entra inteiro pelo GTM. A única pendência de código do
-rastreamento é a **página de política de privacidade** (ver o final do documento).
+`dataLayer`, o pixel entra inteiro pelo GTM. A **política de privacidade** — que era a
+única pendência de código do rastreamento — está no ar desde 2026-07-30 em
+`/politica-de-privacidade.html` (ver o final do documento).
 
 ## O que já está no código
 
@@ -281,16 +282,33 @@ otimizar o algoritmo, não para medir resultado absoluto. Não tente reconciliar
 — eles medem coisas diferentes. A correção de verdade seria a **Conversions API**, que
 exige servidor: o site é estático no GitHub Pages, então hoje não há onde rodar.
 
-### 3. Aviso de privacidade (LGPD)
+### 3. Aviso de privacidade (LGPD) ✅ FEITO (2026-07-30)
 
-O site **não tem página de política de privacidade** nem aviso de tratamento de dados.
-Com pixel de remarketing instalado e verba rodando, isso passa a ser exposição real: a
-LGPD exige base legal e transparência, e os próprios Termos das Ferramentas de
-Negócios do Meta obrigam o anunciante a informar o visitante sobre a coleta.
+`/politica-de-privacidade.html` no ar, linkada no rodapé das 15 páginas e no
+`sitemap.xml`. Cobre o que o código realmente coleta — dados técnicos e de uso, UTMs,
+`gclid`/`fbclid`, eventos do `dataLayer`, respostas do quiz e os dados enviados no
+WhatsApp — com base legal por finalidade, cookies de GA4/Google Ads/Meta Pixel com
+validade, transferência internacional (art. 33), direitos do titular (art. 18) e
+formas de recusar o rastreamento.
 
-Criar uma página simples de política de privacidade (com menção a GA4, Meta Pixel e
-finalidade) e linkar no rodapé resolve. **Isso sim é trabalho no repositório** — é o
-único item de código pendente do rastreamento, e não estava mapeado até agora.
+Isso atende à exigência da LGPD de base legal e transparência e aos Termos das
+Ferramentas de Negócios do Meta, que obrigam o anunciante a informar o visitante
+sobre a coleta.
+
+**Se as tags mudarem, a política tem de mudar junto.** Ao adicionar uma ferramenta
+nova (TikTok Pixel, Clarity, Hotjar, CAPI), atualize a tabela do item 6 e a data no
+topo da página.
+
+Pendências opcionais, decisão da cliente:
+
+- **E-mail dedicado** (ex.: `privacidade@draanapontes.com.br`) no item 1 — hoje o canal
+  de exercício de direitos é o WhatsApp/telefone, o que é válido, mas um e-mail
+  documenta melhor a resposta em 15 dias.
+- **CNPJ/razão social** no item 1, se o atendimento é faturado por pessoa jurídica.
+- **Banner de consentimento** — a LGPD não exige opt-in prévio nos termos do GDPR, mas
+  a orientação da ANPD é de consentimento para cookies de publicidade. Com verba
+  rodando, é o próximo passo natural de blindagem; exige carregar as tags de Ads/Pixel
+  só após o aceite (modo de consentimento no GTM).
 
 ## Otimização de campanha (lembrete de estratégia)
 
