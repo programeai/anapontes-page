@@ -78,4 +78,10 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://www.draanapontes.com.br/politica-de-privacidade.html</loc>
+    <lastmod>2026-07-30</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
 </urlset>
