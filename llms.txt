@@ -26,6 +26,7 @@ Medical registration: CRM 16743 PB
 ## Objective pages (organized by patient complaint, not by procedure)
 - Nariz sem cirurgia (rinomodelacao com acido hialuronico): https://www.draanapontes.com.br/objetivos/nariz-sem-cirurgia.html
 - Olheira funda (preenchimento do sulco lacrimal): https://www.draanapontes.com.br/objetivos/olheira-funda.html
+- Preenchimento labial natural (labios com acido hialuronico): https://www.draanapontes.com.br/objetivos/preenchimento-labial-natural.html
 
 ## Contact and brand entities
 - WhatsApp: https://wa.me/message/44CXA4J53PNUC1
