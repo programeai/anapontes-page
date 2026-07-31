@@ -21,9 +21,9 @@ Nenhuma mudança de código é necessária para as tags: os eventos já estão n
 
 | Evento (`event`)  | Quando dispara                            | Parâmetros úteis |
 |-------------------|-------------------------------------------|------------------|
-| `view_content`    | Ao abrir uma página `/detalhes/*.html`    | `procedure_slug`, `procedure_name`, `utm_*`, `gclid`, `fbclid` |
+| `view_content`    | Ao abrir uma página `/detalhes/*.html` ou uma LP de dor `/objetivos/*.html` | `content_type` (`procedure`\|`objective`), `procedure_slug`, `procedure_name`, `utm_*`, `gclid`, `fbclid` |
 | `whatsapp_click`  | Ao clicar em qualquer botão de WhatsApp   | `procedure_slug`, `procedure_name`, `link_url`, `utm_*` |
-| `qualify_select`  | Ao escolher o prazo no bloco da home      | `qualify_prazo`, `procedure_slug` |
+| `qualify_select`  | Ao responder um grupo da banda de micro-qualificação (`/detalhes/` e `/objetivos/`) | `qualify_group`, `qualify_value`, `qualify_<grupo>`, `procedure_slug` |
 | `quiz_start`      | Ao iniciar o quiz de qualificação         | `quiz_variant` |
 | `quiz_complete`   | Ao terminar o quiz                        | `quiz_objetivo`, `quiz_regiao`, `quiz_prazo` |
 
@@ -125,7 +125,7 @@ personalizado correspondente (os mesmos criados no passo 3).
 | Tag | Acionador (evento personalizado) | Evento no Meta |
 |---|---|---|
 | `Meta — ViewContent` | `view_content` | `ViewContent` (padrão) |
-| `Meta — Contact` | `whatsapp_click` | `Contact` (padrão) |
+| `Meta — Contact` | `whatsapp_click` | `Contact` (padrão) — **ver 4.5 antes de usar como conversão** |
 | `Meta — Lead` | `quiz_complete` | `Lead` (padrão) |
 | `Meta — QuizStart` | `quiz_start` | `QuizStart` (personalizado) |
 
@@ -168,6 +168,54 @@ As tags vão **sem parâmetros de propósito** — ver 4.4.
 `qualify_select` fica **fora** do pixel de propósito — é micro-evento de meio de
 funil, útil no GA4 para entender a qualificação, mas no Meta só adiciona ruído à
 otimização. Sem valor incremental para a campanha.
+
+> Revisão de 2026-07-31: a decisão continua valendo, mas o motivo mudou de peso.
+> Quando ela foi tomada, `qualify_select` era só a escolha de prazo. Hoje a banda tem
+> um grupo `caso` e o evento passou a ser o sinal mais qualificado que a página produz,
+> então ele volta a ser candidato a evento de otimização **enquanto o volume de conversa
+> real não sustentar aprendizado** (um conjunto precisa de ~50 conversões por semana, e
+> um consultório solo não gera isso). Se for usado, vale **só o evento**: o parâmetro
+> com a resposta de caso é proibido, ver 4.5.
+
+### 4.5 O evento de conversão vem do CRM, não do clique
+
+Mapear `whatsapp_click` como `Contact` e tratar isso como conversão mede a coisa errada,
+e é a diferença entre comprar conversa e comprar clique:
+
+- clique não é conversa: a paciente pode abrir o WhatsApp e nunca digitar;
+- quem clica em três CTAs gera três eventos;
+- otimizando por esse sinal, o Meta vai buscar justamente quem clica sem falar.
+
+A correção não é no pixel, é na arquitetura. O lead entra no CRM pela banda de
+qualificação (via [../worker/](../worker/), que guarda o token fora do navegador) e
+**é o CRM que dispara os eventos de conversão**, pela integração nativa de CAPI, a
+partir do estágio do lead:
+
+| Estágio no CRM | Evento no Meta | O que significa |
+|---|---|---|
+| lead novo | `Lead` | pessoa real, com telefone, atribuída à campanha |
+| agendou | `Schedule` | intenção confirmada |
+| compareceu | `Purchase` | paciente de verdade |
+
+Vantagens de o evento nascer no servidor do CRM: não morre em bloqueador nem no ITP do
+Safari, que é o público principal; carrega telefone hasheado, que casa muito melhor no
+CAPI do que `fbclid` sozinho; e permite deduplicar por `event_id`, que o Worker já
+repassa.
+
+Papéis, para não confundir na hora de configurar:
+
+| Sinal | Onde vive | Para que serve |
+|---|---|---|
+| `whatsapp_click` | GA4 | topo de funil, interesse |
+| `qualify_select` | GA4 (e Meta, se preciso por volume) | qualificação |
+| `Lead` / `Schedule` / `Purchase` | Meta, via CAPI do CRM | conversão e otimização |
+
+**Nunca envie a resposta de caso ao Meta.** O campo `caso` (*"já fiz preenchimento com
+produto definitivo"*, *"tenho bolsa ou inchaço na região"*) é dado de saúde, e vale para
+ele a mesma proibição do 4.4, com a mesma penalidade sobre a conta de anúncios. O Worker
+isola esses campos em `custom_fields` para facilitar a conferência, mas **vários CRMs
+incluem todos os campos personalizados no evento de CAPI por padrão**: isso precisa ser
+verificado no painel do CRM, não presumido.
 
 #### 4.4 Não mande `procedure_slug`/`procedure_name` como parâmetro do pixel
 
