@@ -24,6 +24,22 @@
   <meta name="twitter:image" content="https://www.draanapontes.com.br/assets/treatments/preenchimento-acido-hialuronico.webp">
   <link rel="preload" as="image" href="/assets/treatments/preenchimento-acido-hialuronico.webp" fetchpriority="high">
   <link rel="stylesheet" href="/css/styles.css">
+  <script>
+  /* Modo campanha: quem chega de anúncio vê a LP sem a navegação do site, que
+     numa página paga é só rota de fuga. Roda inline no <head> para a classe
+     existir antes da primeira pintura, senão o menu aparece e desaparece.
+     Busca orgânica e Googlebot não têm esses parâmetros e veem o site inteiro. */
+  (function () {
+    var q = window.location.search;
+    var paid = /[?&](fbclid|gclid|ttclid|msclkid)=/i.test(q) ||
+      /[?&]utm_medium=(cpc|ppc|paid|paid[_-]?social|social[_-]?paid)/i.test(q);
+    try {
+      if (paid) { sessionStorage.setItem("dap_campaign", "1"); }
+      paid = paid || sessionStorage.getItem("dap_campaign") === "1";
+    } catch (e) { /* sessionStorage indisponível: vale só o parâmetro da URL */ }
+    if (paid) { document.documentElement.classList.add("is-campaign"); }
+  })();
+  </script>
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -723,7 +739,7 @@
           <p style="color:#c4bcb1;max-width:38ch">Especialista em Rejuvenescimento Natural e Estética Avançada em João Pessoa. Procedimentos como Botox e Radiesse, além de tecnologias para flacidez.</p>
           <a class="btn btn--primary" href="https://wa.me/message/44CXA4J53PNUC1" target="_blank" rel="noopener">Falar no WhatsApp</a>
         </div>
-        <div class="footer">
+        <div class="footer" data-campaign-hide>
           <h4>Navegue</h4>
           <ul>
             <li><a href="/#inicio">Início</a></li>

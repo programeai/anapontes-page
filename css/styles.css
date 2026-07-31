@@ -757,3 +757,19 @@ ul.checks li::before {
 
 .footer__bottom a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .16em; }
 .footer__bottom a:hover { color: var(--bronze); }
+
+/* --- Modo campanha ---------------------------------------------------------
+   As LPs de dor em /objetivos/ servem dois públicos na mesma URL: tráfego pago
+   e busca orgânica. Quem chega de anúncio (fbclid, gclid ou utm_medium pago)
+   recebe a página sem a navegação do site, porque menu de header é rota de fuga
+   numa LP paga. Quem chega da busca, e o Googlebot, nunca têm esses parâmetros,
+   então continuam vendo o site inteiro navegável. O conteúdo é o mesmo nos dois
+   casos: o que muda é só a navegação.
+   A classe é aplicada por um script inline no <head> da LP, antes da primeira
+   pintura, para o menu não aparecer e desaparecer. O logo continua levando à
+   home, então nunca existe beco sem saída. */
+.is-campaign .nav__menu,
+.is-campaign .nav__toggle,
+.is-campaign [data-campaign-hide] { display: none; }
+.is-campaign .footer__grid { grid-template-columns: 1.4fr 1fr; }
+@media (max-width: 760px) { .is-campaign .footer__grid { grid-template-columns: 1fr; } }
