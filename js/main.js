@@ -119,7 +119,8 @@
   // nome que entra na mensagem do WhatsApp é o da dor que a paciente reconhece.
   var WA_OBJECTIVES = {
     "nariz-sem-cirurgia": "Rinomodelação (nariz sem cirurgia)",
-    "olheira-funda": "Preenchimento de Olheiras"
+    "olheira-funda": "Preenchimento de Olheiras",
+    "preenchimento-labial-natural": "Preenchimento Labial"
   };
 
   function pageProcedure() {
