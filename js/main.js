@@ -115,9 +115,18 @@
     "fios-lisos": "Fios PDO Lisos"
   };
 
+  // LPs de dor em /objetivos/ — o eixo é a queixa, não o procedimento, então o
+  // nome que entra na mensagem do WhatsApp é o da dor que a paciente reconhece.
+  var WA_OBJECTIVES = {
+    "nariz-sem-cirurgia": "Rinomodelação (nariz sem cirurgia)"
+  };
+
   function pageProcedure() {
     var m = window.location.pathname.match(/\/detalhes\/([^\/.]+)\.html/);
-    return m && WA_PROCEDURES[m[1]] ? { slug: m[1], name: WA_PROCEDURES[m[1]] } : null;
+    if (m && WA_PROCEDURES[m[1]]) { return { slug: m[1], name: WA_PROCEDURES[m[1]] }; }
+    m = window.location.pathname.match(/\/objetivos\/([^\/.]+)\.html/);
+    if (m && WA_OBJECTIVES[m[1]]) { return { slug: m[1], name: WA_OBJECTIVES[m[1]] }; }
+    return null;
   }
 
   function pageWaMessage() {

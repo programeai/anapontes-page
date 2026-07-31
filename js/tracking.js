@@ -3,7 +3,11 @@
  * ------------------------------------------------------------------
  * Dispara eventos no dataLayer para o GTM roteá-los ao Meta Pixel e ao GA4:
  *   - view_content    : ao abrir uma página de procedimento (/detalhes/*.html)
+ *                       ou uma LP de dor (/objetivos/*.html)
  *   - whatsapp_click  : ao clicar em qualquer botão/link que leve ao WhatsApp
+ *
+ * O campo content_type distingue "procedure" de "objective", para que o funil
+ * de campanha paga não se misture com o funil de busca por procedimento.
  *
  * Também captura os parâmetros de campanha (utm_*, gclid, fbclid) da landing
  * e os anexa aos eventos, permitindo saber qual campanha gerou cada conversa.
@@ -55,11 +59,24 @@
     "fios-lisos": "Fios Lisos"
   };
 
+  // Mapa slug -> nome legível das LPs de dor em /objetivos/. Elas usam um
+  // content_type próprio ("objective") para que o funil de campanha possa ser
+  // lido separado do funil de procedimento no GA4 e no Meta.
+  var OBJECTIVES = {
+    "nariz-sem-cirurgia": "Rinomodelação (nariz sem cirurgia)"
+  };
+
   function currentProcedure() {
-    var m = window.location.pathname.match(/\/detalhes\/([^\/.]+)\.html/);
-    if (!m) { return null; }
-    var slug = m[1];
-    return { slug: slug, name: PROCEDURES[slug] || slug };
+    var path = window.location.pathname;
+    var m = path.match(/\/detalhes\/([^\/.]+)\.html/);
+    if (m) {
+      return { slug: m[1], name: PROCEDURES[m[1]] || m[1], type: "procedure" };
+    }
+    m = path.match(/\/objetivos\/([^\/.]+)\.html/);
+    if (m) {
+      return { slug: m[1], name: OBJECTIVES[m[1]] || m[1], type: "objective" };
+    }
+    return null;
   }
 
   var proc = currentProcedure();
@@ -73,11 +90,11 @@
     return obj;
   }
 
-  // 2) ViewContent — só nas páginas de procedimento.
+  // 2) ViewContent — nas páginas de procedimento e nas LPs de dor.
   if (proc) {
     window.dataLayer.push(withAttribution({
       event: "view_content",
-      content_type: "procedure",
+      content_type: proc.type,
       procedure_slug: proc.slug,
       procedure_name: proc.name
     }));
@@ -99,7 +116,7 @@
     if (!link) { return; }
     window.dataLayer.push(withAttribution({
       event: "whatsapp_click",
-      content_type: proc ? "procedure" : "home",
+      content_type: proc ? proc.type : "home",
       procedure_slug: proc ? proc.slug : "home",
       procedure_name: proc ? proc.name : "Home",
       link_url: link.href
