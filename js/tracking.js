@@ -63,7 +63,8 @@
   // content_type próprio ("objective") para que o funil de campanha possa ser
   // lido separado do funil de procedimento no GA4 e no Meta.
   var OBJECTIVES = {
-    "nariz-sem-cirurgia": "Rinomodelação (nariz sem cirurgia)"
+    "nariz-sem-cirurgia": "Rinomodelação (nariz sem cirurgia)",
+    "olheira-funda": "Preenchimento de Olheiras"
   };
 
   function currentProcedure() {

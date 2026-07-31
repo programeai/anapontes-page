@@ -118,7 +118,8 @@
   // LPs de dor em /objetivos/ — o eixo é a queixa, não o procedimento, então o
   // nome que entra na mensagem do WhatsApp é o da dor que a paciente reconhece.
   var WA_OBJECTIVES = {
-    "nariz-sem-cirurgia": "Rinomodelação (nariz sem cirurgia)"
+    "nariz-sem-cirurgia": "Rinomodelação (nariz sem cirurgia)",
+    "olheira-funda": "Preenchimento de Olheiras"
   };
 
   function pageProcedure() {
