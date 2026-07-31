@@ -1,0 +1,27 @@
+name = "dap-lead-bridge"
+main = "src/index.js"
+compatibility_date = "2026-07-30"
+workers_dev = true
+
+# Limitação de envios por IP. É opcional: sem este binding o Worker funciona e
+# só não limita. Criar com:
+#   npx wrangler kv namespace create RL
+# e colar o id devolvido aqui.
+# [[kv_namespaces]]
+# binding = "RL"
+# id = "cole-o-id-aqui"
+
+[vars]
+# Interruptor de emergência: "1" desliga o endpoint sem redeploy.
+PAUSED = "0"
+# URL de criação de lead no CRM. Não é segredo, então mora aqui.
+CRM_URL = ""
+
+# CRM_TOKEN é segredo e NÃO entra neste arquivo. Definir com:
+#   npx wrangler secret put CRM_TOKEN
+
+# Rota em domínio próprio. Só funciona com o DNS do domínio na Cloudflare;
+# sem isso, o Worker responde na URL *.workers.dev, que também serve.
+# [[routes]]
+# pattern = "api.draanapontes.com.br/lead"
+# custom_domain = true

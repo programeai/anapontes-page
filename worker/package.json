@@ -1,0 +1,11 @@
+{
+  "name": "dap-lead-bridge",
+  "private": true,
+  "type": "module",
+  "description": "Ponte site -> CRM: guarda o token do CRM fora do navegador",
+  "scripts": {
+    "test": "node test/index.test.mjs",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail"
+  }
+}
