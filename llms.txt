@@ -23,6 +23,9 @@ Medical registration: CRM 16743 PB
 - Fios de tracao: https://www.draanapontes.com.br/detalhes/fios-de-tracao.html
 - Ultrassom microfocado: https://www.draanapontes.com.br/detalhes/ultrassom-microfocado.html
 
+## Objective pages (organized by patient complaint, not by procedure)
+- Nariz sem cirurgia (rinomodelacao com acido hialuronico): https://www.draanapontes.com.br/objetivos/nariz-sem-cirurgia.html
+
 ## Contact and brand entities
 - WhatsApp: https://wa.me/message/44CXA4J53PNUC1
 - Instagram: https://www.instagram.com/draanapontesoficial/
