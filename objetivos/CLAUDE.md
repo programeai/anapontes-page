@@ -14,6 +14,7 @@ que resolve o conflito (ver abaixo).
 | Slug | Dor trabalhada | Procedimento por trás | Ficha |
 |---|---|---|---|
 | `nariz-sem-cirurgia` | "Queria mexer no nariz, mas não quero cirurgia" | Preenchimento facial (rinomodelação) | [nariz-sem-cirurgia.md](../docs/objetivos/nariz-sem-cirurgia.md) |
+| `olheira-funda` | "Durmo bem e continuo com cara de cansada" | Preenchimento facial (sulco lacrimal) | [olheira-funda.md](../docs/objetivos/olheira-funda.md) |
 
 ## Diferença para `/detalhes/`
 
