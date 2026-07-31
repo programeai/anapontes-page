@@ -111,6 +111,18 @@ mecanismo, não a promessa. Tem uma seção dedicada a isso no `.prose`.
 9. Quantos ml são usados no preenchimento de olheira?
 10. Quanto custa o preenchimento de olheira em João Pessoa?
 
+## Micro-qualificação (grupo `caso`)
+
+> **A sua olheira muda de intensidade conforme a luz?**
+> Sim, com luz de frente ela suaviza · Não, a cor é sempre a mesma ·
+> Tenho bolsa ou inchaço na região · Nunca observei
+
+É o teste indicativo da própria página virado pergunta, então quem leu já sabe responder.
+A terceira opção existe para capturar a contraindicação relativa (bolsa, edema) antes da
+consulta, que é justamente o caso em que preencher pode piorar. O `hint` avisa que a
+maioria dos quadros é mista e que nenhuma resposta exclui a paciente: sem isso, "a cor é
+sempre a mesma" faria alguém com quadro misto desistir sozinha.
+
 ## Campanha
 
 - **Canal:** Meta. **Não há criativo ainda** — esta LP nasceu pelo lado do SEO.

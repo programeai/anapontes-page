@@ -141,6 +141,17 @@ que comparar só o ml é enganoso porque o resultado vem do planejamento, sem ci
 9. O preenchimento labial levanta o canto da boca?
 10. Quanto custa o preenchimento labial em João Pessoa?
 
+## Micro-qualificação (grupo `caso`)
+
+> **Você já fez preenchimento nos lábios antes?**
+> Nunca fiz · Já fiz, com ácido hialurônico · Já fiz, mas não sei o produto ·
+> Já fiz com produto definitivo
+
+É a pergunta de maior valor clínico das três LPs: produto definitivo (PMMA) muda a
+análise da região e pode inviabilizar nova aplicação, e "não sei o produto" já avisa
+que a consulta precisa investigar o histórico. Chega na mensagem do WhatsApp antes da
+paciente sentar na cadeira.
+
 ## Campanha
 
 - **Canal:** Meta. **Não há criativo ainda.**

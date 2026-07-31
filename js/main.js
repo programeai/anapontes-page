@@ -148,40 +148,79 @@
   var waLinks = document.querySelectorAll(
     'a[href*="wa.me"], a[href*="api.whatsapp.com"], a[href*="whatsapp.com/send"]'
   );
-  waLinks.forEach(function (a) {
-    // o botão final do quiz é montado dinamicamente pela lógica do quiz
-    if (a.hasAttribute("data-quiz-send")) return;
-    var msg = a.getAttribute("data-wa-msg") || pageMsg;
-    a.href = buildWaHref(msg);
-  });
+
+  // Aplica uma mensagem a todos os CTAs de WhatsApp da página. É chamada no
+  // carregamento e novamente a cada resposta da micro-qualificação: assim a
+  // resposta enriquece também os CTAs que vêm depois do quiz, e não só o
+  // botão dele. Sem isso, quem responde e depois converte no CTA final manda
+  // uma mensagem genérica, e o caso se perde no caminho.
+  function applyWaMessage(msg) {
+    waLinks.forEach(function (a) {
+      // o botão final do quiz da home é montado pela própria lógica do quiz
+      if (a.hasAttribute("data-quiz-send")) return;
+      a.href = buildWaHref(a.getAttribute("data-wa-msg") || msg);
+    });
+  }
+
+  applyWaMessage(pageMsg);
 
   // ----------------------------------------------------------------
-  // Micro-qualificação nas páginas de procedimento — o visitante conta
-  // quando pretende começar e a mensagem do WhatsApp chega enriquecida
-  // (procedimento + prazo), sem sair da página.
+  // Micro-qualificação — a visitante descreve o caso e o prazo, e a mensagem
+  // do WhatsApp chega enriquecida, sem sair da página. Aceita um ou mais
+  // grupos de pergunta: cada `.qualify` é um grupo independente, nomeado por
+  // `data-qualify-group`. As páginas de /detalhes/ usam um grupo (prazo); as
+  // LPs de dor em /objetivos/ usam dois (caso + prazo).
+  //
+  // A resposta nunca gera veredito na tela. Ela só descreve o caso para a
+  // médica, porque indicação sem avaliação presencial é ato médico.
   // ----------------------------------------------------------------
   var qualifyBand = document.querySelector("[data-qualify]");
   if (qualifyBand) {
-    var qualifySend = qualifyBand.querySelector("[data-qualify-send]");
-    var qualifyOpts = qualifyBand.querySelectorAll(".qualify__opt");
+    var qualifyGroups = qualifyBand.querySelectorAll(".qualify");
     var qualifyProc = pageProcedure();
 
-    qualifyOpts.forEach(function (opt) {
-      opt.addEventListener("click", function () {
-        qualifyOpts.forEach(function (o) { o.classList.remove("is-selected"); });
-        opt.classList.add("is-selected");
-        var part = opt.getAttribute("data-value");
-        var msg = "Olá, Dra. Ana! Vim pela página de " +
-          (qualifyProc ? qualifyProc.name : "tratamentos") + " no site, " + part +
-          " e gostaria de agendar uma avaliação individual.";
-        if (qualifySend) qualifySend.href = buildWaHref(msg);
-        if (window.dataLayer) {
-          window.dataLayer.push({
-            event: "qualify_select",
-            qualify_prazo: opt.textContent.trim(),
-            procedure_slug: qualifyProc ? qualifyProc.slug : ""
-          });
+    function upperFirst(s) {
+      return s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+    }
+
+    // Uma frase por resposta. Juntar as respostas com "e" produziria erro de
+    // pontuação quando os sujeitos são diferentes ("minha olheira muda… e
+    // pretendo começar…"), então cada uma vira uma sentença própria.
+    function qualifyMessage() {
+      var msg = "Olá, Dra. Ana! Vim pela página de " +
+        (qualifyProc ? qualifyProc.name : "tratamentos") + " no site.";
+      qualifyGroups.forEach(function (group) {
+        var picked = group.querySelector(".qualify__opt.is-selected");
+        if (picked) {
+          msg += " " + upperFirst(picked.getAttribute("data-value")) + ".";
         }
+      });
+      return msg + " Gostaria de agendar uma avaliação individual.";
+    }
+
+    qualifyGroups.forEach(function (group) {
+      var opts = group.querySelectorAll(".qualify__opt");
+      var groupName = group.getAttribute("data-qualify-group") || "prazo";
+      opts.forEach(function (opt) {
+        opt.addEventListener("click", function () {
+          // a troca de seleção é por grupo, não na banda inteira
+          opts.forEach(function (o) { o.classList.remove("is-selected"); });
+          opt.classList.add("is-selected");
+          applyWaMessage(qualifyMessage());
+          if (window.dataLayer) {
+            var ev = {
+              event: "qualify_select",
+              qualify_group: groupName,
+              qualify_value: opt.textContent.trim(),
+              procedure_slug: qualifyProc ? qualifyProc.slug : ""
+            };
+            // `qualify_prazo` era o nome do parâmetro antes do segundo grupo
+            // existir. Continua sendo enviado para não quebrar o que já está
+            // montado no GTM e no GA4.
+            ev["qualify_" + groupName] = opt.textContent.trim();
+            window.dataLayer.push(ev);
+          }
+        });
       });
     });
   }

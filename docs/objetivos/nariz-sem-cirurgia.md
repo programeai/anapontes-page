@@ -99,6 +99,16 @@ e na primeira pergunta do FAQ.
 5. Posso fazer rinomodelação se já fiz rinoplastia?
 6. Quanto custa a rinomodelação em João Pessoa?
 
+## Micro-qualificação (grupo `caso`)
+
+> **O que mais te incomoda no seu nariz?**
+> A giba no perfil · A ponta · Um desvio ou assimetria · Ainda não sei dizer
+
+Escolhida porque separa na entrada o que a rinomodelação atende do que ela não atende:
+giba e ponta costumam responder, desvio e assimetria dependem de exame. O `hint` da
+pergunta diz que é a avaliação presencial que define se o caso pede cirurgia, então a
+resposta nunca funciona como veredito. Cai na mensagem do WhatsApp como frase própria.
+
 ## Campanha
 
 - **Canal:** Meta (criativo de 15s cortado para ~10s — planejamento + ação, **sem** o
