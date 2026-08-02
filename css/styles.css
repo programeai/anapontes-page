@@ -758,6 +758,15 @@ ul.checks li::before {
 .footer__bottom a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .16em; }
 .footer__bottom a:hover { color: var(--bronze); }
 
+/* O crédito de autoria assina o site como marca pessoal, então sai do cinza do
+   rodapé e ganha a cor da marca. O sublinhado fica apagado em repouso e acende
+   na interação, para destacar sem competir com o CTA de WhatsApp. */
+.footer__bottom a.footer__credit { color: var(--bronze-dark); font-weight: 600;
+  text-decoration-color: rgba(133,98,60,.35);
+  transition: color .18s ease, text-decoration-color .18s ease; }
+.footer__bottom a.footer__credit:hover,
+.footer__bottom a.footer__credit:focus-visible { color: var(--bronze-dark); text-decoration-color: currentColor; }
+
 /* --- Modo campanha ---------------------------------------------------------
    As LPs de dor em /objetivos/ servem dois públicos na mesma URL: tráfego pago
    e busca orgânica. Quem chega de anúncio (fbclid, gclid ou utm_medium pago)
