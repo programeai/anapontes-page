@@ -322,9 +322,12 @@ html { scroll-padding-top: clamp(.75rem, 3vw, 1.25rem); }
 .ba-marquee .ba { flex: 0 0 min(88vw, 540px); }
 /* Gap menor que o padrão do marquee (1.25rem) entre um caso e outro. */
 .ba-marquee .marquee__track,
-.ba-marquee .marquee__group { gap: .25rem; }
+.ba-marquee .marquee__group { gap: .75rem; }
 
 .ba {
+  /* <figure> traz margin 1em 40px do UA — sem zerar, sobra ~80px entre os
+     casos do carrossel e o gap acima não tem efeito visível. */
+  margin: 0;
   position: relative; border-radius: var(--radius); overflow: hidden;
   background: var(--cream); box-shadow: var(--shadow);
   aspect-ratio: 4 / 3; touch-action: pan-y; user-select: none;
