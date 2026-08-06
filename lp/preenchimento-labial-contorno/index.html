@@ -128,17 +128,22 @@
               <span class="lp-rating__text"><strong>4,9</strong> · 120 avaliações no Google</span>
             </a>
             ------------------------------------------------------------------- -->
-
-            <div class="lp-trust">
-              <span class="lp-trust__item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Médica · CRM 16743 PB</span>
-              <span class="lp-trust__item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Ácido hialurônico com registro na Anvisa</span>
-              <span class="lp-trust__item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Consultório próprio em Manaíra, João Pessoa/PB</span>
-            </div>
           </div>
+
           <figure class="lp-hero__media">
             <img src="/assets/brand/dra-ana-pontes.webp" width="880" height="1100" fetchpriority="high" decoding="async"
                  alt="Dra. Ana Pontes, médica CRM 16743 PB, em seu consultório em João Pessoa">
           </figure>
+
+          <!-- Selos de confiança: item do grid, NÃO da coluna de texto. No mobile
+               eles caem DEPOIS do retrato (order: 3), para o rosto da médica
+               chegar antes das credenciais. No desktop voltam para baixo do CTA,
+               na coluna 1. -->
+          <div class="lp-trust">
+            <span class="lp-trust__item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Médica · CRM 16743 PB</span>
+            <span class="lp-trust__item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Ácido hialurônico com registro na Anvisa</span>
+            <span class="lp-trust__item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Consultório próprio em Manaíra, João Pessoa/PB</span>
+          </div>
         </div>
       </div>
     </section>
@@ -150,7 +155,7 @@
          WhatsApp aqui mesmo (só o passo ativo aparece, então fica compacto).
          ⚠️ Ao editar perguntas/opções, manter as DUAS em sincronia (mesmos
          data-value → mesma mensagem de WhatsApp e mesmo registro no CRM). -->
-    <section class="section" id="comecar">
+    <section class="section section--cream lp-quiz-top" id="comecar">
       <div class="lp-wrap">
         <div class="section__head" data-reveal>
           <h2>Vamos entender o seu caso?</h2>
@@ -238,7 +243,9 @@
     </section>
 
     <!-- ===== 2 · ESPELHO DA DOR ===== -->
-    <section class="section section--cream">
+    <!-- Fundo alternado: o quiz do topo ficou creme (o cartão branco salta),
+         então o espelho volta ao branco. A alternância segue daqui pra baixo. -->
+    <section class="section">
       <div class="lp-wrap">
         <div class="lp-mirror">
           <div class="section__head" data-reveal style="margin-bottom:.5rem">
@@ -268,14 +275,110 @@
     </section>
 
     <!-- ===== 3 · POR QUE ISSO ACONTECE ===== -->
-    <section class="section">
+    <!-- Bloco de leitura mais longo da página. No mobile ele é quebrado por um
+         destaque (.lp-callout) no meio, para não virar parede de texto. Ao
+         editar a copy, manter parágrafos curtos (3 a 4 linhas no celular). -->
+    <section class="section section--cream">
       <div class="lp-wrap">
         <div class="lp-prose" data-reveal>
-          <p class="lp-lede">Não é o batom. É o contorno.</p>
-          <p>Com o passar dos anos, a produção de colágeno na região ao redor da boca diminui naturalmente. O arco do cupido (aquele desenho na parte central do lábio superior) perde definição, e a pele perilabial forma sulcos finos e verticais. É por esses sulcos que o batom migra.</p>
-          <p>Ou seja: o problema não é estético no sentido superficial. É <strong>estrutural</strong>. Por isso, nenhum batom, primer ou lápis resolve de forma duradoura. A boa notícia é que estrutura se trata.</p>
-          <p>Esse processo é natural e acontece com todas as mulheres em ritmos diferentes. Identificar em que estágio ele está no seu caso é exatamente o papel de uma avaliação médica.</p>
+          <div class="lp-prose__head">
+            <p class="eyebrow eyebrow--plain">Por que isso acontece</p>
+            <p class="lp-lede">Não é o batom. É o contorno.</p>
+          </div>
+          <p>Com o passar dos anos, a produção de colágeno na região ao redor da boca diminui naturalmente. O arco do cupido (aquele desenho na parte central do lábio superior) perde definição.</p>
+          <p>A pele perilabial, então, forma sulcos finos e verticais. É por esses sulcos que o batom migra.</p>
+
+          <div class="lp-callout">
+            <svg class="contour lp-callout__mark" viewBox="0 0 24 14" aria-hidden="true"><use href="#contour-mark"></use></svg>
+            <p>O problema não é superficial, é <strong>estrutural</strong>. Por isso nenhum batom, primer ou lápis resolve de forma duradoura.</p>
+          </div>
+
+          <p>A boa notícia é que estrutura se trata. Esse processo é natural e acontece com todas as mulheres em ritmos diferentes.</p>
+          <p>Identificar em que estágio ele está no seu caso é exatamente o papel de uma avaliação médica.</p>
         </div>
+      </div>
+    </section>
+
+    <!--
+      ================================================================
+      6 · RESULTADOS · SEÇÃO CONDICIONAL, OCULTA POR PADRÃO
+      ----------------------------------------------------------------
+      ⚠️ POSIÇÃO: numerada como 6 na spec, mas vive AQUI, entre "por que
+      acontece" (3) e "a solução" (4). É o respiro visual no ponto em que o
+      texto mais pesa no celular, e a ordem fica dor → causa → prova →
+      solução. Ao editar, manter a seção neste lugar.
+
+      Componente de antes/depois PRONTO para receber as provas sociais
+      que a médica vai coletar. NÃO ativar sem:
+        1. termo de autorização de imagem ASSINADO por cada paciente;
+        2. leitura de /lp/CLAUDE.md (regra de compliance CFM + Meta).
+
+      ⚠️ AVISO DE MÍDIA PAGA: mesmo com autorização da paciente, a
+      política de Saúde Pessoal e Aparência do Meta proíbe antes/depois
+      no CRIATIVO do anúncio, e a penalidade cai sobre a conta inteira.
+      Esta seção pode viver na LANDING PAGE (com termo assinado), mas o
+      anúncio que aponta para cá NÃO pode conter antes/depois.
+
+      Para ativar: remova o atributo `hidden` de <section data-lp-results>,
+      troque as imagens `REPLACE-*.webp` pelas reais (mesmo ângulo/luz,
+      dimensões explícitas) e apague o bloco `.lp-results-empty`.
+      Se não houver material no lançamento, a página fecha sem esta seção.
+      ================================================================
+    -->
+    <!-- ⚠️ PREVIEW: seção temporariamente VISÍVEL com imagens de exemplo
+         (assets/lp/preview-*.svg) só para conferência de layout. NÃO SUBIR
+         assim. Para voltar ao estado de produção: (1) readicionar `hidden`
+         abaixo, (2) trocar os 4 `src` preview-*.svg pelas fotos reais
+         REPLACE-contorno-*.webp autorizadas, (3) reexibir o `.lp-results-empty`. -->
+    <section class="section" id="resultados" data-lp-results>
+      <div class="lp-wrap">
+        <div class="section__head" data-reveal>
+          <p class="eyebrow eyebrow--plain">Resultados reais, com naturalidade</p>
+          <h2>O contorno de volta, sem mudar quem você é</h2>
+        </div>
+
+        <!-- Antes/depois em carrossel contínuo: mesmo motor dos marquees do
+             site (.marquee--cards, rolado por scrollLeft via autoScroll no
+             lp.js). O lp.js clona este grupo (aria-hidden) para fechar o loop,
+             então basta manter os casos AQUI, num único grupo. Cada .ba
+             preserva o tamanho do componente (proporção 4/3). Em
+             prefers-reduced-motion o carrossel não rola e os casos ficam
+             lado a lado (o comparador vira par de imagens). -->
+        <div class="marquee--cards ba-marquee" data-ba-marquee aria-label="Casos de antes e depois">
+          <div class="marquee__track">
+            <div class="marquee__group">
+              <!-- CASO 1 -->
+              <figure class="ba" data-ba>
+                <img class="ba__img ba__img--antes" src="/assets/lp/preview-antes.svg" width="800" height="600" loading="lazy" decoding="async" alt="Imagem de exemplo, antes (caso 1)">
+                <img class="ba__img ba__img--depois" src="/assets/lp/preview-depois.svg" width="800" height="600" loading="lazy" decoding="async" alt="Imagem de exemplo, depois (caso 1)">
+                <span class="ba__tag ba__tag--antes">Antes</span>
+                <span class="ba__tag ba__tag--depois">Depois</span>
+                <span class="ba__divisor"></span>
+                <span class="ba__handle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="m9 6 6 6-6 6"/></svg></span>
+                <input class="ba__range" type="range" min="0" max="100" value="50" aria-label="Arraste para comparar antes e depois (caso 1)">
+                <figcaption>Preenchimento de contorno labial. Resultado individual: cada tratamento é planejado na avaliação.</figcaption>
+              </figure>
+              <!-- CASO 2 -->
+              <figure class="ba" data-ba>
+                <img class="ba__img ba__img--antes" src="/assets/lp/preview-antes.svg" width="800" height="600" loading="lazy" decoding="async" alt="Imagem de exemplo, antes (caso 2)">
+                <img class="ba__img ba__img--depois" src="/assets/lp/preview-depois.svg" width="800" height="600" loading="lazy" decoding="async" alt="Imagem de exemplo, depois (caso 2)">
+                <span class="ba__tag ba__tag--antes">Antes</span>
+                <span class="ba__tag ba__tag--depois">Depois</span>
+                <span class="ba__divisor"></span>
+                <span class="ba__handle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="m9 6 6 6-6 6"/></svg></span>
+                <input class="ba__range" type="range" min="0" max="100" value="50" aria-label="Arraste para comparar antes e depois (caso 2)">
+                <figcaption>Preenchimento de contorno labial. Resultado individual: cada tratamento é planejado na avaliação.</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+
+        <p class="lp-disclaimer">Imagens autorizadas pelas pacientes, sem edição. Resultados variam conforme características individuais. A avaliação médica presencial é indispensável.</p>
+
+        <!-- Placeholder visível enquanto não há material aprovado. Apague ao ativar.
+             (oculto durante o PREVIEW da seção; reexibir ao voltar a produção)
+        <div class="lp-results-empty">Espaço reservado para os casos de contorno (antes/depois). Será preenchido com o material autorizado que a Dra. Ana coletar com as pacientes.</div>
+        -->
       </div>
     </section>
 
@@ -283,10 +386,18 @@
     <section class="section section--cream">
       <div class="lp-wrap">
         <div class="lp-prose" data-reveal>
-          <p class="eyebrow eyebrow--plain" style="text-align:center">O tratamento</p>
-          <p class="lp-lede" style="text-align:center">Preenchimento de contorno: definição, não volume.</p>
-          <p>Existe uma diferença técnica importante que quase ninguém explica: preencher para dar <strong>volume</strong> e preencher para devolver <strong>contorno e sustentação</strong> são planejamentos diferentes, com pontos de aplicação e quantidades diferentes.</p>
-          <p>No seu caso, o objetivo não é uma boca maior, e sim a <strong>sua</strong> boca, com o desenho recuperado: o batom no lugar, o contorno visível nas fotos, e a naturalidade preservada. Quem convive com você percebe que você está bem. Não percebe procedimento.</p>
+          <!-- O .eyebrow é inline-flex: quem centraliza é o contêiner, não ele. -->
+          <div class="lp-prose__head">
+            <p class="eyebrow eyebrow--plain">O tratamento</p>
+            <p class="lp-lede">Preenchimento de contorno: definição, não volume.</p>
+          </div>
+          <p>Existe uma diferença técnica que quase ninguém explica: preencher para dar <strong>volume</strong> e preencher para devolver <strong>contorno e sustentação</strong> são planejamentos diferentes, com pontos de aplicação e quantidades diferentes.</p>
+          <p>No seu caso, o objetivo não é uma boca maior. É a <strong>sua</strong> boca, com o desenho recuperado: o batom no lugar, o contorno visível nas fotos, a naturalidade preservada.</p>
+
+          <div class="lp-callout">
+            <svg class="contour lp-callout__mark" viewBox="0 0 24 14" aria-hidden="true"><use href="#contour-mark"></use></svg>
+            <p>Quem convive com você percebe que você está bem. Não percebe procedimento.</p>
+          </div>
         </div>
 
         <div class="lp-diffs" data-reveal-group>
@@ -399,84 +510,6 @@
             </figure>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!--
-      ================================================================
-      6 · RESULTADOS · SEÇÃO CONDICIONAL, OCULTA POR PADRÃO
-      ----------------------------------------------------------------
-      Componente de antes/depois PRONTO para receber as provas sociais
-      que a médica vai coletar. NÃO ativar sem:
-        1. termo de autorização de imagem ASSINADO por cada paciente;
-        2. leitura de /lp/CLAUDE.md (regra de compliance CFM + Meta).
-
-      ⚠️ AVISO DE MÍDIA PAGA: mesmo com autorização da paciente, a
-      política de Saúde Pessoal e Aparência do Meta proíbe antes/depois
-      no CRIATIVO do anúncio, e a penalidade cai sobre a conta inteira.
-      Esta seção pode viver na LANDING PAGE (com termo assinado), mas o
-      anúncio que aponta para cá NÃO pode conter antes/depois.
-
-      Para ativar: remova o atributo `hidden` de <section data-lp-results>,
-      troque as imagens `REPLACE-*.webp` pelas reais (mesmo ângulo/luz,
-      dimensões explícitas) e apague o bloco `.lp-results-empty`.
-      Se não houver material no lançamento, a página fecha sem esta seção.
-      ================================================================
-    -->
-    <!-- ⚠️ PREVIEW: seção temporariamente VISÍVEL com imagens de exemplo
-         (assets/lp/preview-*.svg) só para conferência de layout. NÃO SUBIR
-         assim. Para voltar ao estado de produção: (1) readicionar `hidden`
-         abaixo, (2) trocar os 4 `src` preview-*.svg pelas fotos reais
-         REPLACE-contorno-*.webp autorizadas, (3) reexibir o `.lp-results-empty`. -->
-    <section class="section section--cream" id="resultados" data-lp-results>
-      <div class="lp-wrap">
-        <div class="section__head" data-reveal>
-          <p class="eyebrow eyebrow--plain">Resultados reais, com naturalidade</p>
-          <h2>O contorno de volta, sem mudar quem você é</h2>
-        </div>
-
-        <!-- Antes/depois em carrossel contínuo: mesmo motor dos marquees do
-             site (.marquee--cards, rolado por scrollLeft via autoScroll no
-             lp.js). O lp.js clona este grupo (aria-hidden) para fechar o loop,
-             então basta manter os casos AQUI, num único grupo. Cada .ba
-             preserva o tamanho do componente (proporção 4/3). Em
-             prefers-reduced-motion o carrossel não rola e os casos ficam
-             lado a lado (o comparador vira par de imagens). -->
-        <div class="marquee--cards ba-marquee" data-ba-marquee aria-label="Casos de antes e depois">
-          <div class="marquee__track">
-            <div class="marquee__group">
-              <!-- CASO 1 -->
-              <figure class="ba" data-ba>
-                <img class="ba__img ba__img--antes" src="/assets/lp/preview-antes.svg" width="800" height="600" loading="lazy" decoding="async" alt="Imagem de exemplo, antes (caso 1)">
-                <img class="ba__img ba__img--depois" src="/assets/lp/preview-depois.svg" width="800" height="600" loading="lazy" decoding="async" alt="Imagem de exemplo, depois (caso 1)">
-                <span class="ba__tag ba__tag--antes">Antes</span>
-                <span class="ba__tag ba__tag--depois">Depois</span>
-                <span class="ba__divisor"></span>
-                <span class="ba__handle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="m9 6 6 6-6 6"/></svg></span>
-                <input class="ba__range" type="range" min="0" max="100" value="50" aria-label="Arraste para comparar antes e depois (caso 1)">
-                <figcaption>Preenchimento de contorno labial. Resultado individual: cada tratamento é planejado na avaliação.</figcaption>
-              </figure>
-              <!-- CASO 2 -->
-              <figure class="ba" data-ba>
-                <img class="ba__img ba__img--antes" src="/assets/lp/preview-antes.svg" width="800" height="600" loading="lazy" decoding="async" alt="Imagem de exemplo, antes (caso 2)">
-                <img class="ba__img ba__img--depois" src="/assets/lp/preview-depois.svg" width="800" height="600" loading="lazy" decoding="async" alt="Imagem de exemplo, depois (caso 2)">
-                <span class="ba__tag ba__tag--antes">Antes</span>
-                <span class="ba__tag ba__tag--depois">Depois</span>
-                <span class="ba__divisor"></span>
-                <span class="ba__handle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="m9 6 6 6-6 6"/></svg></span>
-                <input class="ba__range" type="range" min="0" max="100" value="50" aria-label="Arraste para comparar antes e depois (caso 2)">
-                <figcaption>Preenchimento de contorno labial. Resultado individual: cada tratamento é planejado na avaliação.</figcaption>
-              </figure>
-            </div>
-          </div>
-        </div>
-
-        <p class="lp-disclaimer">Imagens autorizadas pelas pacientes, sem edição. Resultados variam conforme características individuais. A avaliação médica presencial é indispensável.</p>
-
-        <!-- Placeholder visível enquanto não há material aprovado. Apague ao ativar.
-             (oculto durante o PREVIEW da seção; reexibir ao voltar a produção)
-        <div class="lp-results-empty">Espaço reservado para os casos de contorno (antes/depois). Será preenchido com o material autorizado que a Dra. Ana coletar com as pacientes.</div>
-        -->
       </div>
     </section>
 
@@ -650,7 +683,12 @@
   <!-- CTA fixo no mobile. Nasce oculto; o lp.js o mostra depois do hero e o
        esconde quando o formulário está à vista (para não cobrir o destino).
        Sem JS, permanece oculto: degrada sem atrapalhar. -->
-  <a class="lp-sticky-cta" href="#qualificacao" data-sticky-cta hidden>Quero entender meu caso</a>
+  <a class="lp-sticky-cta" href="#qualificacao" data-sticky-cta hidden>
+    Quero entender meu caso
+    <span class="lp-sticky-cta__ico" aria-hidden="true">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+    </span>
+  </a>
 
   <!-- ===== 10 · RODAPÉ LEGAL ===== -->
   <footer class="lp-footer">
