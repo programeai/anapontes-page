@@ -24,11 +24,15 @@
 (function () {
   "use strict";
 
+  // Config por página: cada LP declara o próprio ângulo nos data-lp-* do <body>
+  // (ver /lp/CLAUDE.md). Os padrões abaixo são os da LP de contorno, então uma
+  // página sem os atributos continua funcionando como antes.
+  var pageCfg = document.body ? document.body.dataset : {};
   var LP_CONFIG = {
-    angulo: "contorno",
+    angulo: pageCfg.lpAngulo || "contorno",
     // Nome da página na mensagem do WhatsApp e nos eventos.
-    pagina: "contorno labial",
-    quizVariant: "lp-contorno",
+    pagina: pageCfg.lpPagina || "contorno labial",
+    quizVariant: pageCfg.lpVariant || "lp-contorno",
     // Número no formato do wa.me (só dígitos, com DDI).
     whatsapp: "5583991353786",
     // Ponte site→CRM (worker/), publicada na Cloudflare. Grava o lead no CRM
@@ -524,7 +528,8 @@
   // Reveals + traço de contorno que se desenha
   // ================================================================
   var revealEls = document.querySelectorAll("[data-reveal], [data-reveal-group]");
-  var drawEls = document.querySelectorAll(".contour--draw");
+  // Assinatura visual de cada LP: o traço de contorno numa, a régua na outra.
+  var drawEls = document.querySelectorAll(".contour--draw, .scale--draw");
   if ("IntersectionObserver" in window && !reduceMotion) {
     document.documentElement.classList.add("has-anim");
 
