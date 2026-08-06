@@ -1,24 +1,52 @@
 /*
- * Testa o Worker de ponte site -> CRM, com o fetch do CRM dublado para nada
- * sair para a rede.
+ * Testa o Worker de ponte site -> CRM (ProgrameAI) + Meta CAPI, com o fetch
+ * dublado para nada sair para a rede. As chamadas são classificadas por URL:
+ * o que vai para `programeai` é o CRM; o que vai para `graph.facebook.com` é
+ * o CAPI.
  *
  * Roda com: npm test  (ou node test/index.test.mjs), sem dependência nenhuma.
  *
  * Boa parte das asserções guarda comportamento de LGPD: consentimento
- * obrigatório, allowlist de campos e log sem dado pessoal. Se alguma delas
+ * obrigatório, allowlist de campos, log sem dado pessoal e — a mais importante —
+ * NENHUM dado de saúde (objetivo/prazo/caso) no evento do Meta. Se alguma delas
  * quebrar, o problema é jurídico antes de ser técnico.
  */
 import worker from "../src/index.js";
 
 const ORIGIN = "https://www.draanapontes.com.br";
-const ENV = { CRM_URL: "https://crm.exemplo/api/leads", CRM_TOKEN: "segredo-que-nao-vaza", PAUSED: "0" };
+const ENV = {
+  CRM_URL: "https://crm.programeai.com.br/api/v1/leads/intake",
+  CRM_TOKEN: "crm_segredo-que-nao-vaza",
+  PAUSED: "0"
+};
+const ENV_META = Object.assign({}, ENV, {
+  META_PIXEL_ID: "507462508767501",
+  META_CAPI_TOKEN: "meta_token_secreto"
+});
 
-let capturado = null;
+// Campos que a rota /leads/intake aceita. Qualquer chave fora disto faz o
+// ProgrameAI responder 400, então o corpo do CRM precisa ser um subconjunto.
+const CRM_ALLOW = [
+  "nome", "whatsapp", "origem", "telefone", "email", "empresa",
+  "cidade", "mensagem", "pagina", "recebidoEm", "resumo", "cenario", "qualificacao"
+];
+
+let chamadas = [];
 const fetchReal = globalThis.fetch;
 globalThis.fetch = async (url, init) => {
-  capturado = { url, init, corpo: JSON.parse(init.body) };
-  return new Response(JSON.stringify({ id: "lead_1" }), { status: 201 });
+  const corpo = init && init.body ? JSON.parse(init.body) : null;
+  chamadas.push({ url: String(url), init: init, corpo: corpo });
+  if (String(url).indexOf("graph.facebook.com") !== -1) {
+    return new Response(JSON.stringify({ events_received: 1 }), { status: 200 });
+  }
+  return new Response(JSON.stringify({ status: "criado", clientId: "cli_1" }), { status: 200 });
 };
+function crmCall() { return chamadas.filter((c) => c.url.indexOf("programeai") !== -1).pop() || null; }
+function metaCall() { return chamadas.filter((c) => c.url.indexOf("graph.facebook.com") !== -1).pop() || null; }
+function ctxColetor() {
+  const ps = [];
+  return { waitUntil: (p) => ps.push(p), done: () => Promise.all(ps) };
+}
 
 // silencia o console.log do Worker para o output do teste ficar legível
 const logs = [];
@@ -61,9 +89,9 @@ logReal("\n=== rejeições ===");
   ok("GET é verificação de saúde e não toca no CRM", r.status === 200 && b.ok === true);
 }
 {
-  capturado = null;
+  chamadas = [];
   const r = await worker.fetch(post(leadValido, { Origin: "https://site-clonado.com" }), ENV);
-  ok("origem estranha é barrada", r.status === 403 && capturado === null);
+  ok("origem estranha é barrada", r.status === 403 && crmCall() === null);
 }
 {
   const r = await worker.fetch(new Request("https://w.dev/lead", { method: "PUT", headers: { Origin: ORIGIN } }), ENV);
@@ -78,23 +106,23 @@ logReal("\n=== rejeições ===");
   ok("corpo gigante é barrado antes do parse", r.status === 413);
 }
 {
-  capturado = null;
+  chamadas = [];
   const r = await worker.fetch(post({ ...leadValido, assunto: "viagra" }), ENV);
-  ok("armadilha de robô: 204 silencioso e nada vai ao CRM", r.status === 204 && capturado === null);
+  ok("armadilha de robô: 204 silencioso e nada vai ao CRM", r.status === 204 && crmCall() === null);
 }
 {
   const r = await worker.fetch(post({ ...leadValido, ms_no_form: 200 }), ENV);
   ok("preenchimento instantâneo é robô", r.status === 422 && (await r.json()).erro === "tempo");
 }
 {
-  capturado = null;
+  chamadas = [];
   const r = await worker.fetch(post({ ...leadValido, consentimento: false }), ENV);
-  ok("sem consentimento nada é enviado (LGPD)", r.status === 422 && capturado === null, (await r.json()).erro);
+  ok("sem consentimento nada é enviado (LGPD)", r.status === 422 && crmCall() === null, (await r.json()).erro);
 }
 {
-  capturado = null;
+  chamadas = [];
   const r = await worker.fetch(post({ ...leadValido, consentimento: "true" }), ENV);
-  ok("consentimento tem de ser booleano true, não string", r.status === 422 && capturado === null);
+  ok("consentimento tem de ser booleano true, não string", r.status === 422 && crmCall() === null);
 }
 {
   const r = await worker.fetch(post({ ...leadValido, nome: "123456" }), ENV);
@@ -105,36 +133,90 @@ logReal("\n=== rejeições ===");
   ok("telefone curto é barrado", r.status === 422 && (await r.json()).erro === "whatsapp");
 }
 {
+  const r = await worker.fetch(post({ ...leadValido, whatsapp: "5583988776655" }), ENV);
+  const c = (chamadas = [], await worker.fetch(post({ ...leadValido, whatsapp: "5583988776655" }), ENV), crmCall());
+  ok("55 na frente é aceito e removido", c && c.corpo.whatsapp === "83988776655", c && c.corpo.whatsapp);
+}
+{
   const r = await worker.fetch(post(leadValido), { ...ENV, PAUSED: "1" });
   ok("interruptor PAUSED desliga sem redeploy", r.status === 204);
 }
 {
-  capturado = null;
+  chamadas = [];
   const r = await worker.fetch(post(leadValido), { PAUSED: "0" });
-  ok("sem CRM configurado devolve 503 em vez de vazar erro", r.status === 503 && capturado === null);
+  ok("sem CRM configurado devolve 503 em vez de vazar erro", r.status === 503 && crmCall() === null);
 }
 
-logReal("\n=== caminho feliz ===");
+logReal("\n=== caminho feliz (CRM ProgrameAI) ===");
 {
-  capturado = null;
+  chamadas = [];
   const r = await worker.fetch(post(leadValido), ENV);
   ok("responde 204", r.status === 204);
-  const c = capturado.corpo;
-  ok("token vai no header e não no corpo",
-    capturado.init.headers.authorization === "Bearer segredo-que-nao-vaza" &&
-    JSON.stringify(c).indexOf("segredo-que-nao-vaza") === -1);
-  ok("telefone normalizado para o formato do CAPI", c.phone === "5583988776655", c.phone);
-  ok("nome com espaços colapsados", c.name === "Maria Clara Souza");
-  ok("fbc montado no formato fb.1.<ts>.<fbclid>", /^fb\.1\.\d{13}\.IwAR_xyz$/.test(c.fbc), c.fbc);
-  ok("fbp repassado como veio", c.fbp === leadValido.fbp);
-  ok("atribuição completa chega ao CRM",
-    c.utm_campaign === "labios-julho" && c.utm_source === "meta" && c.event_id === "ev-abc-123");
-  ok("ip e user-agent vão explícitos (senão o CAPI casa contra o IP do CRM)",
-    "client_ip_address" in c && "client_user_agent" in c);
-  ok("resposta de caso fica isolada em custom_fields",
-    c.custom_fields.caso === leadValido.caso && !("caso" in c),
-    JSON.stringify(c.custom_fields));
-  ok("data do consentimento é registrada", !!Date.parse(c.custom_fields.consentimento_em));
+  const call = crmCall();
+  const c = call.corpo;
+  ok("vai para o endpoint do ProgrameAI", call.url === ENV.CRM_URL, call.url);
+  ok("token vai no header Bearer e não no corpo",
+    call.init.headers.authorization === "Bearer crm_segredo-que-nao-vaza" &&
+    JSON.stringify(c).indexOf("crm_segredo-que-nao-vaza") === -1);
+  ok("whatsapp com 10-11 dígitos, sem o 55 (formato do ProgrameAI)", c.whatsapp === "83988776655", c.whatsapp);
+  ok("telefone internacional no campo próprio", c.telefone === "+5583988776655", c.telefone);
+  ok("nome com espaços colapsados", c.nome === "Maria Clara Souza");
+  ok("origem é o caminho da página (vira tag)", c.origem === "objetivos/preenchimento-labial-natural", c.origem);
+  ok("pagina é só o path", c.pagina === "/objetivos/preenchimento-labial-natural.html", c.pagina);
+  ok("cenario carrega o objetivo (aparece no aviso de lead novo)", c.cenario === "preenchimento-labial-natural", c.cenario);
+  ok("resumo dobra quiz + atribuição (o ProgrameAI não tem campo de UTM)",
+    c.resumo.indexOf("preenchimento-labial-natural") !== -1 &&
+    c.resumo.indexOf("o quanto antes") !== -1 &&
+    c.resumo.indexOf("PMMA") !== -1 &&
+    c.resumo.indexOf("labios-julho") !== -1, c.resumo);
+  ok("data do recebimento é registrada", !!Date.parse(c.recebidoEm));
+  ok("corpo só tem campos que o ProgrameAI aceita (o resto daria 400)",
+    Object.keys(c).every((k) => CRM_ALLOW.indexOf(k) !== -1), Object.keys(c).join(","));
+  ok("caso NÃO é chave de topo, nem existe custom_fields",
+    !("caso" in c) && !("custom_fields" in c) && !("event_id" in c) && !("fbp" in c));
+}
+
+logReal("\n=== Meta CAPI (evento Lead server-side) ===");
+{
+  // Valores-sentinela para o quiz, propositalmente diferentes de qualquer coisa
+  // que apareça na URL, para que o teste de vazamento não confunda o conteúdo
+  // do quiz com o `event_source_url` (que é a URL da página e vai ao pixel de
+  // forma inerente e legítima).
+  const leadSaude = Object.assign({}, leadValido, {
+    objetivo: "ZZOBJETIVOZZ",
+    caso: "ZZCASOZZ-produto-definitivo",
+    prazo: "ZZPRAZOZZ",
+    pagina: "https://www.draanapontes.com.br/lp/preenchimento-labial-contorno/"
+  });
+  chamadas = [];
+  const ctx = ctxColetor();
+  const r = await worker.fetch(post(leadSaude), ENV_META, ctx);
+  await ctx.done();
+  ok("responde 204 mesmo com o CAPI ligado", r.status === 204);
+  const call = metaCall();
+  ok("chama o graph do Meta com pixel e token", !!call &&
+    call.url.indexOf("/507462508767501/events") !== -1 &&
+    call.url.indexOf("access_token=meta_token_secreto") !== -1, call && call.url);
+  const ev = call.corpo.data[0];
+  ok("evento é Lead, website, com o mesmo event_id do pixel (dedup)",
+    ev.event_name === "Lead" && ev.action_source === "website" && ev.event_id === "ev-abc-123");
+  ok("telefone vai HASHEADO (sha-256 hex), nunca cru",
+    /^[a-f0-9]{64}$/.test(ev.user_data.ph[0]) &&
+    JSON.stringify(call.corpo).indexOf("83988776655") === -1, ev.user_data.ph[0]);
+  ok("nome vai hasheado", /^[a-f0-9]{64}$/.test(ev.user_data.fn[0]) &&
+    JSON.stringify(call.corpo).indexOf("Maria") === -1);
+  ok("fbc montado e fbp repassado (não hasheados, é o formato do Meta)",
+    /^fb\.1\.\d{13}\.IwAR_xyz$/.test(ev.user_data.fbc) && ev.user_data.fbp === leadSaude.fbp);
+  const s = JSON.stringify(call.corpo);
+  ok("NENHUM dado de saúde no evento do Meta (respostas do quiz não vazam)",
+    s.indexOf("ZZOBJETIVOZZ") === -1 &&
+    s.indexOf("ZZCASOZZ") === -1 &&
+    s.indexOf("ZZPRAZOZZ") === -1, s);
+}
+{
+  chamadas = [];
+  await worker.fetch(post(leadValido), ENV);   // sem segredos do Meta
+  ok("sem token do Meta configurado, nenhum evento é disparado", metaCall() === null);
 }
 
 logReal("\n=== log não pode conter dado pessoal (LGPD) ===");
@@ -143,15 +225,15 @@ logReal("\n=== log não pode conter dado pessoal (LGPD) ===");
   ok("log sem nome", tudo.indexOf("Maria") === -1);
   ok("log sem telefone", tudo.indexOf("988776655") === -1 && tudo.indexOf("5583988776655") === -1);
   ok("log sem resposta de caso", tudo.toLowerCase().indexOf("pmma") === -1);
-  ok("log traz diagnóstico útil", /crm=201/.test(tudo) && /pagina=preenchimento-labial-natural/.test(tudo) && /campanha=labios-julho/.test(tudo) && /atribuicao=sim/.test(tudo), tudo);
+  ok("log traz diagnóstico útil", /crm=200/.test(tudo) && /pagina=preenchimento-labial-natural/.test(tudo) && /campanha=labios-julho/.test(tudo) && /atribuicao=sim/.test(tudo), tudo);
 }
 
-logReal("\n=== campo não previsto não passa para o CRM ===");
+logReal("\n=== campo não previsto não passa adiante ===");
 {
-  capturado = null;
+  chamadas = [];
   await worker.fetch(post({ ...leadValido, admin: true, role: "owner", valor_pago: 9999 }), ENV);
-  const s = JSON.stringify(capturado.corpo);
-  ok("allowlist descarta campo injetado",
+  const s = JSON.stringify(crmCall().corpo);
+  ok("allowlist de entrada descarta campo injetado",
     s.indexOf("admin") === -1 && s.indexOf("valor_pago") === -1 && s.indexOf("owner") === -1);
 }
 

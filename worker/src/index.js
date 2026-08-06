@@ -1,20 +1,29 @@
 /*
- * Ponte site -> CRM — Dra. Ana Pontes
+ * Ponte site -> CRM (ProgrameAI) + Meta CAPI — Dra. Ana Pontes
  * ---------------------------------------------------------------------------
- * O site é estático (GitHub Pages), e o CRM entrega um token que não pode ser
- * exposto: qualquer chave em JavaScript de página é pública. Este Worker existe
- * só para guardar esse token e repassar o lead da banda de qualificação.
+ * O site é estático (GitHub Pages), e tanto a chave do CRM quanto o token da
+ * CAPI do Meta são segredos que não podem viver no JavaScript da página. Este
+ * Worker guarda esses segredos e faz, para cada lead do formulário de
+ * qualificação, DUAS coisas independentes:
  *
- * Ele NÃO fala com o Meta. O CRM tem integração nativa de CAPI e é ele que
- * dispara os eventos a partir do estágio do lead (novo -> agendou -> compareceu).
- * O papel do Worker é entregar ao CRM os dados de atribuição que essa integração
- * precisa para casar o evento com o clique no anúncio.
+ *   1. Entrega o lead ao CRM ProgrameAI (POST /api/v1/leads/intake). O CRM abre
+ *      o cliente com status Lead e avisa a equipe. É o registro do contato.
+ *   2. Dispara o evento `Lead` para o Meta pela Conversions API (server-side).
+ *      O ProgrameAI NÃO fala com o Meta, então quem faz o CAPI é este Worker.
+ *      Server-side sobrevive ao ITP do Safari (o público é iPhone) e casa por
+ *      telefone hasheado, muito melhor que o `fbclid` sozinho.
  *
- * ATENÇÃO, e isso vale mais que o resto: o lead carrega a resposta de caso da
- * paciente ("já fiz preenchimento com produto definitivo"), que é dado de saúde.
- * Ela pode ficar no CRM, com consentimento, mas NÃO pode ser enviada ao Meta.
- * Os Termos das Ferramentas de Negócios proíbem dado que revele condição ou
- * tratamento, e a penalidade cai sobre a conta de anúncios inteira. Ver o README.
+ * As duas são separadas de propósito: uma pode falhar sem derrubar a outra, e
+ * o navegador manda por sendBeacon e ignora a resposta (se algo cair, a
+ * paciente vai ao WhatsApp do mesmo jeito: perde-se o registro, nunca a conversa).
+ *
+ * ATENÇÃO, e isso vale mais que o resto: o lead carrega a resposta de `caso`
+ * ("já fiz preenchimento com produto definitivo"), que é dado de saúde.
+ *   - No CRM PODE, com consentimento: é registro legítimo de atendimento.
+ *   - No Meta NÃO PODE. Os Termos das Ferramentas de Negócios proíbem dado que
+ *     revele condição ou tratamento, e a penalidade cai sobre a conta de
+ *     anúncios inteira. Por isso o evento do CAPI leva SÓ identificadores
+ *     (telefone/nome hasheados, fbc/fbp, IP, UA) e NENHUM campo clínico.
  */
 
 const ALLOWED_ORIGINS = [
@@ -24,7 +33,7 @@ const ALLOWED_ORIGINS = [
 ];
 
 // Campos aceitos do navegador. É allowlist de propósito: sem isso, qualquer um
-// pode injetar campo arbitrário no CRM fazendo POST direto no endpoint.
+// pode injetar campo arbitrário fazendo POST direto no endpoint.
 const CAMPOS = [
   "nome", "whatsapp", "consentimento",
   "objetivo", "caso", "prazo",
@@ -37,6 +46,8 @@ const LIMITE_JANELA_S = 600;
 const LIMITE_ENVIOS = 12;
 const MIN_MS_NO_FORM = 1500;   // menos que isso é robô, não é gente digitando
 const MAX_MS_NO_FORM = 6 * 60 * 60 * 1000;
+
+const META_API = "https://graph.facebook.com/v21.0";
 
 function json(status, body) {
   return new Response(body ? JSON.stringify(body) : null, {
@@ -55,13 +66,16 @@ function corsHeaders(origin) {
   };
 }
 
-// Normaliza para o formato que o CAPI usa para casar telefone: só dígitos, com
-// código do país. 10 ou 11 dígitos vêm sem o 55 e recebem o prefixo.
+// O ProgrameAI quer o WhatsApp com 10 ou 11 dígitos, DDD na frente e SEM o 55.
+// Devolve só os dígitos locais (sem código do país) ou null. Se vier com o 55,
+// tira; o formato internacional (+55...) é montado à parte, no campo `telefone`.
 function normalizaTelefone(raw) {
   let d = String(raw || "").replace(/\D/g, "");
-  if (d.length === 10 || d.length === 11) { d = "55" + d; }
-  if (d.slice(0, 2) !== "55") { return null; }
-  if (d.length !== 12 && d.length !== 13) { return null; }
+  if (d.length === 12 || d.length === 13) {
+    if (d.slice(0, 2) !== "55") { return null; }
+    d = d.slice(2);
+  }
+  if (d.length !== 10 && d.length !== 11) { return null; }
   return d;
 }
 
@@ -77,16 +91,66 @@ function texto(raw, max) {
   return s.length > max ? s.slice(0, max) : s;
 }
 
+// Path da URL da página (sem host, query nem hash), para o campo `pagina` do CRM
+// e para o `event_source_url` do CAPI. Limite de 200 como a rota pede.
+function caminhoDaPagina(pagina) {
+  try { return new URL(pagina).pathname.slice(0, 200); } catch (e) {}
+  return String(pagina || "").slice(0, 200);
+}
+
+// Rótulo de origem para o CRM (vira tag do cliente e 1ª linha da nota). Ex.:
+// "/lp/preenchimento-labial-contorno/" -> "lp/preenchimento-labial-contorno".
+function origemDaPagina(pagina) {
+  const limpo = caminhoDaPagina(pagina).replace(/\.html.*$/, "").replace(/^\/+|\/+$/g, "");
+  return texto(limpo || "site", 60);
+}
+
+// Slug curto só para o log (sem dado pessoal).
+function slugDaPagina(pagina) {
+  const seg = caminhoDaPagina(pagina).replace(/\/+$/, "").split("/").filter(Boolean).pop() || "site";
+  return seg.replace(/\.html.*$/, "");
+}
+
 /* ---------------------------------------------------------------------------
- * Adaptador do CRM — a ÚNICA parte que muda de CRM para CRM.
+ * Adaptador do CRM ProgrameAI — a ÚNICA parte que muda de CRM para CRM.
  *
- * Confirmar três coisas no painel antes de publicar:
- *   1. a URL de criação de lead e o método;
- *   2. o esquema de autenticação (Bearer, header próprio, chave em query);
- *   3. os nomes dos campos personalizados (`caso`, `prazo`, `fbclid`, `fbp`),
- *      porque campo que não existe no CRM costuma ser descartado em silêncio.
+ * A rota /api/v1/leads/intake aceita EXATAMENTE 13 campos e devolve 400 para
+ * qualquer chave fora da lista. Só três são obrigatórios (nome, whatsapp,
+ * origem). Como ela não tem campos estruturados de UTM nem de quiz, a
+ * atribuição da campanha e as respostas (objetivo/prazo/caso) vão dobradas em
+ * `resumo` e `cenario`, que é onde a doc manda pôr o que não cabe nos campos.
+ *
+ * A resposta de `caso` (dado de saúde) fica no CRM com consentimento — nunca
+ * no evento do Meta (isso é tratado em enviaMetaCapi, que não a recebe).
  * ------------------------------------------------------------------------ */
 function montaRequisicaoCrm(lead, env) {
+  const partes = [];
+  if (lead.objetivo) { partes.push("Objetivo: " + lead.objetivo + "."); }
+  if (lead.prazo) { partes.push("Prazo: " + lead.prazo + "."); }
+  if (lead.caso) { partes.push("Situação relatada: " + lead.caso + "."); }
+
+  const atrib = [];
+  if (lead.utm_source || lead.utm_medium) { atrib.push((lead.utm_source || "?") + "/" + (lead.utm_medium || "?")); }
+  if (lead.utm_campaign) { atrib.push("campanha " + lead.utm_campaign); }
+  if (lead.utm_content) { atrib.push(lead.utm_content); }
+  if (lead.utm_term) { atrib.push("termo " + lead.utm_term); }
+  if (atrib.length) { partes.push("Origem: " + atrib.join(" · ") + "."); }
+  if (lead.fbclid) { partes.push("Clique de anúncio no Meta."); }
+  else if (lead.gclid) { partes.push("Clique de anúncio no Google."); }
+
+  const corpo = {
+    // Obrigatórios.
+    nome: lead.nome,
+    whatsapp: lead.whatsapp,                  // 10-11 dígitos, sem o 55
+    origem: lead.origem,
+    // Opcionais aceitos pela rota.
+    telefone: "+55" + lead.whatsapp,
+    pagina: lead.caminho,
+    recebidoEm: lead.consentimento_em,
+    cenario: texto(lead.objetivo || lead.caso || "", 160),
+    resumo: texto(partes.join(" "), 4000)
+  };
+
   return {
     url: env.CRM_URL,
     metodo: "POST",
@@ -95,34 +159,55 @@ function montaRequisicaoCrm(lead, env) {
       "authorization": "Bearer " + env.CRM_TOKEN,
       "accept": "application/json"
     },
-    corpo: {
-      name: lead.nome,
-      phone: lead.whatsapp,
-      source: "site-objetivos",
-      // origem da campanha: é o que a integração de CAPI do CRM usa para casar
-      // o evento com o clique. Sem isso o evento chega ao Meta sem âncora.
-      utm_source: lead.utm_source,
-      utm_medium: lead.utm_medium,
-      utm_campaign: lead.utm_campaign,
-      utm_content: lead.utm_content,
-      utm_term: lead.utm_term,
-      gclid: lead.gclid,
-      fbclid: lead.fbclid,
-      fbc: lead.fbc,
-      fbp: lead.fbp,
-      event_id: lead.event_id,
-      event_source_url: lead.pagina,
-      client_ip_address: lead.ip,
-      client_user_agent: lead.ua,
-      // Campos de contexto clínico. NÃO devem sair do CRM para o Meta.
-      custom_fields: {
-        objetivo: lead.objetivo,
-        caso: lead.caso,
-        prazo: lead.prazo,
-        consentimento_em: lead.consentimento_em
-      }
-    }
+    corpo: corpo
   };
+}
+
+// SHA-256 em hex, como o CAPI espera para os campos de identificação.
+async function sha256hex(s) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+  return Array.prototype.map.call(new Uint8Array(buf), function (b) {
+    return b.toString(16).padStart(2, "0");
+  }).join("");
+}
+
+/* ---------------------------------------------------------------------------
+ * Meta Conversions API — evento `Lead` server-side.
+ *
+ * Leva SÓ identificadores, e todos hasheados quando é PII (telefone, nome).
+ * fbc/fbp/IP/UA não são hasheados (é o formato que o Meta espera). NENHUM campo
+ * clínico entra aqui: sem objetivo, sem prazo e sem caso. O `event_id` é o
+ * mesmo do pixel do navegador, para o Meta deduplicar as duas vias.
+ * ------------------------------------------------------------------------ */
+async function enviaMetaCapi(lead, env) {
+  const user = {};
+  user.ph = [await sha256hex("55" + lead.whatsapp)];   // telefone com código do país, hasheado
+  const primeiro = String(lead.nome).split(" ")[0].trim().toLowerCase();
+  if (primeiro) { user.fn = [await sha256hex(primeiro)]; }
+  if (lead.fbc) { user.fbc = lead.fbc; }
+  if (lead.fbp) { user.fbp = lead.fbp; }
+  if (lead.ip) { user.client_ip_address = lead.ip; }
+  if (lead.ua) { user.client_user_agent = lead.ua; }
+
+  const evento = {
+    event_name: "Lead",
+    event_time: Math.floor(Date.now() / 1000),
+    action_source: "website",
+    user_data: user
+  };
+  if (lead.event_id) { evento.event_id = lead.event_id; }
+  if (lead.pagina) { evento.event_source_url = lead.pagina; }
+
+  const body = { data: [evento] };
+  if (env.META_TEST_EVENT_CODE) { body.test_event_code = env.META_TEST_EVENT_CODE; }
+
+  const url = META_API + "/" + env.META_PIXEL_ID +
+    "/events?access_token=" + encodeURIComponent(env.META_CAPI_TOKEN);
+  return fetch(url, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(body)
+  });
 }
 
 async function limitado(env, ip) {
@@ -135,7 +220,7 @@ async function limitado(env, ip) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const origin = request.headers.get("Origin") || "";
     const permitida = ALLOWED_ORIGINS.indexOf(origin) !== -1;
 
@@ -186,7 +271,7 @@ export default {
 
     // Consentimento é requisito, não detalhe: a resposta de caso é dado pessoal
     // sensível de saúde (LGPD, art. 5º, II) e depende de consentimento
-    // específico e destacado. Sem marcação afirmativa, nada é enviado ao CRM.
+    // específico e destacado. Sem marcação afirmativa, nada é enviado.
     if (dados.consentimento !== true) {
       return json(422, { erro: "consentimento" });
     }
@@ -208,13 +293,23 @@ export default {
     lead.ip = ip;
     lead.ua = request.headers.get("User-Agent") || "";
     lead.consentimento_em = new Date().toISOString();
-    // O Meta espera o clique no formato fb.1.<timestamp>.<fbclid>, e não o
-    // fbclid cru. Montar aqui evita depender de o CRM saber fazer isso.
+    lead.caminho = caminhoDaPagina(lead.pagina);
+    lead.origem = origemDaPagina(lead.pagina);
+    // O Meta espera o clique no formato fb.1.<timestamp>.<fbclid>, não o cru.
     lead.fbc = lead.fbclid ? "fb.1." + Date.now() + "." + lead.fbclid : "";
 
     if (!env.CRM_URL || !env.CRM_TOKEN) {
       console.log("crm=nao-configurado");
       return json(503, { erro: "crm" });
+    }
+
+    // Dispara o CAPI em paralelo, best-effort: não bloqueia a resposta nem
+    // depende do CRM. Fica de fora se os segredos do Meta não estiverem no ar.
+    if (env.META_PIXEL_ID && env.META_CAPI_TOKEN) {
+      const capi = enviaMetaCapi(lead, env)
+        .then(function (r) { console.log("meta=" + r.status); })
+        .catch(function () { console.log("meta=falha-rede"); });
+      if (ctx && ctx.waitUntil) { ctx.waitUntil(capi); }
     }
 
     const req = montaRequisicaoCrm(lead, env);
@@ -232,10 +327,9 @@ export default {
 
     // Log sem dado pessoal, de propósito: nome, telefone e resposta de caso
     // nunca vão para o log do Worker. Da página vai só o slug.
-    const slug = (lead.pagina || "").split("/").pop().replace(/\.html.*$/, "") || "?";
     console.log(
       "crm=" + resposta.status +
-      " pagina=" + slug +
+      " pagina=" + slugDaPagina(lead.pagina) +
       " campanha=" + (lead.utm_campaign || "-") +
       " atribuicao=" + (lead.fbclid || lead.gclid ? "sim" : "nao")
     );

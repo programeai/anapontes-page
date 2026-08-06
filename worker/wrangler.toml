@@ -14,11 +14,18 @@ workers_dev = true
 [vars]
 # Interruptor de emergência: "1" desliga o endpoint sem redeploy.
 PAUSED = "0"
-# URL de criação de lead no CRM. Não é segredo, então mora aqui.
-CRM_URL = ""
+# Rota de captação do CRM ProgrameAI. Não é segredo, então mora aqui.
+CRM_URL = "https://crm.programeai.com.br/api/v1/leads/intake"
+# ID do pixel do Meta (público, o mesmo do GTM). Usado pelo CAPI server-side.
+META_PIXEL_ID = "507462508767501"
+# Código de teste do Events Manager, para validar o CAPI em "Testar eventos".
+# Deixar vazio em produção (evento vai para o fluxo normal).
+META_TEST_EVENT_CODE = ""
 
-# CRM_TOKEN é segredo e NÃO entra neste arquivo. Definir com:
-#   npx wrangler secret put CRM_TOKEN
+# Segredos NÃO entram neste arquivo. Definir com:
+#   npx wrangler secret put CRM_TOKEN         # chave do canal de captação (crm_...)
+#   npx wrangler secret put META_CAPI_TOKEN   # token da Conversions API (System User)
+# Sem META_CAPI_TOKEN o Worker segue gravando no CRM e só não dispara o CAPI.
 
 # Rota em domínio próprio. Só funciona com o DNS do domínio na Cloudflare;
 # sem isso, o Worker responde na URL *.workers.dev, que também serve.
