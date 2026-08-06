@@ -229,13 +229,19 @@ html { scroll-padding-top: clamp(.75rem, 3vw, 1.25rem); }
 
 /* Linha de confiança (CRM visível — exigência do CFM).
    Selos em pílula, não em lista: pesam menos na leitura e não competem com
-   o H1 nem com o CTA. No mobile ficam logo abaixo do retrato. */
+   o H1 nem com o CTA. No mobile ficam logo abaixo do retrato.
+   UM POR LINHA, sempre: com flex-wrap o arranjo dependia do comprimento de cada
+   frase (dois selos curtos sobravam lado a lado, um longo caía sozinho), e o
+   bloco lia como texto quebrado em vez de lista de credenciais. Coluna deixa o
+   alinhamento igual nas duas LPs e imune a mudança de copy. */
 .lp-trust {
-  display: flex; flex-wrap: wrap; gap: .5rem;
+  display: flex; flex-direction: column; align-items: flex-start; gap: .5rem;
   margin-top: 1.5rem;
   font-family: var(--font-ui); font-size: .85rem; color: var(--muted);
 }
 .lp-trust__item {
+  /* inline-flex + align-items:flex-start no pai: a pílula tem a largura do
+     próprio conteúdo, não a da coluna. */
   display: inline-flex; align-items: center; gap: .45rem;
   padding: .45rem .85rem; line-height: 1.3;
   background: var(--cream); border: 1px solid var(--border); border-radius: 999px;
