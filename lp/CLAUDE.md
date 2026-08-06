@@ -23,13 +23,22 @@ contorno" na contorno; a "régua da medida certa" na volume).
 
 ## Estrutura (ordem fixa, ver a spec)
 
-1 Hero (2 colunas; imagem depois do CTA no mobile) · 2 Espelho da dor ·
-3 Por que acontece (autoridade) · 4 Solução + 3 diferenciais + CTA ·
-5 Quem é a médica · **6 Resultados (condicional, oculto)** · 7 Como funciona ·
-8 FAQ (`<details>`) · 9 Qualificação (`#qualificacao`) · 10 Rodapé legal.
+1 Hero (2 colunas; imagem depois do CTA no mobile) · **1.5 Quiz do topo
+(`#comecar`)** · 2 Espelho da dor · 3 Por que acontece (autoridade) ·
+4 Solução + 3 diferenciais + CTA · 5 Quem é a médica · 5.5 Depoimentos ·
+**6 Resultados (condicional)** · 7 Como funciona · 8 FAQ (`<details>`) ·
+9 Qualificação (`#qualificacao`) · 10 Rodapé legal.
 
-CTA âncora (`#qualificacao`) repetido ao fim das seções 4 e 6. Todo caminho leva
-ao formulário; só o formulário (e o link de fuga sob ele) vai ao WhatsApp.
+A seção 6 fica **entre 3 e 4** nas duas LPs: é o respiro visual no ponto em que o
+texto mais pesa no celular, e a ordem de leitura fica dor → causa → prova →
+solução. O CTA do hero aponta para o quiz do topo (`#comecar`); os
+intermediários (fim das seções 2, 4 e 6), para `#qualificacao`. Todo
+caminho leva a um dos formulários; só o formulário (e o link de fuga sob ele) vai
+ao WhatsApp.
+
+**Duas instâncias do quiz por página** (a do topo e a da seção 9), ambas com
+`[data-qualify-form]` e autônomas. Ao editar perguntas ou `data-value`, alterar
+as DUAS: valor diferente vira mensagem de WhatsApp e registro de CRM diferentes.
 
 ## Formulário de qualificação → Ponte site→CRM
 
@@ -61,6 +70,9 @@ lead no CRM** — nunca bloqueia a conversa, só perde o registro. Para ligar:
 
 A seção `[data-lp-results]` nasce com `hidden`. O comparador (arrastar o divisor,
 `prefers-reduced-motion` → par lado a lado) já está pronto para receber as fotos.
+(As **duas** LPs estão hoje com a seção VISÍVEL, em modo de preview de layout, com
+as imagens de exemplo `assets/lp/preview-*.svg`. Ver o comentário no HTML: não
+subir assim, trocar pelas fotos autorizadas ou readicionar o `hidden`.)
 
 **Só ativar com termo de autorização de imagem ASSINADO por cada paciente.**
 Ativar = remover `hidden`, trocar as imagens `assets/lp/REPLACE-*.webp` pelas reais
@@ -89,8 +101,11 @@ própria paciente. Ver `rastreamento-gtm.md` §4.5.
 ## Ao criar uma LP nova em `/lp/`
 
 - `../js/tracking.js` → `LANDINGS` (senão o `view_content` vai com o slug cru)
-- `../js/lp.js` → `LP_CONFIG` (ângulo, nome da página, variante do quiz) — hoje o
-  arquivo serve a contorno; para uma segunda LP, extrair o config por página
+- **Config da página vive no `<body>`**, não no JS: `data-lp-angulo`,
+  `data-lp-pagina` e `data-lp-variant` alimentam o `LP_CONFIG` do `lp.js`
+  (mensagem do WhatsApp, `quiz_variant` e nome nos eventos). Sem os atributos, o
+  `lp.js` cai nos padrões da LP de contorno. O número do WhatsApp e o
+  `leadEndpoint` seguem no `lp.js`, iguais para todas as LPs.
 - **Não** adicionar ao `sitemap.xml`, `llms.txt`, menu, rodapé ou home: são pontas
   de campanha `noindex`, não itens de catálogo.
 - Validar com a médica os `TODO` do HTML (formação, citação) antes de publicar.
