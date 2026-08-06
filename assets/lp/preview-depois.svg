@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Imagem de exemplo, depois">
+  <defs>
+    <linearGradient id="bgD" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f4ede2"/>
+      <stop offset="1" stop-color="#efdcc4"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bgD)"/>
+  <!-- lábios estilizados preenchendo o quadro (contorno definido = "depois", realçado no bronze) -->
+  <g transform="translate(400 320) scale(2.5)">
+    <g fill="#b5615a">
+      <path d="M-155,0 C-112,-26 -54,-26 -26,-10 L0,-22 26,-10 C54,-26 112,-26 155,0 C102,0 52,3 0,3 C-52,3 -102,0 -155,0 Z"/>
+      <path d="M-150,7 C-72,40 72,40 150,7 C98,15 50,17 0,17 C-50,17 -98,15 -150,7 Z"/>
+    </g>
+    <!-- traço de contorno realçado -->
+    <path d="M-155,0 C-112,-26 -54,-26 -26,-10 L0,-22 26,-10 C54,-26 112,-26 155,0" fill="none" stroke="#9c6b3f" stroke-width="2.4" stroke-linecap="round"/>
+  </g>
+  <text x="400" y="90" text-anchor="middle" font-family="Georgia, serif" font-size="52" letter-spacing="4" fill="#9c6b3f">DEPOIS</text>
+  <g transform="translate(400 540)">
+    <rect x="-135" y="-24" width="270" height="48" rx="24" fill="#5c4b3a" opacity="0.9"/>
+    <text x="0" y="6" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" letter-spacing="2" fill="#fff">IMAGEM DE EXEMPLO</text>
+  </g>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Imagem de exemplo, antes">
+  <defs>
+    <linearGradient id="bgA" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e7dccf"/>
+      <stop offset="1" stop-color="#d8c7b4"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bgA)"/>
+  <!-- lábios estilizados preenchendo o quadro (contorno pouco definido = "antes") -->
+  <g transform="translate(400 320) scale(2.5)" fill="#bd8b83" opacity="0.85">
+    <path d="M-150,0 C-110,-22 -55,-22 -28,-8 L0,-18 28,-8 C55,-22 110,-22 150,0 C100,0 50,2 0,2 C-50,2 -100,0 -150,0 Z"/>
+    <path d="M-145,6 C-70,34 70,34 145,6 C95,12 50,14 0,14 C-50,14 -95,12 -145,6 Z"/>
+  </g>
+  <text x="400" y="90" text-anchor="middle" font-family="Georgia, serif" font-size="52" letter-spacing="4" fill="#7a6a58" opacity="0.9">ANTES</text>
+  <g transform="translate(400 540)">
+    <rect x="-135" y="-24" width="270" height="48" rx="24" fill="#5c4b3a" opacity="0.9"/>
+    <text x="0" y="6" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" letter-spacing="2" fill="#fff">IMAGEM DE EXEMPLO</text>
+  </g>
+</svg>
