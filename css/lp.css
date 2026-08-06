@@ -29,6 +29,8 @@
   font-size: var(--lp-texto-base);
   background: var(--bg);
   color: var(--ink);
+  /* iOS/Safari: sem o flash cinza ao tocar (temos estados :active próprios). */
+  -webkit-tap-highlight-color: transparent;
 }
 .lp-body ::selection { background: var(--bronze-soft); color: var(--ink-strong); }
 .lp-body :focus-visible {
@@ -433,7 +435,8 @@
 .qf__field { margin-bottom: 1.1rem; }
 .qf__label { display: block; font-family: var(--font-ui); font-size: .9rem; font-weight: 500; color: var(--ink-strong); margin-bottom: .4rem; }
 .qf__input {
-  width: 100%; font-family: var(--font-body); font-size: 1.05rem; color: var(--ink);
+  /* max(16px, …): garante ≥16px para o Safari do iPhone NÃO dar zoom ao focar. */
+  width: 100%; font-family: var(--font-body); font-size: max(16px, 1.05rem); color: var(--ink);
   padding: .85rem 1rem; background: var(--bg);
   border: 1.5px solid var(--border); border-radius: var(--radius);
   transition: border-color .18s ease;
