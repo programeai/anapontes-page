@@ -68,6 +68,13 @@
     "preenchimento-labial-natural": "Preenchimento Labial"
   };
 
+  // LPs de campanha paga em /lp/<slug>/. content_type próprio ("lp") para que
+  // o funil de mídia paga seja lido separado do orgânico no GA4 e no Meta.
+  var LANDINGS = {
+    "preenchimento-labial-contorno": "LP Contorno Labial",
+    "preenchimento-labial-volume": "LP Volume Labial"
+  };
+
   function currentProcedure() {
     var path = window.location.pathname;
     var m = path.match(/\/detalhes\/([^\/.]+)\.html/);
@@ -77,6 +84,11 @@
     m = path.match(/\/objetivos\/([^\/.]+)\.html/);
     if (m) {
       return { slug: m[1], name: OBJECTIVES[m[1]] || m[1], type: "objective" };
+    }
+    // /lp/<slug>/ (com ou sem index.html no fim)
+    m = path.match(/\/lp\/([^\/]+)\/?(?:index\.html)?$/);
+    if (m) {
+      return { slug: m[1], name: LANDINGS[m[1]] || m[1], type: "lp" };
     }
     return null;
   }
