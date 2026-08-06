@@ -89,6 +89,48 @@ html { scroll-padding-top: clamp(.75rem, 3vw, 1.25rem); }
   color: color-mix(in srgb, var(--lp-acento) 65%, #fff);
 }
 
+/* ---------- Motivo de marca (LP volume): a régua da medida certa ---------- */
+/* Irmã do traço de contorno: mesma função (único ornamento da página), tese
+   diferente. Três marcas com a central destacada = proporção e equilíbrio, que
+   é a tese da página de volume.
+   ⚠️ Os atributos de traço (stroke, stroke-width, opacity) vivem no <defs> do
+   HTML: o conteúdo clonado por <use> não é alcançado por seletor de CSS. Daqui
+   passam só propriedades HERDADAS — color e o stroke-dasharray da animação. */
+.scale { display: block; color: var(--lp-acento); overflow: visible; }
+/* Marcador pequeno (listas, destaques e cartões). */
+.scale-mark { width: 1.65rem; height: .95rem; }
+/* Régua sob o H1. aspect-ratio explícito porque a régua NÃO pode ser esticada
+   (preserveAspectRatio="none" engordaria as marcas verticais). */
+.lp-hero__scale {
+  width: min(15em, 100%); aspect-ratio: 300 / 16; height: auto;
+  margin: .3rem 0 1.35rem;
+}
+/* Fecho da página: a mesma régua, centralizada. */
+.lp-scale-divider { width: 2.4rem; aspect-ratio: 26 / 15; height: auto; margin: 0 auto; }
+/* Nos destaques e nos cartões o motivo reusa a caixa do traço de contorno
+   (.lp-callout__mark e .lp-diff__mark, 2rem × .8rem), que deformaria as marcas
+   verticais. A régua mantém a própria proporção. */
+.scale.lp-callout__mark,
+.scale.lp-diff__mark { width: 1.75rem; aspect-ratio: 26 / 15; height: auto; }
+/* A base da régua "se desenha" ao entrar na tela. O dash é declarado no <svg> e
+   HERDADO pelo conteúdo do <use>; as marcas trazem stroke-dasharray="none" no
+   HTML e por isso ficam de fora da animação. */
+.has-anim .scale--draw {
+  stroke-dasharray: var(--dash, 320);
+  stroke-dashoffset: var(--dash, 320);
+}
+.has-anim .scale--draw.in-view {
+  transition: stroke-dashoffset 1.1s cubic-bezier(.22,1,.36,1) .15s;
+  stroke-dashoffset: 0;
+}
+
+/* Variante da LP de volume: público 25-40 lê em ritmo mais rápido que o 40+ da
+   LP de contorno — corpo um pouco menor e coluna de texto mais estreita. */
+.lp-body--volume {
+  --lp-texto-base: 17px;
+  --lp-largura-texto: 60ch;
+}
+
 /* ---------- Cabeçalho mínimo (logo, sem link) ---------- */
 .lp-top {
   padding: clamp(1.1rem, 3vw, 1.9rem) 0 0;
@@ -209,6 +251,7 @@ html { scroll-padding-top: clamp(.75rem, 3vw, 1.25rem); }
   font-size: 1.08rem; line-height: 1.55; color: var(--ink);
 }
 .lp-mirror__item .contour-mark { margin-top: .35em; color: var(--lp-acento); width: 1.5rem; height: .8rem; }
+.lp-mirror__item .scale-mark { margin-top: .2em; width: 1.5rem; height: .9rem; }
 .lp-close {
   margin: 2.25rem auto 0; max-width: 640px; text-align: center;
   font-family: var(--font-display); font-style: italic;
@@ -611,4 +654,5 @@ html { scroll-padding-top: clamp(.75rem, 3vw, 1.25rem); }
   .qf__step.is-active { animation: none; }
   .has-anim [data-reveal] { opacity: 1; transform: none; transition: none; }
   .has-anim .contour--draw path { transition: none; stroke-dashoffset: 0; }
+  .has-anim .scale--draw { transition: none; stroke-dasharray: none; stroke-dashoffset: 0; }
 }
