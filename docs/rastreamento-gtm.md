@@ -3,7 +3,7 @@
 Este site já está **instrumentado no código** e o container GTM
 (**`GTM-5B27V5DF`**) já está instalado em todas as páginas. Falta
 **mapear as tags dentro do painel do GTM** — GA4 (passos 2-3) e Meta Pixel
-`4167985703499554` (passo 4), mais os acionadores dos eventos.
+`507462508767501` (passo 4), mais os acionadores dos eventos.
 
 Nenhuma mudança de código é necessária para as tags: os eventos já estão no
 `dataLayer`, o pixel entra inteiro pelo GTM. A **política de privacidade** — que era a
@@ -52,7 +52,12 @@ No GTM: **Tags → Nova → Google (Google Tag)**.
   (variável interna, repassa o nome real); parâmetros mapeados às variáveis acima;
   acionador `Eventos do site`.
 
-### 4. Meta Pixel — `4167985703499554`
+### 4. Meta Pixel — `507462508767501`
+
+> **Pixel trocado.** O ID em produção passou a ser `507462508767501` (atualizado no
+> GTM e no `META_PIXEL_ID` do Worker). Os registros de verificação em §5.1 e §5.2
+> foram feitos com o pixel anterior (`4167985703499554`) e ficam como estão: são
+> histórico do que foi testado na época, não a configuração atual.
 
 Todo o pixel entra **pelo GTM**, nenhuma linha no HTML. Mesma decisão que valeu para
 o GA4 (o `gtag.js` hardcoded foi removido em 2026-07-18): fonte única de rastreamento,
@@ -72,7 +77,7 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '4167985703499554');
+fbq('init', '507462508767501');
 fbq('track', 'PageView');
 </script>
 ```
@@ -148,9 +153,14 @@ Conteúdo de cada uma:
 ```html
 <!-- Meta — Lead -->
 <script>
-  if (window.fbq) fbq('track', 'Lead');
+  if (window.fbq) fbq('track', 'Lead', {}, { eventID: {{dlv - event_id}} });
 </script>
 ```
+
+O `eventID` é obrigatório aqui: o mesmo `Lead` também chega pelo **CAPI do Worker**
+(server-side), e é por esse id que o Meta deduplica as duas vias. O `event_id` já vem no
+`dataLayer` do `quiz_complete` (mapear como variável `dlv - event_id`). Sem ele, cada
+lead conta duas vezes.
 
 ```html
 <!-- Meta — QuizStart -->
@@ -187,9 +197,15 @@ e é a diferença entre comprar conversa e comprar clique:
 - otimizando por esse sinal, o Meta vai buscar justamente quem clica sem falar.
 
 A correção não é no pixel, é na arquitetura. O lead entra no CRM pela banda de
-qualificação (via [../worker/](../worker/), que guarda o token fora do navegador) e
-**é o CRM que dispara os eventos de conversão**, pela integração nativa de CAPI, a
-partir do estágio do lead:
+qualificação (via [../worker/](../worker/), que guarda o token fora do navegador).
+
+> **Atualização (CRM ProgrameAI):** o ProgrameAI é CRM de captação e **não tem
+> integração com o Meta**. Então quem dispara o `Lead` server-side é o **próprio
+> Worker**, pela CAPI, com o mesmo `event_id` do pixel para deduplicar. Ele manda só
+> identificadores (telefone/nome hasheados, `fbc`, `fbp`, IP, UA) e **nenhum** campo de
+> quiz. O evento nasce no `Lead` (não há estágio agendou/compareceu automático, porque o
+> ProgrameAI não devolve isso ao Worker). A tabela de estágios abaixo vale como alvo caso
+> um dia se use um CRM com CAPI nativa por estágio:
 
 | Estágio no CRM | Evento no Meta | O que significa |
 |---|---|---|
@@ -327,8 +343,13 @@ jornada de estética — em que a paciente pesquisa, pensa e só depois chama no
 Consequência prática: o número do Gerenciador de Anúncios será menor que o real. O
 **`whatsapp_click` no GA4 é a referência de volume**; o número do Meta serve para
 otimizar o algoritmo, não para medir resultado absoluto. Não tente reconciliar os dois
-— eles medem coisas diferentes. A correção de verdade seria a **Conversions API**, que
-exige servidor: o site é estático no GitHub Pages, então hoje não há onde rodar.
+— eles medem coisas diferentes.
+
+> **Atualização:** a Conversions API deixou de ser impossível. O [Worker](../worker/),
+> que já existe para gravar o lead no CRM, agora **também dispara o `Lead` pela CAPI**
+> (server-side, com telefone hasheado e `event_id` para dedup). É a mitigação de verdade
+> do ITP do Safari para o evento de conversão. Continua valendo o item 1 (verificar o
+> domínio) para a atribuição pós-clique.
 
 ### 3. Aviso de privacidade (LGPD) ✅ FEITO (2026-07-30)
 
