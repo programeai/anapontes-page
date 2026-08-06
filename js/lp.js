@@ -79,8 +79,11 @@
   // ================================================================
   // Formulário de qualificação
   // ================================================================
-  var form = document.querySelector("[data-qualify-form]");
-  if (form) {
+  // Inicializa UM quiz. Roda para cada [data-qualify-form] da página, então
+  // as duas instâncias (a do hero e a da seção 9) funcionam de forma
+  // independente: a visitante conclui as 4 perguntas e chega ao WhatsApp
+  // sem sair do lugar, seja pelo de cima, seja pelo de baixo.
+  function initQualify(form) {
     var stepEls = form.querySelectorAll("[data-qf-step]");
     var bar = form.querySelector("[data-qf-bar]");
     var backBtn = form.querySelector("[data-qf-back]");
@@ -296,31 +299,39 @@
     showStep(1);
   }
 
+  // Liga o motor em cada quiz da página (hero + seção 9). Cada um é autônomo.
+  var qualifyForms = document.querySelectorAll("[data-qualify-form]");
+  Array.prototype.forEach.call(qualifyForms, initQualify);
+
   // ================================================================
   // CTA fixo no mobile
   // ----------------------------------------------------------------
-  // Aparece depois que o hero sai da tela e some quando o formulário entra
-  // (para nunca cobrir o destino do clique). Escondido no desktop pelo CSS.
+  // Aparece depois que o hero sai da tela e some quando QUALQUER um dos
+  // quizzes está à vista (o do topo #comecar ou o da seção 9), para nunca
+  // cobrir o botão de enviar. Escondido no desktop pelo CSS.
   // ================================================================
   var stickyCta = document.querySelector("[data-sticky-cta]");
   if (stickyCta) {
     stickyCta.hidden = false; // deixa o CSS assumir o controle da visibilidade
     var heroCta = document.querySelector(".lp-hero__cta");
+    var topQuizSec = document.getElementById("comecar");
     var qualifySec = document.getElementById("qualificacao");
-    if ("IntersectionObserver" in window && (heroCta || qualifySec)) {
-      var zones = { hero: false, form: false };
+    var watched = [heroCta, topQuizSec, qualifySec].filter(Boolean);
+    if ("IntersectionObserver" in window && watched.length) {
+      var zones = { hero: false, topQuiz: false, form: false };
       function syncSticky() {
-        stickyCta.classList.toggle("is-visible", !zones.hero && !zones.form);
+        // Só aparece quando nenhum quiz e nem o CTA do hero estão na tela.
+        stickyCta.classList.toggle("is-visible", !zones.hero && !zones.topQuiz && !zones.form);
       }
       var scio = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (entry.target === heroCta) zones.hero = entry.isIntersecting;
+          if (entry.target === topQuizSec) zones.topQuiz = entry.isIntersecting;
           if (entry.target === qualifySec) zones.form = entry.isIntersecting;
         });
         syncSticky();
       }, { threshold: 0 });
-      if (heroCta) scio.observe(heroCta);
-      if (qualifySec) scio.observe(qualifySec);
+      watched.forEach(function (el) { scio.observe(el); });
     } else {
       stickyCta.classList.add("is-visible");
     }

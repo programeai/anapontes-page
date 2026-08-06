@@ -372,6 +372,8 @@
 .lp-faq__a p { margin: 0; font-size: 1.01rem; line-height: 1.65; color: var(--muted); }
 
 /* ---------- Seção 9 · QUALIFICAÇÃO (formulário em passos) ---------- */
+/* Respiro ao ancorar (o CTA do hero leva a #comecar; os demais a #qualificacao). */
+#comecar, #qualificacao { scroll-margin-top: clamp(.75rem, 3vw, 1.5rem); }
 .lp-qualify {
   max-width: 640px; margin-inline: auto;
   background: var(--bg);
