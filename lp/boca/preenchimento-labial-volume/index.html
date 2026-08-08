@@ -333,7 +333,7 @@
 
     <!--
       ================================================================
-      6 · RESULTADOS · SEÇÃO CONDICIONAL
+      6 · RESULTADOS · SEÇÃO ATIVA (fotos reais)
       ----------------------------------------------------------------
       ⚠️ POSIÇÃO: numerada como 6 na spec, mas vive AQUI, entre "por que
       seus lábios são assim" (3) e "a solução" (4), igual à LP de contorno.
@@ -341,10 +341,15 @@
       ordem fica dor → causa → prova → solução. Ao editar, manter a seção
       neste lugar (as duas LPs são irmãs também na ordem).
 
-      Componente de antes/depois PRONTO para receber as provas sociais
-      que a médica vai coletar. NÃO subir com foto real sem:
-        1. termo de autorização de imagem ASSINADO por cada paciente;
-        2. leitura de /lp/CLAUDE.md (regra de compliance CFM + Meta).
+      As fotos vivem em /lp/boca/assets/ e são COMPARTILHADAS por todas as
+      LPs de boca. Trocar ou remover um caso aqui exige a mesma troca na LP
+      irmã (preenchimento-labial-contorno): o material é o mesmo, só a
+      legenda muda de ângulo.
+
+      ⚠️ CONDIÇÃO PARA FICAR NO AR: termo de autorização de imagem ASSINADO
+      por cada paciente. Sem termo, a seção sai (readicionar `hidden` na
+      <section data-lp-results> e reexibir o bloco `.lp-results-empty`).
+      Ver /lp/CLAUDE.md para a regra de compliance CFM + Meta.
 
       ⚠️ CURADORIA DESTA PÁGINA (SPEC 02 §6): usar casos de VOLUME
       DISCRETO em paciente jovem, em que o "depois" pareça que a pessoa
@@ -358,14 +363,6 @@
       anúncio que aponta para cá NÃO pode conter antes/depois.
       ================================================================
     -->
-    <!-- ⚠️ PREVIEW: seção VISÍVEL com imagens de exemplo
-         (assets/lp/preview-*.svg) só para conferência de layout, no mesmo
-         estado da LP de contorno. NÃO SUBIR assim. Para ir a produção:
-         (1) trocar os 4 `src` preview-*.svg pelas fotos reais autorizadas
-         (REPLACE-volume-*.webp, mesmo ângulo/luz, dimensões explícitas),
-         (2) apagar o bloco `.lp-results-empty` comentado abaixo.
-         Se não houver material autorizado, readicionar `hidden` na
-         <section data-lp-results> e reexibir o `.lp-results-empty`. -->
     <section class="section" id="resultados" data-lp-results>
       <div class="lp-wrap">
         <div class="section__head" data-reveal>
@@ -386,28 +383,41 @@
               <!-- CASO 1 -->
               <figure class="ba" data-ba>
                 <div class="ba__frame">
-                  <img class="ba__img ba__img--antes" src="/assets/lp/preview-antes.svg" width="800" height="600" loading="lazy" decoding="async" alt="Imagem de exemplo, antes (caso 1)">
-                  <img class="ba__img ba__img--depois" src="/assets/lp/preview-depois.svg" width="800" height="600" loading="lazy" decoding="async" alt="Imagem de exemplo, depois (caso 1)">
+                  <img class="ba__img ba__img--antes" src="/lp/boca/assets/caso-1-antes.webp" width="1080" height="1350" loading="lazy" decoding="async" alt="Lábios de perto, em três quartos, antes do preenchimento (caso 1)">
+                  <img class="ba__img ba__img--depois" src="/lp/boca/assets/caso-1-depois.webp" width="1080" height="1350" loading="lazy" decoding="async" alt="Os mesmos lábios depois do preenchimento, com volume proporcional (caso 1)">
                   <span class="ba__tag ba__tag--antes">Antes</span>
                   <span class="ba__tag ba__tag--depois">Depois</span>
                   <span class="ba__divisor"></span>
                   <span class="ba__handle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="m9 6 6 6-6 6"/></svg></span>
                   <input class="ba__range" type="range" min="0" max="100" value="50" aria-label="Arraste para comparar antes e depois (caso 1)">
                 </div>
-                <figcaption>Preenchimento com planejamento de proporção. Resultado individual, definido na avaliação.</figcaption>
+                <figcaption>Volume reposto com proporção planejada.</figcaption>
               </figure>
               <!-- CASO 2 -->
               <figure class="ba" data-ba>
                 <div class="ba__frame">
-                  <img class="ba__img ba__img--antes" src="/assets/lp/preview-antes.svg" width="800" height="600" loading="lazy" decoding="async" alt="Imagem de exemplo, antes (caso 2)">
-                  <img class="ba__img ba__img--depois" src="/assets/lp/preview-depois.svg" width="800" height="600" loading="lazy" decoding="async" alt="Imagem de exemplo, depois (caso 2)">
+                  <img class="ba__img ba__img--antes" src="/lp/boca/assets/caso-2-antes.webp" width="1080" height="1350" loading="lazy" decoding="async" alt="Lábios de perfil antes do preenchimento, com o lábio superior fino (caso 2)">
+                  <img class="ba__img ba__img--depois" src="/lp/boca/assets/caso-2-depois.webp" width="1080" height="1350" loading="lazy" decoding="async" alt="Os mesmos lábios depois do preenchimento, com os dois lábios equilibrados (caso 2)">
                   <span class="ba__tag ba__tag--antes">Antes</span>
                   <span class="ba__tag ba__tag--depois">Depois</span>
                   <span class="ba__divisor"></span>
                   <span class="ba__handle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="m9 6 6 6-6 6"/></svg></span>
                   <input class="ba__range" type="range" min="0" max="100" value="50" aria-label="Arraste para comparar antes e depois (caso 2)">
                 </div>
-                <figcaption>Preenchimento com planejamento de proporção. Resultado individual, definido na avaliação.</figcaption>
+                <figcaption>Proporção entre os lábios ajustada.</figcaption>
+              </figure>
+              <!-- CASO 3 -->
+              <figure class="ba" data-ba>
+                <div class="ba__frame">
+                  <img class="ba__img ba__img--antes" src="/lp/boca/assets/caso-3-antes.webp" width="1080" height="1350" loading="lazy" decoding="async" alt="Lábios de perto antes do preenchimento, com pouco volume aparente (caso 3)">
+                  <img class="ba__img ba__img--depois" src="/lp/boca/assets/caso-3-depois.webp" width="1080" height="1350" loading="lazy" decoding="async" alt="Os mesmos lábios depois do preenchimento, com volume discreto (caso 3)">
+                  <span class="ba__tag ba__tag--antes">Antes</span>
+                  <span class="ba__tag ba__tag--depois">Depois</span>
+                  <span class="ba__divisor"></span>
+                  <span class="ba__handle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="m9 6 6 6-6 6"/></svg></span>
+                  <input class="ba__range" type="range" min="0" max="100" value="50" aria-label="Arraste para comparar antes e depois (caso 3)">
+                </div>
+                <figcaption>Volume discreto, na medida do rosto.</figcaption>
               </figure>
             </div>
           </div>
@@ -415,8 +425,8 @@
 
         <p class="lp-disclaimer">Imagens autorizadas pelas pacientes, sem edição. Resultados variam conforme características individuais. A avaliação médica presencial é indispensável.</p>
 
-        <!-- Placeholder visível enquanto não há material aprovado. Apague ao ativar.
-             (oculto durante o PREVIEW da seção; reexibir ao voltar a produção)
+        <!-- Placeholder de quando a seção estava sem material. Reexibir só se
+             a seção voltar a ficar `hidden` (ver o comentário no topo dela).
         <div class="lp-results-empty">Espaço reservado para os casos de volume labial (antes/depois). Será preenchido com o material autorizado que a Dra. Ana coletar com as pacientes.</div>
         -->
 

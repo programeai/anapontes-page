@@ -13,6 +13,10 @@ o lead já registrado no CRM.
 lp/
 └── boca/
     ├── assets/                       ← antes/depois COMPARTILHADOS pelas LPs de boca
+    │   ├── caso-1-antes.webp  · caso-1-depois.webp
+    │   ├── caso-2-antes.webp  · caso-2-depois.webp
+    │   ├── caso-3-antes.webp  · caso-3-depois.webp
+    │   └── originais/                ← masters .jpg de 1080×1350 (fonte, não publicados em página)
     ├── preenchimento-labial-contorno/index.html
     └── preenchimento-labial-volume/index.html
 ```
@@ -89,17 +93,22 @@ lead no CRM** — nunca bloqueia a conversa, só perde o registro. Para ligar:
 3. Adicionar a origem `https://www.draanapontes.com.br` já está no `ALLOWED_ORIGINS`
    do Worker; conferir se o domínio de teste também precisa entrar.
 
-## Seção 6 — Resultados (antes/depois): OCULTA por padrão
+## Seção 6 — Resultados (antes/depois): ATIVA nas duas LPs de boca
 
-A seção `[data-lp-results]` nasce com `hidden`. O comparador (arrastar o divisor,
-`prefers-reduced-motion` → par lado a lado) já está pronto para receber as fotos.
-(As **duas** LPs estão hoje com a seção VISÍVEL, em modo de preview de layout, com
-as imagens de exemplo `assets/lp/preview-*.svg`. Ver o comentário no HTML: não
-subir assim, trocar pelas fotos autorizadas ou readicionar o `hidden`.)
+A seção `[data-lp-results]` está **no ar com fotos reais**: 3 casos de
+`boca/assets/`, no comparador de arrastar o divisor (em
+`prefers-reduced-motion` vira par de imagens lado a lado). O bloco
+`.lp-results-empty` segue comentado no HTML, para quando a seção precisar voltar
+ao estado vazio.
 
-**Só ativar com termo de autorização de imagem ASSINADO por cada paciente.**
-Ativar = remover `hidden`, trocar as imagens `assets/lp/REPLACE-*.webp` pelas reais
-(mesmo ângulo/luz, dimensões explícitas) e apagar o bloco `.lp-results-empty`.
+**Só continua no ar com termo de autorização de imagem ASSINADO por cada
+paciente.** Sem termo: readicionar `hidden` na `<section data-lp-results>` e
+reexibir o `.lp-results-empty`.
+
+Ao acrescentar um caso: gerar `.webp` a partir do master (1080×1350, qualidade
+~80), guardar o `.jpg` em `boca/assets/originais/`, declarar `width`/`height`
+no `<img>` e repetir a `<figure class="ba">` nas duas LPs, com legenda no ângulo
+de cada página.
 
 - **CFM:** antes/depois é sensível. Na landing, com termo assinado e disclaimer
   visível, é defensável. Sem termo, **não entra**.

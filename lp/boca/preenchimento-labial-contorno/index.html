@@ -307,35 +307,30 @@
 
     <!--
       ================================================================
-      6 · RESULTADOS · SEÇÃO CONDICIONAL, OCULTA POR PADRÃO
+      6 · RESULTADOS · SEÇÃO ATIVA (fotos reais)
       ----------------------------------------------------------------
       ⚠️ POSIÇÃO: numerada como 6 na spec, mas vive AQUI, entre "por que
       acontece" (3) e "a solução" (4). É o respiro visual no ponto em que o
       texto mais pesa no celular, e a ordem fica dor → causa → prova →
       solução. Ao editar, manter a seção neste lugar.
 
-      Componente de antes/depois PRONTO para receber as provas sociais
-      que a médica vai coletar. NÃO ativar sem:
-        1. termo de autorização de imagem ASSINADO por cada paciente;
-        2. leitura de /lp/CLAUDE.md (regra de compliance CFM + Meta).
+      As fotos vivem em /lp/boca/assets/ e são COMPARTILHADAS por todas as
+      LPs de boca. Trocar ou remover um caso aqui exige a mesma troca na LP
+      irmã (preenchimento-labial-volume): o material é o mesmo, só a legenda
+      muda de ângulo.
+
+      ⚠️ CONDIÇÃO PARA FICAR NO AR: termo de autorização de imagem ASSINADO
+      por cada paciente. Sem termo, a seção sai (readicionar `hidden` na
+      <section data-lp-results> e reexibir o bloco `.lp-results-empty`).
+      Ver /lp/CLAUDE.md para a regra de compliance CFM + Meta.
 
       ⚠️ AVISO DE MÍDIA PAGA: mesmo com autorização da paciente, a
       política de Saúde Pessoal e Aparência do Meta proíbe antes/depois
       no CRIATIVO do anúncio, e a penalidade cai sobre a conta inteira.
       Esta seção pode viver na LANDING PAGE (com termo assinado), mas o
       anúncio que aponta para cá NÃO pode conter antes/depois.
-
-      Para ativar: remova o atributo `hidden` de <section data-lp-results>,
-      troque as imagens `REPLACE-*.webp` pelas reais (mesmo ângulo/luz,
-      dimensões explícitas) e apague o bloco `.lp-results-empty`.
-      Se não houver material no lançamento, a página fecha sem esta seção.
       ================================================================
     -->
-    <!-- ⚠️ PREVIEW: seção temporariamente VISÍVEL com imagens de exemplo
-         (assets/lp/preview-*.svg) só para conferência de layout. NÃO SUBIR
-         assim. Para voltar ao estado de produção: (1) readicionar `hidden`
-         abaixo, (2) trocar os 4 `src` preview-*.svg pelas fotos reais
-         REPLACE-contorno-*.webp autorizadas, (3) reexibir o `.lp-results-empty`. -->
     <section class="section" id="resultados" data-lp-results>
       <div class="lp-wrap">
         <div class="section__head" data-reveal>
@@ -356,28 +351,41 @@
               <!-- CASO 1 -->
               <figure class="ba" data-ba>
                 <div class="ba__frame">
-                  <img class="ba__img ba__img--antes" src="/assets/lp/preview-antes.svg" width="800" height="600" loading="lazy" decoding="async" alt="Imagem de exemplo, antes (caso 1)">
-                  <img class="ba__img ba__img--depois" src="/assets/lp/preview-depois.svg" width="800" height="600" loading="lazy" decoding="async" alt="Imagem de exemplo, depois (caso 1)">
+                  <img class="ba__img ba__img--antes" src="/lp/boca/assets/caso-1-antes.webp" width="1080" height="1350" loading="lazy" decoding="async" alt="Lábios de perto, em três quartos, antes do preenchimento (caso 1)">
+                  <img class="ba__img ba__img--depois" src="/lp/boca/assets/caso-1-depois.webp" width="1080" height="1350" loading="lazy" decoding="async" alt="Os mesmos lábios depois do preenchimento, com a borda mais definida (caso 1)">
                   <span class="ba__tag ba__tag--antes">Antes</span>
                   <span class="ba__tag ba__tag--depois">Depois</span>
                   <span class="ba__divisor"></span>
                   <span class="ba__handle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="m9 6 6 6-6 6"/></svg></span>
                   <input class="ba__range" type="range" min="0" max="100" value="50" aria-label="Arraste para comparar antes e depois (caso 1)">
                 </div>
-                <figcaption>Preenchimento de contorno labial. Resultado individual: cada tratamento é planejado na avaliação.</figcaption>
+                <figcaption>Contorno redesenhado com ácido hialurônico.</figcaption>
               </figure>
               <!-- CASO 2 -->
               <figure class="ba" data-ba>
                 <div class="ba__frame">
-                  <img class="ba__img ba__img--antes" src="/assets/lp/preview-antes.svg" width="800" height="600" loading="lazy" decoding="async" alt="Imagem de exemplo, antes (caso 2)">
-                  <img class="ba__img ba__img--depois" src="/assets/lp/preview-depois.svg" width="800" height="600" loading="lazy" decoding="async" alt="Imagem de exemplo, depois (caso 2)">
+                  <img class="ba__img ba__img--antes" src="/lp/boca/assets/caso-2-antes.webp" width="1080" height="1350" loading="lazy" decoding="async" alt="Lábios de perfil antes do preenchimento, com a borda superior apagada (caso 2)">
+                  <img class="ba__img ba__img--depois" src="/lp/boca/assets/caso-2-depois.webp" width="1080" height="1350" loading="lazy" decoding="async" alt="Os mesmos lábios depois do preenchimento, com o arco do lábio superior desenhado (caso 2)">
                   <span class="ba__tag ba__tag--antes">Antes</span>
                   <span class="ba__tag ba__tag--depois">Depois</span>
                   <span class="ba__divisor"></span>
                   <span class="ba__handle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="m9 6 6 6-6 6"/></svg></span>
                   <input class="ba__range" type="range" min="0" max="100" value="50" aria-label="Arraste para comparar antes e depois (caso 2)">
                 </div>
-                <figcaption>Preenchimento de contorno labial. Resultado individual: cada tratamento é planejado na avaliação.</figcaption>
+                <figcaption>Contorno remarcado e cantinhos apoiados.</figcaption>
+              </figure>
+              <!-- CASO 3 -->
+              <figure class="ba" data-ba>
+                <div class="ba__frame">
+                  <img class="ba__img ba__img--antes" src="/lp/boca/assets/caso-3-antes.webp" width="1080" height="1350" loading="lazy" decoding="async" alt="Lábios de perto antes do preenchimento, com o traço da borda pouco marcado (caso 3)">
+                  <img class="ba__img ba__img--depois" src="/lp/boca/assets/caso-3-depois.webp" width="1080" height="1350" loading="lazy" decoding="async" alt="Os mesmos lábios depois do preenchimento, com o contorno definido (caso 3)">
+                  <span class="ba__tag ba__tag--antes">Antes</span>
+                  <span class="ba__tag ba__tag--depois">Depois</span>
+                  <span class="ba__divisor"></span>
+                  <span class="ba__handle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="m9 6 6 6-6 6"/></svg></span>
+                  <input class="ba__range" type="range" min="0" max="100" value="50" aria-label="Arraste para comparar antes e depois (caso 3)">
+                </div>
+                <figcaption>Borda definida, preservando o traço do rosto.</figcaption>
               </figure>
             </div>
           </div>
@@ -385,8 +393,8 @@
 
         <p class="lp-disclaimer">Imagens autorizadas pelas pacientes, sem edição. Resultados variam conforme características individuais. A avaliação médica presencial é indispensável.</p>
 
-        <!-- Placeholder visível enquanto não há material aprovado. Apague ao ativar.
-             (oculto durante o PREVIEW da seção; reexibir ao voltar a produção)
+        <!-- Placeholder de quando a seção estava sem material. Reexibir só se
+             a seção voltar a ficar `hidden` (ver o comentário no topo dela).
         <div class="lp-results-empty">Espaço reservado para os casos de contorno (antes/depois). Será preenchido com o material autorizado que a Dra. Ana coletar com as pacientes.</div>
         -->
       </div>

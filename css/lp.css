@@ -359,8 +359,8 @@ html { scroll-padding-top: clamp(.75rem, 3vw, 1.25rem); }
 }
 
 /* ---------- Seção 6 · RESULTADOS (comparador antes/depois) ---------- */
-/* Componente pronto, mas a SEÇÃO nasce oculta (hidden no HTML). Só entra no ar
-   com termos assinados — ver /lp/CLAUDE.md e o comentário no HTML. */
+/* No ar com fotos reais nas LPs de boca. Só continua no ar com termos assinados
+   — ver /lp/CLAUDE.md e o comentário no HTML. */
 .ba-grid { display: grid; gap: clamp(1.25rem, 3vw, 2rem); }
 @media (min-width: 760px) { .ba-grid { grid-template-columns: 1fr 1fr; } }
 
