@@ -377,6 +377,12 @@ html { scroll-padding-top: clamp(.75rem, 3vw, 1.25rem); }
   /* <figure> traz margin 1em 40px do UA — sem zerar, sobra ~80px entre os
      casos do carrossel e o gap acima não tem efeito visível. */
   margin: 0;
+}
+/* A moldura, e não o <figure>, é quem recorta: as imagens são absolutas e o
+   overflow é hidden, então a <figcaption> só sobra do recorte se ficar FORA
+   deste bloco. Dentro dele, a legenda cairia atrás das fotos (conteúdo em
+   fluxo pinta abaixo de elemento posicionado) e nunca apareceria. */
+.ba__frame {
   position: relative; border-radius: var(--radius); overflow: hidden;
   background: var(--cream); box-shadow: var(--shadow);
   aspect-ratio: 4 / 3; touch-action: pan-y; user-select: none;
@@ -413,9 +419,10 @@ html { scroll-padding-top: clamp(.75rem, 3vw, 1.25rem); }
 .ba figcaption {
   margin-top: .85rem; font-size: .92rem; color: var(--muted); line-height: 1.5;
 }
-/* prefers-reduced-motion: par lado a lado, sem arrastar (definido no HTML/JS). */
+/* prefers-reduced-motion: par lado a lado, sem arrastar (a classe vai no
+   <figure> pelo lp.js, mas quem muda de layout é a moldura). */
 .ba--static .ba__img--depois { clip-path: none; position: static; }
-.ba--static { display: grid; grid-template-columns: 1fr 1fr; aspect-ratio: auto; }
+.ba--static .ba__frame { display: grid; grid-template-columns: 1fr 1fr; aspect-ratio: auto; }
 .ba--static .ba__img { position: static; height: auto; }
 .ba--static .ba__divisor, .ba--static .ba__handle, .ba--static .ba__range { display: none; }
 
