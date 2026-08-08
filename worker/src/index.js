@@ -99,7 +99,7 @@ function caminhoDaPagina(pagina) {
 }
 
 // Rótulo de origem para o CRM (vira tag do cliente e 1ª linha da nota). Ex.:
-// "/lp/preenchimento-labial-contorno/" -> "lp/preenchimento-labial-contorno".
+// "/lp/boca/preenchimento-labial-contorno/" -> "lp/boca/preenchimento-labial-contorno".
 function origemDaPagina(pagina) {
   const limpo = caminhoDaPagina(pagina).replace(/\.html.*$/, "").replace(/^\/+|\/+$/g, "");
   return texto(limpo || "site", 60);

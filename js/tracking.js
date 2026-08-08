@@ -68,11 +68,14 @@
     "preenchimento-labial-natural": "Preenchimento Labial"
   };
 
-  // LPs de campanha paga em /lp/<slug>/. content_type próprio ("lp") para que
-  // o funil de mídia paga seja lido separado do orgânico no GA4 e no Meta.
+  // LPs de campanha paga em /lp/<grupo>/<slug>/. O slug do evento é o caminho
+  // INTEIRO depois de /lp/ ("boca/preenchimento-labial-contorno"), porque as
+  // LPs são agrupadas por região tratada e o grupo é o corte que a médica lê no
+  // relatório. content_type próprio ("lp") para que o funil de mídia paga seja
+  // lido separado do orgânico no GA4 e no Meta.
   var LANDINGS = {
-    "preenchimento-labial-contorno": "LP Contorno Labial",
-    "preenchimento-labial-volume": "LP Volume Labial"
+    "boca/preenchimento-labial-contorno": "LP Contorno Labial",
+    "boca/preenchimento-labial-volume": "LP Volume Labial"
   };
 
   function currentProcedure() {
@@ -85,8 +88,10 @@
     if (m) {
       return { slug: m[1], name: OBJECTIVES[m[1]] || m[1], type: "objective" };
     }
-    // /lp/<slug>/ (com ou sem index.html no fim)
-    m = path.match(/\/lp\/([^\/]+)\/?(?:index\.html)?$/);
+    // /lp/<grupo>/<slug>/ (com ou sem index.html no fim). O `.+?` engole os
+    // níveis intermediários, então uma LP fora de grupo (/lp/<slug>/) continua
+    // casando e vira slug de um segmento só.
+    m = path.match(/\/lp\/(.+?)\/?(?:index\.html)?$/);
     if (m) {
       return { slug: m[1], name: LANDINGS[m[1]] || m[1], type: "lp" };
     }

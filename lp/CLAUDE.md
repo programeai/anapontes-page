@@ -1,11 +1,34 @@
 # Landing pages de campanha paga (`/lp/`)
 
-Cada pasta aqui é uma LP publicada em `/lp/<slug>/` e existe para **um único
-conjunto de anúncio**: recebe o tráfego pago, qualifica em 4 perguntas e leva ao
-WhatsApp com o lead já registrado no CRM.
+Cada LP é publicada em `/lp/<grupo>/<slug>/` e existe para **um único conjunto de
+anúncio**: recebe o tráfego pago, qualifica em 4 perguntas e leva ao WhatsApp com
+o lead já registrado no CRM.
 
 **Antes de editar, leia a spec** em `../specs/plans/spec-01-lp-contorno.md`
 (contorno) e `spec-02-lp-volume.md` (volume).
+
+## Organização: um grupo por região tratada
+
+```
+lp/
+└── boca/
+    ├── assets/                       ← antes/depois COMPARTILHADOS pelas LPs de boca
+    ├── preenchimento-labial-contorno/index.html
+    └── preenchimento-labial-volume/index.html
+```
+
+O grupo (`boca/`) é a **região tratada**, não o ângulo do anúncio. Cada região
+tem uma pasta `assets/` própria porque o antes/depois de uma paciente de boca
+serve a qualquer LP de boca: o material é o mesmo, muda só a legenda (contorno
+fala de borda, volume fala de proporção).
+
+**Consequência ao editar:** trocar, acrescentar ou remover um caso do carrossel
+exige a mesma alteração em **todas** as LPs do grupo. Elas apontam para o mesmo
+arquivo, então a foto muda sozinha, mas a quantidade de `<figure class="ba">` e
+as legendas são copiadas em cada HTML.
+
+As demais imagens (retrato da médica, logo, depoimentos) continuam em
+`/assets/`, na raiz: são do site inteiro, não do grupo.
 
 ## Diferença para `/objetivos/` e `/detalhes/`
 
@@ -87,9 +110,11 @@ Ativar = remover `hidden`, trocar as imagens `assets/lp/REPLACE-*.webp` pelas re
 
 ## Rastreamento
 
-`tracking.js` reconhece `/lp/<slug>/` e dispara `view_content` com
-`content_type: "lp"` (funil pago lido separado do orgânico). O mapa de slugs fica
-em `LANDINGS` (`../js/tracking.js`). Eventos reusam os nomes que o GTM já ouve:
+`tracking.js` reconhece `/lp/<grupo>/<slug>/` e dispara `view_content` com
+`content_type: "lp"` (funil pago lido separado do orgânico). O slug do evento é o
+caminho **inteiro** depois de `/lp/` (`boca/preenchimento-labial-contorno`), então
+o grupo já vira corte de relatório. O mapa fica em `LANDINGS`
+(`../js/tracking.js`). Eventos reusam os nomes que o GTM já ouve:
 `view_content`, `quiz_start`, `qualify_select`, `quiz_complete`, `whatsapp_click`
 — **nenhuma reconfiguração de GTM é necessária**. Detalhes em
 `../docs/rastreamento-gtm.md`.
@@ -100,7 +125,10 @@ própria paciente. Ver `rastreamento-gtm.md` §4.5.
 
 ## Ao criar uma LP nova em `/lp/`
 
-- `../js/tracking.js` → `LANDINGS` (senão o `view_content` vai com o slug cru)
+- Publicar dentro do grupo da região tratada (`lp/boca/`, `lp/olhos/`, ...).
+  Grupo novo nasce com a própria pasta `assets/`.
+- `../js/tracking.js` → `LANDINGS`, com a chave no formato `<grupo>/<slug>`
+  (senão o `view_content` vai com o slug cru)
 - **Config da página vive no `<body>`**, não no JS: `data-lp-angulo`,
   `data-lp-pagina` e `data-lp-variant` alimentam o `LP_CONFIG` do `lp.js`
   (mensagem do WhatsApp, `quiz_variant` e nome nos eventos). Sem os atributos, o

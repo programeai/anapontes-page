@@ -186,7 +186,7 @@ logReal("\n=== Meta CAPI (evento Lead server-side) ===");
     objetivo: "ZZOBJETIVOZZ",
     caso: "ZZCASOZZ-produto-definitivo",
     prazo: "ZZPRAZOZZ",
-    pagina: "https://www.draanapontes.com.br/lp/preenchimento-labial-contorno/"
+    pagina: "https://www.draanapontes.com.br/lp/boca/preenchimento-labial-contorno/"
   });
   chamadas = [];
   const ctx = ctxColetor();

@@ -1,4 +1,4 @@
-# SPEC 01 — LP "Contorno" · /lp/preenchimento-labial-contorno/
+# SPEC 01 — LP "Contorno" · /lp/boca/preenchimento-labial-contorno/
 
 **Dor:** perda de definição do contorno labial / batom que escorre
 **Público:** mulheres 40-60, região de atuação da clínica

@@ -1,4 +1,4 @@
-# SPEC 02 — LP "Volume" · /lp/preenchimento-labial-volume/
+# SPEC 02 — LP "Volume" · /lp/boca/preenchimento-labial-volume/
 
 **Dor:** lábios finos / que somem ao sorrir — com a objeção "medo de ficar artificial" embutida na própria dor
 **Público:** mulheres 25-40, região de atuação da clínica

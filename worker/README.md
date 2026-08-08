@@ -96,7 +96,7 @@ manda pôr o que não cabe. Detalhes que o Worker já trata:
 
 - **`whatsapp`**: 10 ou 11 dígitos, DDD na frente, **sem o 55**. `normalizaTelefone`
   tira o `55` se vier. O formato internacional vai no campo `telefone` (`+55...`).
-- **`origem`**: o caminho da página (`lp/preenchimento-labial-contorno`). Vira tag do
+- **`origem`**: o caminho da página (`lp/boca/preenchimento-labial-contorno`). Vira tag do
   cliente e 1ª linha da nota.
 - **`cenario`**: o objetivo do quiz, que aparece no aviso de "lead novo".
 - **`resumo`**: objetivo + prazo + caso + atribuição, em texto corrido.

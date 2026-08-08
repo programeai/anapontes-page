@@ -7,7 +7,8 @@ Cada área tem o próprio guia — leia o mais específico antes de editar:
 
 - [detalhes/CLAUDE.md](detalhes/CLAUDE.md) — páginas de procedimento (`/detalhes/`)
 - [objetivos/CLAUDE.md](objetivos/CLAUDE.md) — LPs de dor, pago + orgânico (`/objetivos/`)
-- [lp/CLAUDE.md](lp/CLAUDE.md) — LPs de campanha paga, isoladas (`/lp/`)
+- [lp/CLAUDE.md](lp/CLAUDE.md) — LPs de campanha paga, isoladas e agrupadas por
+  região tratada (`/lp/<grupo>/<slug>/`)
 - [docs/rastreamento-gtm.md](docs/rastreamento-gtm.md) — GTM, GA4, Meta Pixel, Worker
 
 ## Regras de escrita (pt-BR)
