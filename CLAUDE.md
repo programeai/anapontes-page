@@ -11,6 +11,30 @@ Cada área tem o próprio guia — leia o mais específico antes de editar:
   região tratada (`/lp/<grupo>/<slug>/`)
 - [docs/rastreamento-gtm.md](docs/rastreamento-gtm.md) — GTM, GA4, Meta Pixel, Worker
 
+## A política de privacidade é parte da medição, não um anexo dela
+
+**Toda mudança em tag, no Worker ou no destino de um dado passa por
+[politica-de-privacidade.html](politica-de-privacidade.html) ANTES de subir.** Tag nova,
+campo novo no formulário, destinatário novo, prazo de guarda diferente: se o dado passa a
+ir para outro lugar, a política muda no mesmo commit.
+
+Ao alterar, atualizar também a data no topo e a nota do item 12.
+
+> Isso está aqui porque já falhou. O Worker e a Conversions API entraram em produção sem
+> passar pela política, e ela ficou afirmando "este site não tem cadastro nem formulário"
+> enquanto as LPs de campanha coletavam nome, WhatsApp e uma resposta capaz de revelar
+> dado de saúde. Corrigido em 2026-08-11. **Política que descreve menos do que o código
+> faz não é omissão, é declaração falsa** — e o risco cresce na proporção da verba que
+> aponta para a página.
+
+Duas regras que decorrem disso e não se negociam por conveniência de otimização:
+
+- **Resposta de quiz nunca vai a plataforma de anúncio.** É dado de saúde. Vai ao CRM com
+  consentimento, e ao WhatsApp da própria paciente. Ver `worker/README.md`
+- **O controlador declarado é a pessoa jurídica** (ANA PAULA PONTES RODRIGUES LTDA, CNPJ
+  54.853.819/0001-20), com a médica como responsável técnica. Os documentos da operação
+  precisam identificar o mesmo controlador
+
 ## Regras de escrita (pt-BR)
 
 Valem para **todo texto que o visitante ou o buscador lê**: corpo das páginas,
