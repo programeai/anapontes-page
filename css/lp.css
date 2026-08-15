@@ -291,7 +291,7 @@ html { scroll-padding-top: clamp(.75rem, 3vw, 1.25rem); }
   padding: 1.35rem 1.4rem;
   background: var(--bg);
   border: 1px solid color-mix(in srgb, var(--lp-acento) 22%, var(--border));
-  border-left: 3px solid var(--lp-acento);
+  border-top: 2px solid var(--lp-acento);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
 }

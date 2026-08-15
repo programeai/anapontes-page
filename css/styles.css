@@ -437,13 +437,13 @@ ul.checks li::before {
    movimentos não conflitarem — e para o rotate do about__note se preservar. */
 .hero__proof {
   animation:
-    badge-in .55s cubic-bezier(.34, 1.56, .64, 1) .6s both,
+    badge-in .55s cubic-bezier(.22, 1, .36, 1) .6s both,
     badge-float 4s ease-in-out 1.2s infinite;
 }
 .has-anim .about__note { opacity: 0; }
 .has-anim [data-reveal].in-view .about__note {
   animation:
-    badge-in .55s cubic-bezier(.34, 1.56, .64, 1) .25s both,
+    badge-in .55s cubic-bezier(.22, 1, .36, 1) .25s both,
     badge-float 4.6s ease-in-out .85s infinite;
 }
 @keyframes badge-in {
@@ -740,7 +740,7 @@ ul.checks li::before {
 .legal a:not(.btn):not(.back-link):hover { color: var(--bronze-dark); }
 .legal code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .88em;
   background: var(--bronze-soft); border-radius: 5px; padding: .1em .35em; color: var(--ink-strong); overflow-wrap: anywhere; }
-.legal__callout { background: var(--cream); border-left: 3px solid var(--bronze); border-radius: 0 var(--radius) var(--radius) 0;
+.legal__callout { background: var(--cream); border: 1px solid var(--border); border-top: 2px solid var(--bronze); border-radius: var(--radius);
   padding: 1.15rem 1.35rem; margin: 1.5rem 0; }
 .legal__callout p:last-child { margin-bottom: 0; }
 
